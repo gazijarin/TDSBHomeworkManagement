@@ -50,7 +50,7 @@
 #### Q5: What are the user stories that make up the MVP?
 
  * At least 5 user stories concerning the main features of the application - note that this can broken down further
- * You must follow proper user story format (as taught in lecture) e.g. As a *[user of the app]*, I want to *[do something in the app]* in order to *[accomplish some goal]*
+ * You must follow proper user story format (as taught in lecture) ```As a *[user of the app]*, I want to *[do something in the app]* in order to *[accomplish some goal]*```
  * If you have a partner, these must be reviewed and accepted by them
  * The user stories should be written in Github and each one must have clear acceptance criteria
 
