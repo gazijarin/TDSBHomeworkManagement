@@ -171,6 +171,14 @@ Acceptance Criteria:
     * Access student inbox
         1. Display their interactions inside inbox
 
+8. As a student, I want to visualize my completion on specific projects, so I can track and assess my growth in work completion throughout the year.
+Acceptance Criteria:
+    * Ability to specify the project.
+    * Ability to choose the type of graph.
+    * Ability to generate a graph based on existing project information (e.g. number of finished/unfinished milestones, grade, average, update frequency, etc.)
+    * Ability to change the graph when the information it based on changes.
+    * Ability to attach the graph to the project
+
 
 ----
 
@@ -289,7 +297,7 @@ List each team member and: -->
         - Software testing
 
 - **Alex Shang**:
-    - Role: Back-end
+    - Role: Full Stack
     - Components:
         - Serverside application
         - API design
@@ -299,6 +307,8 @@ List each team member and: -->
             - Python, Javascript, ReactJS, Java
         - Backend development and API design:
             - Flask
+        - Front end development
+            - HTML, CSS
     - Technical weaknesses:        
         - UI design
 
