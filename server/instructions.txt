@@ -1,0 +1,20 @@
+App Structure:
+
+requirements.txt holds all the dependencies that needs to be installed to run the app
+
+inside app folder:
+    __init__.py holds the starter code when the server is run (run this to start the app)
+    database.py holds the starter code for the database when the server starts (database methods are defined here)
+
+    ./main./routes file stores all the API endpoints for the server
+
+
+    ./controllers folder stores all the intermediary methods between the front end and backend
+    ./models folder stores all the information about our Database objects
+
+
+
+MongoDB Information:
+    database Name: TDSB
+    user: TDSB301
+    Password: csc301csc301
