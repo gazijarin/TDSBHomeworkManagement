@@ -1,11 +1,13 @@
-# tdsb-app
+# TDSB Web Application Front End
 
 ## Project setup
+Run this to get all the packages and dependencies. Once finished, development may begin.
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
+Once the server is up and running, any changes will automatically be applied to the running instance.
 ```
 npm run serve
 ```
