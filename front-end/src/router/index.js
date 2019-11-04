@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import home from '@/components/home/home' // this is the import line to add
 import courses from '@/components/courses/courses' // this is the import line to add
+import tasks from '@/components/tasks/tasks' // this is the import line to add
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,11 @@ const routes = [
     path: '/courses',
     name: 'Courses',
     component: courses
+  },
+  {
+    path: '/tasks',
+    name: 'Tasks',
+    component: tasks
   },
   {
     path: '/about',
