@@ -8,9 +8,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 // Import fontawesome icons here.
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // Make sure to add the icons to the library like this.
+library.add(faPlus)
 library.add(faUserCircle)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
