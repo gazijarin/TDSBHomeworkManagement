@@ -37,10 +37,9 @@ _Reminder:_ The 0-4 marking scale means:
     - Very specific acceptance criteria
 
 ### Process
-
 - Events: Have events other than just weekly meetings (i.e. code review sessions) 
 
-- Partner MeetingsL Include a link to your meeting minutes in the future
+- Partner Meetings: Include a link to your meeting minutes in the future
 
 - Artifacts: Provide a link to your Trello board
 
@@ -48,4 +47,5 @@ _Reminder:_ The 0-4 marking scale means:
 
 ### Overall Quality
 - Didn't remove template (i.e. Note at the beginning of the document)
+
 - No grammar mistakes, complete sentences, all other templates removed
