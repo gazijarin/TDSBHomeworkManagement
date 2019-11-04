@@ -20,7 +20,7 @@
       </b-card>
     </div>
     <div class="col-8" style="padding-top: 2%">
-      <b-card border-variant="dark" header="Feed" align="left" style="height: 2000px;">
+      <b-card border-variant="dark" header="Feed" align="left">
 
       </b-card>
     </div>
