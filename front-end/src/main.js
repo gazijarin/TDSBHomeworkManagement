@@ -8,11 +8,12 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 // Import fontawesome icons here.
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faUserCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // Make sure to add the icons to the library like this.
 library.add(faPlus)
 library.add(faUserCircle)
+library.add(faSearch)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
