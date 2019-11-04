@@ -13,8 +13,11 @@
       <div class="card" style="border:1px solid black;">
         <div class="card-header">
             <h6 style="float: left; padding-top: 10px">Tasks</h6>
-            <b-button size="sm"
+            <b-button v-b-modal.modal-1 size="sm"
             style="float: right; margin-left: 15px;">Add Task <font-awesome-icon :icon="['fas', 'plus']" /></b-button>
+            <b-modal id="modal-1" title="Add a New Task">
+            <p class="my-4">... stuff here</p>
+            </b-modal>
         </div>
         <ul style="margin-top: 1%; padding-right: 2%">
             <b-button size="sm"
@@ -32,7 +35,7 @@
 
 <script>
 export default {
-  name: 'Tasks' //this is the name of the component
+  name: 'Tasks'
 }
 </script>
 
