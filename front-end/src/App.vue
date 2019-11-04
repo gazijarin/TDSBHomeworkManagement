@@ -24,7 +24,7 @@ export default {
   color: #2c3e50;
 }
 body {
-  background-image: url('./assets/background.jpg');
-  background-attachment: fixed;
+  /* background-image: url('./assets/background.jpg');
+  background-attachment: fixed; */
 }
 </style>
