@@ -7,7 +7,7 @@
       <router-link to="/tools">Tools</router-link>
     </nav> -->
     <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar fixed="top" toggleable="lg" type="dark" variant="dark">
         <b-navbar-brand>TDSB App</b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
