@@ -10,14 +10,22 @@
       </b-card>
     </div>
     <div class="col-8" style="padding-top: 15px">
-      <b-card class="today-container"
-        border-variant="dark"
-        header="Tasks"
-        align="left">
-          <b-card-body style="margin-top: -25px; margin-bottom: -15px;">
-            Task list here. Make searchable.
-          </b-card-body>
-      </b-card>
+      <div class="card" style="border:1px solid black;">
+        <div class="card-header">
+            <h6 style="float: left; padding-top: 10px">Tasks</h6>
+            <b-button size="sm"
+            style="float: right; margin-left: 15px;">Add Task <font-awesome-icon :icon="['fas', 'plus']" /></b-button>
+        </div>
+        <ul style="margin-top: 1%; padding-right: 2%">
+            <b-button size="sm"
+                style="float: right; margin-left: 2px;">Search <font-awesome-icon :icon="['fas', 'search']" /></b-button>
+                <input class="form-control sm-1" type="text"
+                placeholder="Search"
+                aria-label="Search"
+                style="width: 50%; float: right; height: 10%; margin-top: -2px">
+        </ul>
+            
+      </div>
     </div>
   </div>
 </template>
