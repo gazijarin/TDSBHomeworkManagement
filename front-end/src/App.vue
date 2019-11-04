@@ -25,5 +25,6 @@ export default {
 }
 body {
   background-image: url('./assets/background.jpg');
+  background-attachment: fixed;
 }
 </style>
