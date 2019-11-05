@@ -34,7 +34,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <datepicker placeholder="Time"></datepicker>
+                  <input class="form-control" type="time" value="12:00:00" style="margin-top: 2%">
                 </div>
               </div>
             </div>
