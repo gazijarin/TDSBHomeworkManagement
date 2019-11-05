@@ -124,7 +124,7 @@ export default {
           allDay: false
         }
       ],
-      calendarPlugins: [dayGridPlugin, timeGridPlugin, listPlugin].FullCalendar,
+      calendarPlugins: [dayGridPlugin, timeGridPlugin, listPlugin],
       config: {
         defaultView: "month"
       }
@@ -186,6 +186,9 @@ h5 {
   font-size: 60%;
   display: block;
 }
+
+</style>
+<style lang='scss'>
 
 @import "~@fullcalendar/core/main.css";
 @import "~@fullcalendar/daygrid/main.css";
