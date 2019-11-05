@@ -54,6 +54,7 @@
             </div>
           </b-modal>
         </div>
+        <full-calendar :config="config" :events="events" style="margin: 30px"></full-calendar>
         <ul style="margin-top: 1%; padding-right: 2%">
           <b-button size="sm" style="float: right; margin-left: 2px;">
             Search
@@ -74,8 +75,34 @@
 
 <script>
 export default {
-  name: "Tasks"
-};
+  name: 'Tasks',
+    data() {
+    return {
+      events: [
+        {
+            title  : 'event1',
+            start  : '2019-11-01',
+        },
+        {
+            title  : 'event2',
+            start  : '2019-11-05',
+        },
+        {
+            title  : 'event3',
+            start  : '2019-11-09T12:30:00',
+            allDay : false,
+        },
+      ],
+      
+			config: {
+        defaultView: 'month'
+      },
+    }
+  }
+  
+  
+}
+
 </script>
 
 <style>
