@@ -2,11 +2,17 @@
   <div class="col-12" id="container" style="margin-top: 5%;">
     <div class="col-4" style="float: right; padding-top: 15px;">
       <b-card border-variant="dark">
-        Calendar here.
+        <FullCalendar :header="calendarHeader"
+        :plugins="calendarPlugins"
+        defaultView="dayGridMonth"
+        :events="events"></FullCalendar>
       </b-card>
       <br/>
-      <b-card border-variant="dark">
-        Task list here.
+      <b-card border-variant="dark" header="Tasks" align="left">
+        <FullCalendar :header="false"
+        :plugins="taskPlugins"
+        defaultView="listWeek"
+        :events="events"></FullCalendar>
       </b-card>
     </div>
     <div class="col-8" style="padding-top: 15px">
@@ -28,10 +34,49 @@
 </template>
 
 <script>
+import FullCalendar from '@fullcalendar/vue'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import listPlugin from '@fullcalendar/list'
+
 export default {
-  name: 'Home' //this is the name of the component
+  name: 'Home', //this is the name of the component
+  components: {
+    FullCalendar // make the <FullCalendar> tag available
+  },
+  data() {
+    return {
+      events: [
+        {
+            title  : 'event1',
+            start  : '2019-11-01',
+        },
+        {
+            title  : 'event2',
+            start  : '2019-11-05',
+        },
+        {
+            title  : 'event3',
+            start  : '2019-11-09T12:30:00',
+            allDay : false,
+        },
+      ],
+      calendarHeader: {
+        left:   'prev',
+        center: 'title',
+        right:  'next'
+      },
+			taskListConfig: {
+        defaultView: 'weekList'
+      },
+      calendarPlugins: [ dayGridPlugin, timeGridPlugin, listPlugin ],
+      taskPlugins: [ listPlugin ]
+    }
+  }
 }
 </script>
 
-<style>
+<style lang='scss'>
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/list/main.css';
 </style>

@@ -56,7 +56,18 @@
             </form>
           </b-modal>
         </div>
-        <full-calendar :config="config" :events="events" style="margin: 30px"></full-calendar>
+        <FullCalendar
+          defaultView="dayGridMonth"
+          allDayText
+          :header="{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+          }"
+          :events="events"
+          :plugins="calendarPlugins"
+          style="margin: 20px"
+        />
         <ul style="margin-top: 1%; padding-right: 2%">
           <b-button size="sm" style="float: right; margin-left: 2px;">
             Search
@@ -78,11 +89,17 @@
 <script>
 import Datepicker from "vuejs-datepicker";
 import { VueEditor } from "vue2-editor";
+import FullCalendar from "@fullcalendar/vue";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
+
 export default {
   name: "Tasks",
   components: {
     Datepicker,
-    VueEditor
+    VueEditor,
+    FullCalendar
   },
   data() {
     return {
@@ -107,7 +124,7 @@ export default {
           allDay: false
         }
       ],
-
+      calendarPlugins: [dayGridPlugin, timeGridPlugin, listPlugin].FullCalendar,
       config: {
         defaultView: "month"
       }
@@ -168,5 +185,20 @@ h5 {
 .form-group label {
   font-size: 60%;
   display: block;
+}
+
+@import "~@fullcalendar/core/main.css";
+@import "~@fullcalendar/daygrid/main.css";
+@import "~@fullcalendar/list/main.css";
+
+.fc-event-time,
+.fc-event-title {
+  padding: 0 1px;
+  white-space: nowrap;
+}
+
+.fc-title {
+  white-space: normal;
+  color: white;
 }
 </style>
