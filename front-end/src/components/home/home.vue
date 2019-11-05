@@ -21,7 +21,11 @@
         header="Today"
         align="left">
           <b-card-body style="margin-top: -25px; margin-bottom: -15px;">
-            No tasks today.
+            <FullCalendar :header="false"
+              :height="20"
+              :plugins="todayPlugins"
+              defaultView="dayGridDay"
+              :events="events"></FullCalendar>
           </b-card-body>
       </b-card>
     </div>
@@ -48,15 +52,15 @@ export default {
     return {
       events: [
         {
-            title  : 'event1',
+            title  : 'Literacy Worksheet',
             start  : '2019-11-01',
         },
         {
-            title  : 'event2',
+            title  : 'Photosynthesis Worksheet',
             start  : '2019-11-05',
         },
         {
-            title  : 'event3',
+            title  : 'Algebra Test',
             start  : '2019-11-09T12:30:00',
             allDay : false,
         },
@@ -69,6 +73,7 @@ export default {
 			taskListConfig: {
         defaultView: 'weekList'
       },
+      todayPlugins: [ dayGridPlugin ],
       calendarPlugins: [ dayGridPlugin, timeGridPlugin, listPlugin ],
       taskPlugins: [ listPlugin ]
     }
