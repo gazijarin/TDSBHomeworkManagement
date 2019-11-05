@@ -19,7 +19,15 @@
             <p class="my-4">... stuff here</p>
             </b-modal>
         </div>
-        <full-calendar :config="config" :events="events" style="margin: 30px"></full-calendar>
+        <FullCalendar defaultView="dayGridMonth"
+          allDayText=""
+          :header="{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+          }"
+          :events="events"
+         :plugins="calendarPlugins" style="margin: 20px" />
         <ul style="margin-top: 1%; padding-right: 2%">
             <b-button size="sm"
                 style="float: right; margin-left: 2px;">Search <font-awesome-icon :icon="['fas', 'search']" /></b-button>
@@ -35,36 +43,55 @@
 </template>
 
 <script>
+import FullCalendar from '@fullcalendar/vue'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import listPlugin from '@fullcalendar/list';
+
 export default {
   name: 'Tasks',
-    data() {
-    return {
-      events: [
+  components: {
+    FullCalendar // make the <FullCalendar> tag available
+  },
+  data() {
+  return {
+          events: [
         {
-            title  : 'event1',
+            title  : 'Literacy Worksheet',
             start  : '2019-11-01',
         },
         {
-            title  : 'event2',
+            title  : 'Photosynthesis Worksheet',
             start  : '2019-11-05',
         },
         {
-            title  : 'event3',
+            title  : 'Algebra Test',
             start  : '2019-11-09T12:30:00',
             allDay : false,
         },
       ],
-      
-			config: {
-        defaultView: 'month'
-      },
-    }
+    calendarPlugins: [ dayGridPlugin, timeGridPlugin, listPlugin ]
   }
   
-  
+}
 }
 
 </script>
 
-<style>
+<style lang='scss'>
+
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+@import '~@fullcalendar/list/main.css';
+
+.fc-event-time, .fc-event-title {
+padding: 0 1px;
+white-space: nowrap;
+}
+
+.fc-title {
+white-space: normal;
+color: white;
+}
+
 </style>
