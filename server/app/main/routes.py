@@ -1,5 +1,5 @@
 from app.main import bp  # noqa
-from controllers import StudentController
+from app.controllers import StudentController
 from flask import jsonify, abort, request
 
 

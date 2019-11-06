@@ -1,4 +1,4 @@
-from models.Student import Student
+from app.models.Student import Student
 import uuid
 
 
