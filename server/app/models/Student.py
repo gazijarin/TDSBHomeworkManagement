@@ -7,12 +7,14 @@ from app.database import DB
 
 class Student(object):
 
-    def __init__(self, first_name, last_name, _id):
+    def __init__(self, email, first_name, last_name, _id):
         self._id = _id
         self.first_name = first_name
         self.last_name = last_name
         self.created_date = datetime.datetime.utcnow()
         #add attributes
+        self.email = email
+        self.courses = []
 
     def insert(self):
         if not DB.find_one("Students", {"_id": self._id}):
@@ -23,5 +25,8 @@ class Student(object):
             "_id": self._id,
             "first_name": self.first_name,
             "last_name": self.last_name,
-            "created_date": self.created_date
+            "created_date": self.created_date,
+            "email":self.email,
+            "courses": self.courses
         }
+        
