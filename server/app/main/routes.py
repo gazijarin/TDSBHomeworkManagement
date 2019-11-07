@@ -7,13 +7,16 @@ from flask import jsonify, abort, request
 def index():
     return 'Hello World!'
 
-#sample
+
 
 @bp.route('/api/students', methods=['POST'])
 def post_student():
-    first_name = request.args.get('first_name')
-    #last_name = request.args.get['last_name']
-
-    StudentController.post(first_name, "last_name")
+    data = request.get_json()
+    first_name = data['first_name']
+    last_name = data['last_name']
+    email = data['email']
+    image = data['image']
+    _id = data['_id']
+    StudentController.post(first_name, last_name, image, email, _id)
     return jsonify("Sucessfully added test student")
 

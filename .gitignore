@@ -1,1 +1,3 @@
 front-end/node_modules
+server/.venv
+.pyc
