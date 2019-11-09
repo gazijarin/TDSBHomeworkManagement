@@ -34,7 +34,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <input class="form-control" type="time" value="12:00:00" style="margin-top: 2%">
+                  <input class="form-control" type="time" value="12:00:00" style="margin-top: 2%" />
                 </div>
               </div>
             </div>
@@ -101,6 +101,11 @@ export default {
     VueEditor,
     FullCalendar
   },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
+  },
   data() {
     return {
       content: "<h4>Description</h4>",
@@ -109,26 +114,28 @@ export default {
         [{ list: "ordered" }, { list: "bullet" }],
         ["image", "code-block"]
       ],
-      events: [
-        {
-          title: "event1",
-          start: "2019-11-01"
-        },
-        {
-          title: "event2",
-          start: "2019-11-05"
-        },
-        {
-          title: "event3",
-          start: "2019-11-09T12:30:00",
-          allDay: false
-        }
-      ],
+      events: [],
       calendarPlugins: [dayGridPlugin, timeGridPlugin, listPlugin],
       config: {
         defaultView: "month"
       }
     };
+  },
+    beforeMount() {
+    var self = this;
+    this.$gapi.request({
+      path: 'https://www.googleapis.com/calendar/v3/calendars/' + this.$store.state.user.email + '/events',
+      method: 'GET'
+    }).then(response => {
+      console.log(response) // eslint-disable-line no-console
+      response.result.items.forEach(function (item) {
+      self.$data.events.push({
+										id: item.id,
+										title: item.summary,
+										start: item.start.dateTime || item.start.date,
+				});
+      });
+    })
   }
 };
 </script>
@@ -186,10 +193,8 @@ h5 {
   font-size: 60%;
   display: block;
 }
-
 </style>
 <style lang='scss'>
-
 @import "~@fullcalendar/core/main.css";
 @import "~@fullcalendar/daygrid/main.css";
 @import "~@fullcalendar/list/main.css";

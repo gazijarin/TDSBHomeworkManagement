@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     handleClickLogin() {
-      this.$gAuth
+      this.$gapi
         .getAuthCode()
         .then(authCode => {
           //on success
@@ -51,18 +51,17 @@ export default {
 
   //Sign in
     handleClickSignIn() {
-      this.$gAuth
+      this.$gapi
         .signIn()
-        .then(GoogleUser => {
+        .then(user => {
           //on success 
 
-          this.profile = GoogleUser.getBasicProfile()
           const payLoad = {
-            _id: this.profile.getId(),
-            first_name: this.profile.getGivenName(),
-            last_name: this.profile.getFamilyName(),  
-            image: this.profile.getImageUrl(),
-            email: this.profile.getEmail(),  
+            _id: user.id,
+            first_name: user.firstname,
+            last_name: user.lastname,  
+            image: user.image,
+            email: user.email,  
           }
 
           axios.post('http://localhost:5000/api/students', payLoad)
@@ -90,6 +89,7 @@ export default {
           //this.isSignIn = this.$gAuth.isAuthorized;
         })
         .catch(error => {
+          console.log(error);
           console.log('Something went wrong')
         });
     },

@@ -18,8 +18,10 @@ import { sync } from 'vuex-router-sync'
 sync(store, router);
 
 
-import GAuth from 'vue-google-oauth2'
-Vue.use(GAuth, { clientId: '341686581297-255pa5934vd7ip80ubq5lhn56bhkb640.apps.googleusercontent.com', scope: 'email', prompt: 'select_account', fetch_basic_profile: true });
+// import GAuth from 'vue-google-oauth2'
+import VueGoogleApi from 'vue-google-api'
+
+Vue.use(VueGoogleApi, { clientId: '341686581297-255pa5934vd7ip80ubq5lhn56bhkb640.apps.googleusercontent.com', scope: 'email https://www.googleapis.com/auth/calendar', prompt: 'select_account', fetch_basic_profile: true });
 
 // Make sure to add the icons to the library like this.
 library.add(faPlus);

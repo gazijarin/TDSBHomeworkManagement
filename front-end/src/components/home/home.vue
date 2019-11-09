@@ -1,5 +1,6 @@
 <template>
   <div class="col-12" id="container" style="margin-top: 5%;">
+    Welcome <span v-if="user !== null">{{ user.first_name }}</span>
     <div class="col-4" style="float: right; padding-top: 15px;">
       <b-card border-variant="dark">
         <FullCalendar :header="calendarHeader"
@@ -77,8 +78,14 @@ export default {
       calendarPlugins: [ dayGridPlugin, timeGridPlugin, listPlugin ],
       taskPlugins: [ listPlugin ]
     }
+  },
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
   }
 }
+
 </script>
 
 <style lang='scss'>
