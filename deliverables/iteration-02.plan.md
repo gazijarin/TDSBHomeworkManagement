@@ -15,7 +15,7 @@ We are developing a web application that is will allow students to keep track of
 
 #### Roles & responsibilities
 
-<!-- Describe the different roles on the team and the responsibilities associated with each role. 
+<!-- Describe the different roles on the team and the responsibilities associated with each role.
  * Roles should reflect the structure of your team and be appropriate for your project. Not necessarily one role to one team member. -->
 - **Front End**: Work on the VueJs application
     - Add different components for each page for each feature
@@ -42,7 +42,7 @@ We are developing a web application that is will allow students to keep track of
 <!-- List each team member and:
  * A description of their role(s) and responsibilities including the components they'll work on and non-software related work
  * 3 technical strengths and weaknesses each (e.g. languages, frameworks, libraries, development methodologies, etc.) -->
- 
+
  **Members:**
 
 - **Anirudh Baskar**:
@@ -115,7 +115,7 @@ We are developing a web application that is will allow students to keep track of
         - UX Design
         - Front-End Work
         - Back-End API Integration
-        - Features: Homework submission, Graphing, Google Calendar/Classroom integration 
+        - Features: Homework submission, Graphing, Google Calendar/Classroom integration
     - Technical strengths:
         - Languages
             - HTML, CSS, Javascript, Python
@@ -193,16 +193,16 @@ We are developing a web application that is will allow students to keep track of
 <!-- Describe your team's working culture. -->
 
 Communications:
-<!--  * What is the expected frequency? What methods/channels are appropriate? 
+<!--  * What is the expected frequency? What methods/channels are appropriate?
  * If you have a partner project, what is your process (in detail) for communicating with your partner? -->
  * Communication between team members will be conducted in Facebook messenger in our Team's group chat. A discussion will take place with almost everyone present whenever any project-wide decision needed to be made. Communication frequency will be on a per-need basis. Whenever the whole group or a subset of the group decides to work on a certain task or feature, it is expected to get quick responses within a few minutes to ensure accurate and efficient exchange of information.
- 
- * Project partner meetings were not as common anymore as we had been given the necessary information to continue with the development. We, however, did email the project partner with frequent updates such as after mockups were done for comments and review, and the update on beginning the actual implementation of the product. However, the project parter's responses were not frequent at all, even with the numerous attempts at emails, most often not getting replies. These communications were done mostly through emails, and in person meetings are being planned.
- 
+
+ * Project partner meetings were not as common anymore as we had been given the necessary information to continue with the development. We, however, did email the project partner with frequent updates such as after mockups were done for comments and review, and the update on beginning the actual implementation of the product. However, the project partner's responses were not frequent at all, even with the numerous attempts at emails, most often not getting replies. These communications were done mostly through emails, and in person meetings are being planned.
+
 Meetings:
 <!--  * How are people held accountable for attending meetings, completing action items? Is there a moderator or process? -->
 * Team meetings were had mostly in the Facebook Messenger group due to the busy and hectic schedule of everyone in the team. We had short meetings every few days to report our progress, what we were going to tackle next, and brought up any issues if we were stuck on anything. This was expected of each member and the project trello was updated accordingly. The team's project manager is in charge of ensuring that everyone reported to the chat with moderate frequency. Once each task was completed, other team members in charge of similar parts of the overall application were tasked with conducting code reviews to ensure optimal and quality code.
- 
+
 Conflict Resolution:
 <!--  * List at least three team scenarios/conflicts you discussed in lecture and how you decided you will resolve them. Indecisions? Non-responsive team members? Any other scenarios you can think of? -->
 - Indecisions will be tackled with group discussions, outlining the pros and cons of certain choices. We will discuss through which discussions will yield the highest quality with the limited time we have.
@@ -235,7 +235,7 @@ What do you intend to discuss(**note you will have meeting minutes in the review
 - We will be following the traditional agile methodology using a trello board as our primary task board. Here, we will update tasks that are added as needing to be done, those in development, those that are being tested, as well as the tasks we have completed.
 - Overview of Tasks can be found on Trello: https://trello.com/invite/b/68RfNTky/7bf7c72f2b6a52990927cfb8dc48d44c/term-project
 
-- We have divided our group into developers that specialize in back-end, front-end, and databases according to our strenghts and previous experience. Although we will primarily stick to these parts of the project, we will definitely be more fluid with these roles and move around to get tasks done and help teammates when they need it.
+- We have divided our group into developers that specialize in back-end, front-end, and databases according to our strengths and previous experience. Although we will primarily stick to these parts of the project, we will definitely be more fluid with these roles and move around to get tasks done and help teammates when they need it.
 
 - Teammates will discuss with everyone and pick tasks to complete by assigning it to themselves on the trello board. Tasks will be prioritized with regards to how crucial they are to getting the base application and the MVP running and functioning properly to meet the basic requirements set forth by TDSB.
 
@@ -245,19 +245,19 @@ What do you intend to discuss(**note you will have meeting minutes in the review
 
 #### Deployment and Github Workflow
 
-Describe your Git / GitHub workflow. Essentially, we want to understand how your team members shares a codebase, avoid conflicts and deploys the application.
+<!-- Describe your Git / GitHub workflow. Essentially, we want to understand how your team members shares a codebase, avoid conflicts and deploys the application.
 
  * Be concise, yet precise. For example, "we use pull-requests" is not a precise statement since it leaves too many open questions - Pull-requests from where to where? Who reviews the pull-requests? Who is responsible for merging them? etc.
  * If applicable, specify any naming conventions or standards you decide to adopt.
- * Describe your overall deployment process from writing code to viewing a live applicatioon
+ * Describe your overall deployment process from writing code to viewing a live application
  * What deployment tool(s) are you using and why
- * Don't forget to **explain why** you chose this workflow or particular aspects of it!
+ * Don't forget to **explain why** you chose this workflow or particular aspects of it! -->
 
 We will have the basic application set up initially on the master branch. Once that is complete, each task and feature will have its own separate branch to ensure that conflicts are at a minimum, promoting modularity. This will ensure that if the code from any feature does cause problems, we will easily able to revert changes and quickly fix problems. Each branch will be named by the feature that will be implemented in it. This will allow easy identification of what the use of the branch is.
 
 Once features are done, we will have pull requests that will be followed by code reviews of the code written in the branch with the pull request. If the code is seen to be good with no issues, it will then be merged to the master branch.
 
-Once a working prototype is functioning with the minimum number of high priority requested features. After a discussion with the project partners about preferred cloud providers, whether or not they already have resources, and whether they would give us options to pay for specific cloud providers, we would then host it to that preferred place. A likely solution could be hosting it using Google Cloud as we are provided with free credits by the CSC301 class and opening an account with the Google Cloud platform provides $300 of free credits. We would utilize Docker in the hosting of the application. We would build our app to host it. Once our build has been finished, we would create a docker image for it and test out to see if it can be run locally. Once this verification is complete, we will push a tag of our docker image to the Google Container Registry which is a built-in registry support for images in the Google Cloud. Once this is done, we will then deploy our image to a Google CLoud GCE (Google Compute Engine) VM.
+Once a working prototype is functioning with the minimum number of high priority requested features, we will have a discussion with the project partners about preferred cloud providers, whether or not they already have resources, and whether they would give us options to pay for specific cloud providers; we would then host it to that preferred place. A likely solution could be hosting it using Google Cloud as we are provided with free credits by the CSC301 class and opening an account with the Google Cloud platform provides $300 of free credits. We would utilize Docker in the hosting of the application. We would build our app to host it. Once our build has been finished, we would create a docker image for it and test out to see if it can be run locally. Once this verification is complete, we will push a tag of our docker image to the Google Container Registry which is a built-in registry support for images in the Google Cloud. Once this is done, we will then deploy our image to a Google Cloud GCE (Google Compute Engine) VM.
 
 
 
@@ -265,12 +265,12 @@ Once a working prototype is functioning with the minimum number of high priority
 ## Product
 
 #### Goals and tasks
-<!-- 
+<!--
  * Describe your goals for this iteration and the tasks that you will have to complete in order to achieve these goals.
  * Order the items from most to least important.
  * Feel free (but not obligated) to specify some/all tasks as user stories.
  -->
- 
+
 Overview of Tasks can be found on Trello: https://trello.com/invite/b/68RfNTky/7bf7c72f2b6a52990927cfb8dc48d44c/term-project
 
 For this iteration, we aim to get most of the main pages for the website done as well as set up a preliminary server and database for user registration.
@@ -294,7 +294,7 @@ Concisely, for the front-end, we have the task of replicating the mock-ups for w
     * Features include: static toolbar (Home, Profile, ourses, Tasks, Gallery, Tools), overview window to store recent activity, side calendar and task-list.
 
 4. **Log-in and Registration (Priority: High)**
-    Assigned to Anirudh Baskar, Alex Shang, Samin Khan, and Michael 
+    Assigned to Anirudh Baskar, Alex Shang, Samin Khan, and Michael Katilevsky
     * Replicate basic mock-up of log-in to create a static webpage.
     * Features include: form input (name, password) and the ability to log-in with a Google account.
     * Create APIs to insert, modify and update student information such as courses, name, and user id.
@@ -322,7 +322,7 @@ Concisely, for the front-end, we have the task of replicating the mock-ups for w
     * Display a dictionary window under the Tools section.
     * Fetch data from an open-source dictionary API to display results.
     * User will be able to type in a word in a form input, and get the corresponding meaning, synonyms and word usage.
-    
+
 
 
 
@@ -335,9 +335,9 @@ Concisely, for the front-end, we have the task of replicating the mock-ups for w
  * Make sure to explain the purpose of each artifact (i.e. Why is it on your to-do list? Why is it useful for your team?)
  * Be concise, yet precise.         
    For example: "Build the website" is not precise at all, but "Build a static home page and upload it somewhere, so that it is publicly accessible" is much clearer. -->
-   
+
 1. Mock-Ups (Done)
-   Purpose: Ensure the right kind of user experience and usability when it comes to interacting with the web application. This gives us a preliminary plan on what to base the actual front-end on. 
+   Purpose: Ensure the right kind of user experience and usability when it comes to interacting with the web application. This gives us a preliminary plan on what to base the actual front-end on.
     * Home Screen
         * Header: Title (TDSB App)
         * Navigation Bar: Hyperlinks to Home, Courses, Tasks, Tools
@@ -345,7 +345,7 @@ Concisely, for the front-end, we have the task of replicating the mock-ups for w
         * Activity Section: Recent updates on adding tasks, update on completing or starting new assignments, etc.
         * Calendar Section: Displays tasks, assignments and deadlines
         * Deadline Section: Displays upcoming due dates for all courses and the corresponding progress
-        
+
     ![](https://i.imgur.com/LnOHYYP.png)
 
 
@@ -376,16 +376,16 @@ Concisely, for the front-end, we have the task of replicating the mock-ups for w
         * Edit Container: Name, Username, Language, Timezone
 
     ![](https://i.imgur.com/Q8HsnhW.png)
-    
+
     * Calendar Screen
         * Header: Title (TDSB App)
         * Navigation Bar: Hyperlinks to Home, Courses, Tasks, Tools
         * Profile Drop-Down: Hyperlinks to Logout, Account Settings
         * Calendar: Display current month, scheduled tasks, deadlines
-    
+
     ![](https://i.imgur.com/T2bGH4e.png)
 
-    
+
     * Graphing Software    
         * Header: Title (TDSB App)
         * Navigation Bar: Hyperlinks to Home, Courses, Tasks, Tools
@@ -393,13 +393,13 @@ Concisely, for the front-end, we have the task of replicating the mock-ups for w
         * In-Progress Window: Displays the current assignments in progress and the percentage of completion
         * Completed Window: Displays the courses and the projects completed for each
         * Graph: Displays a graph showing the # of completed assignments over time
-    
+
     ![](https://i.imgur.com/NhyocxP.png)
 
 
 
 2. Front-end Prototype
-    Purpose: Ensure final touches to the web application design and have a preliminary set-up so that the user can actually use the application to get a feel of what the end product is. 
+    Purpose: Ensure final touches to the web application design and have a preliminary set-up so that the user can actually use the application to get a feel of what the end product is.
     * Static Home Screen with Mock Data
     * Log-in Registration to Static Home Page
     * Static AddTask
