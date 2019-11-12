@@ -122,11 +122,15 @@ export default {
 <style>
 .slanted {
   height: 100%;
-  width: 50%;
+  width: 60%;
   position: fixed;
   top: 0;
-  left: -30%;
+  left: -40%;
   overflow: hidden;
   transform: skewX(-15deg);
+  transition: left 1s;
+}
+.slanted:hover {
+  left: -38%;
 }
 </style>
