@@ -1,5 +1,6 @@
 <template>
   <div class="col-12" id="container" style="margin-top: 5%;">
+    <navbar></navbar>
     <div class="col-4" style="float: right; padding-top: 15px;">
       <b-card border-variant="dark" header="Classes" align="left">Classes here.</b-card>
       <br />
@@ -93,13 +94,15 @@ import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
+import navbar from '../navbar/navbar';
 
 export default {
   name: "Tasks",
   components: {
     Datepicker,
     VueEditor,
-    FullCalendar
+    FullCalendar,
+    'navbar': navbar
   },
   computed: {
     user() {
