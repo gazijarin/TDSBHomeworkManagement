@@ -9,7 +9,7 @@
     <div class="slanted" style="background-color: #4277A5; margin-left: 25%; z-index: -7;"></div>
     <div class="slanted" style="background-color: #EC7B1C; margin-left: 30%; z-index: -8;"></div>
 
-    <div class="col-4" style="float: right; padding-top: 100px;">
+    <div class="col-4" style="float: right; padding-top: 300px;">
      <div class="content">
       <div class="" id="inputForm">
         <div>
@@ -70,17 +70,17 @@ export default {
             last_name: user.lastname,
             image: user.image,
             email: user.email,
-          }
+          };
 
           axios.post('http://localhost:5000/api/students', payLoad)
           .then(
             console.log(payLoad)
-          )
+          );
 
           //bearer token
           //const token = GoogleUser.getAuthResponse().access_token;
 
-          this.$store.dispatch('setUser', payLoad)
+          this.$store.dispatch('setUser', payLoad);
 
           //direct to user home
           this.$router.push({
