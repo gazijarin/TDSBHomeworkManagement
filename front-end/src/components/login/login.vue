@@ -72,7 +72,14 @@ export default {
             email: user.email,
           };
 
-          axios.post('http://localhost:5000/api/students', payLoad)
+           var post_url;
+          if (process.env.NODE_ENV && process.env.NODE_ENV == 'production') {
+            post_url = '/api/students'
+          } else {
+            post_url = 'http://localhost:5000/api/students'
+          }
+
+          axios.post(post_url, payLoad)
           .then(
             console.log(payLoad)
           );
