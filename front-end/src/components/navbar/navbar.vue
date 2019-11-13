@@ -8,7 +8,7 @@
     </nav> -->
     <div>
     <b-navbar fixed="top" toggleable="lg" type="dark" variant="dark">
-        <b-navbar-brand>TDSB HW Management</b-navbar-brand>
+        <b-navbar-brand>TDSB</b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -17,7 +17,7 @@
             <b-nav-item to="/home">Home</b-nav-item>
             <b-nav-item to="/courses">Courses</b-nav-item>
             <b-nav-item to="/tasks">Tasks</b-nav-item>
-            <b-nav-item to="/gallery">Gallery</b-nav-item>
+            <b-nav-item to="/progress">Progress</b-nav-item>
             <b-nav-item to="/tools">Tools</b-nav-item>
         </b-navbar-nav>
 

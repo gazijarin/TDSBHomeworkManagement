@@ -13,8 +13,8 @@
      <div class="content">
       <div class="" id="inputForm">
         <div>
-          <h3 class="headline mb-0"> <b>Welcome Student</b></h3>
-          <p class="subheading"><b>Login below using your TDSB google Account </b></p>
+          <h3 class="headline mb-0"> <b>Welcome, Student.</b></h3>
+          <p class="subheading"><b>Log-in below using your TDSB Google account. </b></p>
         </div>
 
         <button type="primary"
@@ -22,7 +22,7 @@
             @click="handleClickSignIn"
             class="btn btn-lg btn-primary pull-xs-right
             ">
-            Google Log in
+            Log-in
             </button>
        </div>
      </div>
