@@ -52,11 +52,12 @@ The fully deployed application on Heroku for this iteration can be found here: h
  * Provide clear steps for using each feature described above
  * If you cannot deploy your application for technical reasons, please let your TA know at the beginning of the iteration. You will need to demo the application to your partner either way. -->
 
-- Students from TDSB have their school accounts linked to Gmail so they directly log and get authenticated with Google. Sample account for testing is tdsb301@gmail.com with password csc301csc301.
-- Once they log in, the home page will show a brief overview of assessments with due dates and their self inputted completion on each assessment.
-- They will be able to see detailed information on each of their courses in the courses page (details include teacher, coursework, grades and ongoing assignments).
+- Students from TDSB have their school accounts linked to Gmail so they directly log and get authenticated with Google. Sample account for testing is tdsb301@gmail.com with password csc301csc301. [Completed]
+- Once they log in, the home page will show a brief overview of assessments with due dates and their self inputted completion on each assessment. [Completed]
+- They will be able to see detailed information on each of their courses in the courses page (details include teacher, coursework, grades and ongoing assignments). [Not completed for this iteration]
 - In the Tasks page, they will be able to see a detailed calendar showing when tasks are due. Tasks are assesment deadlines from Google Classroom and self inputted objectives for completion. Students chunk their assesments into mini tasks themselves, manually set a deadline for it and are given notification reminders (email and in app) on these tasks.
-- They can then go onto the graphing page to get an overview on their grades and task completion overtime. 
-- In the Profile page (accessed from the drop-down menu on the very right), they are able to see and edit their information, such as timezone settings, password reset, etc.  
-- As a significant of homework relies on using the dictionary for these students, they will have access to a TDSB approved dictionary on the Tools page.
-- They can sign-out in the Profile drop-down menu to exit the application. 
+- Also in the Tasks page, students can click the AddTask button to add a new task. They can input the title, description and other related factors to the task. [Front-end completed]
+- The next option in the navigation bar is Progress. In this section, the student can get an overview on their grades and task completion overtime to track progress. [Not completed for this iteration]
+- The next option is the Tools page. As a significant of homework relies on using the dictionary for these students, they will have access to a TDSB approved dictionary.  
+- In the Profile page (accessed from the drop-down menu on the very right), they are able to see and edit their information, such as timezone settings, password reset, etc.  [Not completed for this iteration]
+- They can sign-out in the Profile drop-down menu to exit the application. [Completed]
