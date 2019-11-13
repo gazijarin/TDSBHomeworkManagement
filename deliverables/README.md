@@ -46,6 +46,7 @@ A user must login first before they can access the features on the website.
  Users will be able to access a dictionary from the application to assist them with their homework. 
 
 ## Instructions
+The fully deployed application on Heroku for this iteration can be found here: https://tdsb-app.herokuapp.com/
 <!--  * Clear instructions for how to use the application from the end-user's perspective
  * How do you access it? Are accounts pre-created or does a user register? Where do you start? etc. 
  * Provide clear steps for using each feature described above
@@ -58,4 +59,4 @@ A user must login first before they can access the features on the website.
 - They can then go onto the graphing page to get an overview on their grades and task completion overtime. 
 - In the Profile page (accessed from the drop-down menu on the very right), they are able to see and edit their information, such as timezone settings, password reset, etc.  
 - As a significant of homework relies on using the dictionary for these students, they will have access to a TDSB approved dictionary on the Tools page.
-- They can logout in the Profile drop-down menu to exit the application. 
+- They can sign-out in the Profile drop-down menu to exit the application. 
