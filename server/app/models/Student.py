@@ -14,6 +14,7 @@ class Student(object):
         self.email = email
         self.last_name = last_name
         self.created_date = datetime.datetime.utcnow()
+        self.courses = []
 
     def insert(self):
         if not DB.find_one("Students", {"_id": self._id}):
@@ -25,6 +26,7 @@ class Student(object):
             "first_name": self.first_name,
             "last_name": self.last_name,
             "email": self.email,
-            "image": self.first_name,
-            "created_date": self.created_date
+            "image": self.image,
+            "created_date": self.created_date,
+            "courses": self.courses
         }
