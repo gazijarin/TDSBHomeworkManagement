@@ -24,9 +24,11 @@ Steps for running the server
 
     3) py -m pip install dnspython
 
-    4) export FLASK_APP=app.run.py (For windows: set FLASK_APP=app.run.py)
+    4) py -m pip install requests
 
-    5) py -m flask run
+    5) export FLASK_APP=app.run.py (For windows: set FLASK_APP=app.run.py)
+
+    6) py -m flask run
 
 API Testing URLs examples:
 
@@ -57,6 +59,8 @@ API Testing URLs examples:
     Update course information: /api/course?id=f02b40bb-1a9b-44d8-8905-d96a504e1bc7&name=CSC386&instructor=Jason [PATCH]
 
     Get information for all enrolled students: /api/course/students?id=2553e83a-8054-4e9c-b8d8-457e8a456287 [GET]
+
+    Dictionary: /api/dictionary?word=hello [GET]
 
 
 MongoDB Information:
