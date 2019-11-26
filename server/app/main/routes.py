@@ -2,6 +2,7 @@ from app.main import bp  # noqa
 from app.controllers import StudentController, CourseController
 from flask import jsonify, abort, request
 from app.database import DB
+import requests
 
 
 @bp.route('/')
@@ -177,3 +178,11 @@ def get_students():
             return jsonify(course["students"])
         return jsonify("No student enrolled in the course")
     return jsonify("No course matching given id")
+
+# calls external dictionary API for given word
+@bp.route('/api/dictionary', methods=['GET'])
+def get_dict():
+    word = request.args.get('word')
+    dict_url = 'https://googledictionaryapi.eu-gb.mybluemix.net/?define=' + word
+    result = requests.get(dict_url)
+    return result.text
