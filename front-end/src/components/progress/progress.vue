@@ -2,7 +2,7 @@
   <div class="col-12" id="container" style="margin-top: 5%;">
     <navbar></navbar>
     <div class="col-4" style="float: right; padding-top: 15px;">
-      <div class="card" style="border:1px solid black;">
+      <div class="card" style="border:1px solid black; margin-bottom:20px">
         <div class="card-header">
           <h6 style="float: left; padding-top: 10px">Assignments</h6>
           <b-button v-b-modal.modal-1 size="sm" style="float: right; margin-left: 15px;">
@@ -65,25 +65,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-8" style="padding-top: 15px">
-      <div class="card" style="border:1px solid black;">
-        <div class="card-header">
-          <h6 style="float: left; padding-top: 10px">Progress</h6>
-        </div>
-        <div>
-          <pure-vue-chart
-            :points="[{label: 'A1', value: 40}, {label: 'A2', value: 10}, {label: 'A3', value: 100}, {label: 'A4', value: 60}]"
-            :show-y-axis="true"
-            :show-x-axis="true"
-            :show-values="true"
-            :width="800"
-            :height="400"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="col-8" style="padding-top: 15px">
       <div class="card" style="border:1px solid black;">
         <div class="card-header">
           <h6 style="float: left; padding-top: 10px">Grades</h6>
@@ -98,6 +79,40 @@
         </div>
       </div>
     </div>
+
+    <div class="col-8" style="padding-top: 15px">
+      <div class="card" style="border:1px solid black;">
+        <div class="card-header">
+          <h6 style="float: left; padding-top: 10px">Progress</h6>
+        </div>
+        <div>
+          <trend
+            :data="[0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0]"
+            :gradient="['#6fa8dc', '#42b983', '#2c3e50']"
+            auto-draw
+            smooth
+          ></trend>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-8" style="padding-top: 15px">
+      <div class="card" style="border:1px solid black; padding-bottom:10px">
+        <div class="card-header" style="margin-bottom:20px">
+          <h6 style="float: left; padding-top: 10px">Completion Per Assignment</h6>
+        </div>
+        <div>
+          <pure-vue-chart
+            :points="[{label: 'A1', value: 40}, {label: 'A2', value: 10}, {label: 'A3', value: 100}, {label: 'A4', value: 60}]"
+            :show-y-axis="true"
+            :show-x-axis="true"
+            :show-values="true"
+            :width="800"
+            :height="400"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -107,6 +122,7 @@ import Datepicker from "vuejs-datepicker";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 import PureVueChart from "pure-vue-chart";
+import Trend from "vuetrend";
 
 export default {
   name: "Progress", //this is the name of the component
@@ -114,6 +130,7 @@ export default {
     Datepicker,
     VueSlider,
     PureVueChart,
+    Trend,
     navbar: navbar
   },
   data() {
