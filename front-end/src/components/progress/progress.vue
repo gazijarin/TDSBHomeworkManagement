@@ -41,7 +41,7 @@
             </div>
             <!-- <div class="form-group">
               <input type="number" class="form-control" id="GradeInput" placeholder="Grade" />
-            </div> -->
+            </div>-->
             <label for="completedAssignment">Amount Completed</label>
             <div class="form-group">
               <vue-slider v-model="value" :marks="marks">
@@ -55,6 +55,14 @@
               <input type="file" class="form-control-file" id="exampleFormControlFile1" />
             </div>
           </b-modal>
+          <div class="form-group">
+            <select class="form-control">
+              <option>All</option>
+              <option>Course 1</option>
+              <option>Course 2</option>
+              <option>Course 3</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
@@ -69,6 +77,14 @@
       <div class="card" style="border:1px solid black;">
         <div class="card-header">
           <h6 style="float: left; padding-top: 10px">Grades</h6>
+          <div class="form-group">
+            <select class="form-control">
+              <option>All</option>
+              <option>Course 1</option>
+              <option>Course 2</option>
+              <option>Course 3</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
