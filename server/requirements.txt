@@ -1,2 +1,5 @@
 flask
 pymongo
+flask-cors
+dnspython
+requests

@@ -1,0 +1,22 @@
+# Followed tutorial from: https://testdriven.io/blog/deploying-flask-to-heroku-with-docker-and-gitlab/ and and lecture tutorial 3.2
+# for this default.conf file. Mainly following the way they used Nginx in order to serve the Vue front end while also
+# forwarding the API from the Flask back-end.
+
+server {
+  listen $PORT default_server;
+
+  root /usr/share/nginx/html;
+  index index.html index.html;
+
+  location / {
+    try_files $uri /index.html =404;
+  }
+
+  location /api/students {
+    proxy_pass          http://127.0.0.1:5000;
+    proxy_set_header    Host $host;
+    proxy_set_header    X-Real-IP $remote_addr;
+    proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+  }
+
+}

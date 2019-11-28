@@ -1,5 +1,7 @@
 <template>
   <div class="col-12" id="container" style="margin-top: 5%;">
+    <navbar></navbar>
+    Welcome <span v-if="user !== null">{{ user.first_name }}</span>
     <div class="col-4" style="float: right; padding-top: 15px;">
       <b-card border-variant="dark">
         <FullCalendar :header="calendarHeader"
@@ -42,10 +44,12 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
+import navbar from '../navbar/navbar'
 
 export default {
   name: 'Home', //this is the name of the component
   components: {
+    'navbar': navbar,
     FullCalendar // make the <FullCalendar> tag available
   },
   data() {
@@ -77,8 +81,14 @@ export default {
       calendarPlugins: [ dayGridPlugin, timeGridPlugin, listPlugin ],
       taskPlugins: [ listPlugin ]
     }
+  },
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
   }
 }
+
 </script>
 
 <style lang='scss'>

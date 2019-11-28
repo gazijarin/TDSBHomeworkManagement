@@ -1,1 +1,5 @@
 front-end/node_modules
+front-end/dist
+server/.venv
+.pyc
+__pycache__

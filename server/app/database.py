@@ -22,3 +22,12 @@ class DB(object):
         return DB.DATABASE[collection].find_one(query)
 
     #need delete and update methods
+    @staticmethod
+    def remove(collection, query):
+        DB.DATABASE[collection].remove(query)
+
+    @staticmethod
+    def update(collection, query, update, option=False):
+        DB.DATABASE[collection].update(query, update, option)
+
+    
