@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import home from '@/components/home/home' // this is the import line to add
 import courses from '@/components/courses/courses' // this is the import line to add
+import progress from '@/components/progress/progress'
 import tasks from '@/components/tasks/tasks' // this is the import line to add
 import login from '@/components/login/login' // this is the import line to add
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/courses',
     name: 'Courses',
     component: courses
+  },
+  {
+    path: '/progress',
+    name: 'Progress',
+    component: progress
   },
   {
     path: '/tasks',
