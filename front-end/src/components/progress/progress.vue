@@ -71,6 +71,16 @@
         <div class="card-header">
           <h6 style="float: left; padding-top: 10px">Progress</h6>
         </div>
+        <div>
+          <pure-vue-chart
+            :points="[{label: 'A1', value: 40}, {label: 'A2', value: 10}, {label: 'A3', value: 100}, {label: 'A4', value: 60}]"
+            :show-y-axis="true"
+            :show-x-axis="true"
+            :show-values="true"
+            :width="800"
+            :height="400"
+          />
+        </div>
       </div>
     </div>
     <div class="col-8" style="padding-top: 15px">
@@ -96,12 +106,14 @@ import navbar from "../navbar/navbar";
 import Datepicker from "vuejs-datepicker";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
+import PureVueChart from "pure-vue-chart";
 
 export default {
   name: "Progress", //this is the name of the component
   components: {
     Datepicker,
     VueSlider,
+    PureVueChart,
     navbar: navbar
   },
   data() {
