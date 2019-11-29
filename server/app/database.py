@@ -1,5 +1,6 @@
 import pymongo
 from pymongo import MongoClient
+from gridfs import GridFS
 
 
 
@@ -12,6 +13,7 @@ class DB(object):
     def init():
         client = MongoClient(DB.URI)
         DB.DATABASE = client['TDSB']
+        DB.FS = GridFS(DB.DATABASE)
 
     @staticmethod
     def insert(collection, data):
@@ -29,5 +31,10 @@ class DB(object):
     @staticmethod
     def update(collection, query, update, option=False):
         DB.DATABASE[collection].update(query, update, option)
+
+    @staticmethod
+    def save_file(file, filename):
+        file_id = DB.FS.put(file, filename=filename)
+        return file_id
 
     
