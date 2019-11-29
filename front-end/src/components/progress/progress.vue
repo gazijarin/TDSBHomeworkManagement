@@ -57,10 +57,7 @@
           </b-modal>
           <div class="form-group">
             <select class="form-control">
-              <option>All</option>
-              <option>Course 1</option>
-              <option>Course 2</option>
-              <option>Course 3</option>
+              <option v-for="course in courseList" :key="course">{{course}}</option>
             </select>
           </div>
         </div>
@@ -70,10 +67,7 @@
           <h6 style="float: left; padding-top: 10px">Grades</h6>
           <div class="form-group">
             <select class="form-control">
-              <option>All</option>
-              <option>Course 1</option>
-              <option>Course 2</option>
-              <option>Course 3</option>
+              <option v-for="course in courseList" :key="course">{{course}}</option>
             </select>
           </div>
         </div>
@@ -154,6 +148,7 @@ export default {
       allGrades: true,
       chartData: [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70],
       weekList: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15"],
+      courseList: ["All", "Course 1", "Course 2", "Course 3", "Course 4"],
       marks: val => val % 20 === 0
     };
   }
