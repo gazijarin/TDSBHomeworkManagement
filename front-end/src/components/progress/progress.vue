@@ -93,7 +93,7 @@
               horizontalLines: true
             }"
             :labels="{
-              xLabels: weekList,
+              xLabels: xAxisList,
               yLabels: 5
             }"
             :min="0"
@@ -111,7 +111,7 @@
         </div>
         <div>
           <pure-vue-chart
-            :points="[{label: 'A1', value: 40}, {label: 'A2', value: 10}, {label: 'A3', value: 100}, {label: 'A4', value: 60}]"
+            :points="barGraphData"
             :show-y-axis="true"
             :show-x-axis="true"
             :show-values="true"
@@ -147,10 +147,30 @@ export default {
       allAssignments: true,
       allGrades: true,
       chartData: [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70],
-      weekList: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15"],
+      xAxisList: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15"],
+      barGraphData: [{label: 'A1', value: 40}, {label: 'A2', value: 10}, {label: 'A3', value: 100}, {label: 'A4', value: 60}],
       courseList: ["All", "Course 1", "Course 2", "Course 3", "Course 4"],
       marks: val => val % 20 === 0
     };
+  },
+  methods: {
+    getCourseInformation: function(course) {
+      // Get the course's assignments from the backend.
+      // Set all the course information.
+      this.allAssignments = true
+      this.allGrades = true
+      this.xAxisList = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15"]
+      this.chartData = [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70]
+      return course
+    },
+    getXAxisLabels: function(xList) {
+      // For each data, add its timestamp as the x Axis label.
+      return xList
+    },
+    getCompletionPercentage: function(assignmentList) {
+      // Convert the assignments to their completion percentage.
+      return assignmentList
+    }
   }
 };
 </script>
