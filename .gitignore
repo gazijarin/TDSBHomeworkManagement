@@ -3,3 +3,4 @@ front-end/dist
 server/.venv
 .pyc
 __pycache__
+node_modules
