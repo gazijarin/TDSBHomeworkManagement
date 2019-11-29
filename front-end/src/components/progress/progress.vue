@@ -86,12 +86,26 @@
           <h6 style="float: left; padding-top: 10px">Progress</h6>
         </div>
         <div>
-          <trend
-            :data="[0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0]"
-            :gradient="['#6fa8dc', '#42b983', '#2c3e50']"
-            auto-draw
-            smooth
-          ></trend>
+          <TrendChart
+            :datasets="[
+              {
+                data: chartData,
+                smooth: true,
+                fill: true
+              }
+            ]"
+            :grid="{
+              verticalLines: true,
+              horizontalLines: true
+            }"
+            :labels="{
+              xLabels: weekList,
+              yLabels: 5
+            }"
+            :min="0"
+            :max="100"
+            :interactive="true">
+          </TrendChart>
         </div>
       </div>
     </div>
@@ -122,7 +136,7 @@ import Datepicker from "vuejs-datepicker";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 import PureVueChart from "pure-vue-chart";
-import Trend from "vuetrend";
+import TrendChart from "vue-trend-chart";
 
 export default {
   name: "Progress", //this is the name of the component
@@ -130,12 +144,16 @@ export default {
     Datepicker,
     VueSlider,
     PureVueChart,
-    Trend,
+    TrendChart,
     navbar: navbar
   },
   data() {
     return {
       value: 50,
+      allAssignments: true,
+      allGrades: true,
+      chartData: [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70],
+      weekList: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15"],
       marks: val => val % 20 === 0
     };
   }
