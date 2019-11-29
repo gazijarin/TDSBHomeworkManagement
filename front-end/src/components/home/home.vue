@@ -10,12 +10,12 @@
         :events="events"></FullCalendar>
       </b-card>
       <br/>
-      <b-card border-variant="dark" header="Tasks" align="left">
+      <!-- <b-card border-variant="dark" header="Progress" align="left">
         <FullCalendar :header="false"
         :plugins="taskPlugins"
         defaultView="listWeek"
         :events="events"></FullCalendar>
-      </b-card>
+      </b-card> -->
     </div>
     <div class="col-8" style="padding-top: 15px">
       <b-card class="today-container"
