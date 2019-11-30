@@ -187,7 +187,7 @@ export default {
       chartData: [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70],
       xAxisList: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15"],
       barGraphData: [{label: 'A1', value: 40}, {label: 'A2', value: 10}, {label: 'A3', value: 100}, {label: 'A4', value: 60}],
-      courseList: ["All", "Course 1", "Course 2", "Course 3", "Course 4"],
+      courseList: [],
       marks: val => val % 20 === 0
     };
   },
@@ -211,6 +211,9 @@ export default {
     },
     nameState: function(grade) {
       return grade >= 0 && grade <= 100 ? true : false
+    },
+    getCourses: function() {
+      this.courseList = ["All", "Course 1", "Course 2", "Course 3", "Course 4"]
     }
   },
   computed: {
@@ -220,6 +223,9 @@ export default {
     allGrades: function() {
       return this.selectedCourse === "All"
     }
+  },
+  created: function() {
+    this.getCourses()
   }
 };
 </script>
