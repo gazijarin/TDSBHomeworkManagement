@@ -9,7 +9,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue);
 // Import fontawesome icons here.
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faUserCircle, faSearch, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faUserCircle, faSearch, faEdit, faTrash, faSync } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
@@ -29,6 +29,7 @@ library.add(faUserCircle);
 library.add(faSearch);
 library.add(faEdit);
 library.add(faTrash);
+library.add(faSync);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;

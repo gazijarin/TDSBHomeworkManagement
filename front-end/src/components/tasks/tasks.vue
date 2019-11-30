@@ -57,6 +57,10 @@
             </form>
           </b-modal>
         </div>
+        <b-button size="sm" style="width: 20%; margin-left: 20px; margin-top: 10px">
+          <font-awesome-icon :icon="['fas', 'sync']" />
+          Sync with Google
+        </b-button>
         <FullCalendar
           defaultView="dayGridMonth"
           allDayText
