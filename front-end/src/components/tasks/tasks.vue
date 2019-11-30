@@ -20,33 +20,27 @@
             centered
             ref="modal"
             title="Add Task"
-            @show="resetModal"
-            @hidden="resetModal"
             @ok="handleOk"
           >
             <div class="form-group">
-              <b-form-input v-model="text" placeholder="Title"></b-form-input>
+              <b-form-input v-model="modal.title" placeholder="Title"></b-form-input>
             </div>
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <datepicker placeholder="Due Date"></datepicker>
+              <div class="col-md-12">
+                <div class="form-group" style="height: 50px">
+                  <VueCtkDateTimePicker label="Due Date" v-model="modal.date"></VueCtkDateTimePicker>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input class="form-control" type="time" value="12:00:00" style="margin-top: 2%" />
-                </div>
-              </div>
+
             </div>
             <div class="form-group">
-              <select class="form-control">
+              <select class="form-control" v-model="modal.course">
                 <option>Course</option>
               </select>
             </div>
             <div class="form-group">
               <div id="app">
-                <vue-editor v-model="content" :editorToolbar="customToolbar"></vue-editor>
+                <vue-editor v-model="modal.description" :editorToolbar="customToolbar"></vue-editor>
               </div>
             </div>
             <form>
@@ -92,7 +86,8 @@
 </template>
 
 <script>
-import Datepicker from "vuejs-datepicker";
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import { VueEditor } from "vue2-editor";
 import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -103,7 +98,7 @@ import navbar from '../navbar/navbar';
 export default {
   name: "Tasks",
   components: {
-    Datepicker,
+    VueCtkDateTimePicker,
     VueEditor,
     FullCalendar,
     'navbar': navbar
@@ -111,6 +106,27 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
+    }
+  },
+  methods: {
+      handleOk() {
+      var self = this;
+      console.log(this.modal) // eslint-disable-line no-console
+      this.$axios.post('http://localhost:5000/api/task', {
+          title: this.modal.title,
+          time: this.modal.date,
+          course: this.modal.course,
+          description: this.modal.description,
+          student: this.$store.state.user._id,
+          attachments: "[]"
+    })
+    .then(response => {
+      self.$data.events.push({
+										title: this.modal.title,
+										start: this.modal.date
+        });
+        return response
+    })
     }
   },
   data() {
@@ -125,6 +141,14 @@ export default {
       calendarPlugins: [dayGridPlugin, timeGridPlugin, listPlugin],
       config: {
         defaultView: "month"
+      },
+      modal: {
+          title: '',
+          date: '',
+          time: '',
+          course: '',
+          description: ''
+
       }
     };
   },

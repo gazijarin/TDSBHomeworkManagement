@@ -8,6 +8,7 @@ import datetime
 import requests
 import json
 
+
 # helper function to create a datetime object
 def create_date(date, time):
     date = date.split()
@@ -235,16 +236,17 @@ def retrieve_file():
 # endpoint to create a task
 @bp.route('/api/task', methods=['POST'])
 def post_task():
-    data = request.form
+    print(request)
+    data = request.get_json(silent=True)
     title = data['title']
-    date = data['date']  # should be in the form of "08 Nov 2019"
-    time = data['time'] # should be in the form of "12:00 PM"
+    deadline = data['time']  # should be in the form of "08 Nov 2019"
+    # time = data['time'] # should be in the form of "12:00 PM"
     course = data['course']
     description = data['description']
     student = data['student'] # student id
     attachments = data['attachments'] # a list of uploaded file returned by the upload api 
 
-    deadline = create_date(date, time)
+    # deadline = create_date(date, time)
     
     result = TaskController.post(title, deadline, course, description, attachments, student)
 
