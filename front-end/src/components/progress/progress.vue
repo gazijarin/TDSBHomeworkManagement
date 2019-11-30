@@ -114,18 +114,7 @@
         </div>
         <div>
           <TrendChart
-            :datasets="[
-              {
-                data: chartData,
-                smooth: true,
-                fill: false
-              },
-              {
-                data: [10, 30, 75, 90, 100, 15, 65, 0, 80, 60, 90, 55, 95, 35, 50],
-                smooth: true,
-                fill: false
-              }
-            ]"
+            :datasets="chartData"
             :grid="{
               verticalLines: true,
               horizontalLines: true
@@ -184,7 +173,18 @@ export default {
       value: 50,
       selectedCourse: "",
       assignmentList: [{name: "A1", grade: 88}, {name: "A2", grade: 79}, {name: "A3", grade: 98}],
-      chartData: [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70],
+      chartData: [
+              {
+                data: [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70],
+                smooth: true,
+                fill: false
+              },
+              {
+                data: [10, 30, 75, 90, 100, 15, 65, 0, 80, 60, 90, 55, 95, 35, 50],
+                smooth: true,
+                fill: false
+              }
+            ],
       xAxisList: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15"],
       barGraphData: [{label: 'A1', value: 40}, {label: 'A2', value: 10}, {label: 'A3', value: 100}, {label: 'A4', value: 60}],
       courseList: [],
@@ -195,8 +195,8 @@ export default {
     getCourseInformation: function(course) {
       // Get the course's assignments from the backend.
       // Set all the course information.
-      this.allAssignments = true
-      this.allGrades = true
+      this.allAssignments = false
+      this.allGrades = false
       this.xAxisList = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15"]
       this.chartData = [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70]
       return course
@@ -214,6 +214,21 @@ export default {
     },
     getCourses: function() {
       this.courseList = ["All", "Course 1", "Course 2", "Course 3", "Course 4"]
+    },
+    getChartData: function(assignmentsList) {
+      this.chartData = [
+              {
+                data: [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70],
+                smooth: true,
+                fill: false
+              },
+              {
+                data: [10, 30, 75, 90, 100, 15, 65, 0, 80, 60, 90, 55, 95, 35, 50],
+                smooth: true,
+                fill: false
+              }
+            ]
+      return assignmentsList
     }
   },
   computed: {
