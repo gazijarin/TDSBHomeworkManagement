@@ -130,6 +130,20 @@ export default {
   },
     beforeMount() {
     var self = this;
+
+    
+    this.$axios.get('http://localhost:5000/api/task/student?id=' + this.$store.state.user._id)
+    .then(response => {
+      response.data.forEach(function (item) {
+      console.log(item) // eslint-disable-line no-console
+      self.$data.events.push({
+										id: item._id,
+										title: item.title,
+										start: item.deadline
+				});
+      });
+    })
+
     this.$gapi.request({
       path: 'https://www.googleapis.com/calendar/v3/calendars/' + this.$store.state.user.email + '/events',
       method: 'GET'

@@ -5,6 +5,7 @@ import BootstrapVue from 'bootstrap-vue'
 // Bootstrap imports.
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import axios from 'axios'
 
 Vue.use(BootstrapVue);
 // Import fontawesome icons here.
@@ -22,7 +23,7 @@ sync(store, router);
 import VueGoogleApi from 'vue-google-api'
 
 Vue.use(VueGoogleApi, { clientId: '341686581297-255pa5934vd7ip80ubq5lhn56bhkb640.apps.googleusercontent.com', scope: 'email https://www.googleapis.com/auth/calendar.readonly', prompt: 'select_account', fetch_basic_profile: true });
-
+Vue.prototype.$axios = axios
 // Make sure to add the icons to the library like this.
 library.add(faPlus);
 library.add(faUserCircle);

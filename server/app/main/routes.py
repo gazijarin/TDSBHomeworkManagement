@@ -301,4 +301,5 @@ def get_task_by_student():
     tasks = DB.find("Tasks", {"student": student_id})
     for task in tasks:
         result.append(task)
+        
     return jsonify(result)
