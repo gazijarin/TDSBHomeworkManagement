@@ -143,10 +143,4 @@ def get_task_by_student():
 # endpoint to get all tasks for a student for a specific course
 @bp.route('/api/task/student/:', methods=['GET'])
 def get_task_for_student():
-    student_id = request.args.get('id')
-    result = []
-    tasks = DB.find("Tasks", {"student": student_id})
-    for task in tasks:
-        result.append(task)
-
-    return jsonify(result)
+    pass
