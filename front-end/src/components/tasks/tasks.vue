@@ -2,7 +2,18 @@
   <div class="col-12" id="container" style="margin-top: 5%;">
     <navbar></navbar>
     <div class="col-4" style="float: right; padding-top: 15px;">
-      <b-card border-variant="dark" header="Due Soon" align="left">Tasks due soon.</b-card>
+      <b-card border-variant="dark" header="Due Soon" align="left">
+          <FullCalendar
+          defaultView="list"
+          :events="events"
+          :header="{
+            center: '',
+            right:  ''
+          }"
+          :plugins="calendarPlugins"
+          :visibleRange="visibleRangeSoon"
+          />
+        </b-card>
     </div>
     <div class="col-8" style="padding-top: 15px">
       <div class="card" style="border:1px solid black;">
@@ -358,7 +369,18 @@ export default {
             });
           });
         });
-    }
+    },
+    visibleRangeFunction: function() {
+    // Generate a new date for manipulating in the next step
+    var startDate = new Date();
+    var endDate = new Date();
+
+    // Adjust the start & end dates, respectively
+    endDate.setDate(startDate.getDate() + 5); // Two days into the future
+
+    this.visibleRangeSoon.start = startDate
+    this.visibleRangeSoon.end= endDate
+  }
   },
   data() {
     return {
@@ -379,6 +401,7 @@ export default {
         defaultView: "month",
         selectable: true
       },
+      visibleRangeSoon: {},
       last_sync_date: null,
       modifyModal: false,
       modal: {
@@ -393,6 +416,7 @@ export default {
     };
   },
   beforeMount() {
+    this.visibleRangeFunction();
     this.loadTasks();
     this.getLastSyncDate();
 
