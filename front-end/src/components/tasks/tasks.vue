@@ -217,7 +217,7 @@ export default {
                 new Date(self.last_sync_date).getTime()
               ) {
                 self.$axios
-                  .post(this.$store.state.prefix + "/api/task", {
+                  .post(self.$store.state.prefix + "/api/task", {
                     title: item.summary,
                     date: moment(item.start.dateTime || item.start.date).format(
                       "DD MMM YYYY"
@@ -225,7 +225,7 @@ export default {
                     time: moment(item.start.dateTime || item.start.date).format(
                       "HH:mm"
                     ),
-                    course: course.name,
+                    course: course.id,
                     description: item.description,
                     student: self.$store.state.user._id,
                     attachments: "[]"
@@ -234,7 +234,7 @@ export default {
                     self.$data.events.push({
                       id: response.data._id,
                       title: response.data.title,
-                      course: response.data.course,
+                      course: response.data.course_id,
                       description: response.data.description,
                       start: response.data.deadline
                     });
@@ -244,14 +244,14 @@ export default {
             });
             self.$axios
               .patch(
-                this.$store.state.prefix + "/api/student/" +
+                self.$store.state.prefix + "/api/student/" +
                   self.$store.state.user._id +
                   "?sync=true",
                 {}
               )
               .then(response => {
                 self.last_sync_date = moment(String(new Date())).format(
-                  "MM/DD/YYYY hh:mm:ss"
+                  "MM/DD/YYYY HH:mm:ss"
                 );
                 return response;
               });
@@ -285,7 +285,7 @@ export default {
                         time: moment(
                           item.start.dateTime || item.start.date
                         ).format("HH:mm"),
-                        course: course.name,
+                        course: course.id,
                         description: item.description,
                         student: self.$store.state.user._id,
                         attachments: "[]"
@@ -318,7 +318,7 @@ export default {
             var adjust_time_zone = new Date(response.data.last_sync_date);
             adjust_time_zone.setHours(adjust_time_zone.getHours() - 5);
             this.last_sync_date = moment(String(adjust_time_zone)).format(
-              "MM/DD/YYYY hh:mm:ss"
+              "MM/DD/YYYY HH:mm:ss"
             );
           }
         });
