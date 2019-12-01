@@ -17,34 +17,11 @@
               size="lg"
               centered
               ref="modal"
-              title="Add Assignment"
+              title="Update Progress"
               @show="resetModal"
               @hidden="resetModal"
               @ok="handleOk"
             >
-              <div class="form-group">
-                <b-form-input v-model="text" placeholder="Title"></b-form-input>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <datepicker placeholder="Due Date"></datepicker>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input class="form-control" type="time" value="12:00:00" style="margin-top: 2%" />
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <select class="form-control">
-                  <option>Course</option>
-                </select>
-              </div>
-              <!-- <div class="form-group">
-                <input type="number" class="form-control" id="GradeInput" placeholder="Grade" />
-              </div>-->
               <label for="completedAssignment">Amount Completed</label>
               <div class="form-group">
                 <vue-slider v-model="value" :marks="marks">
@@ -52,10 +29,6 @@
                     <div :class="['custom-step', { active }]"></div>
                   </template>
                 </vue-slider>
-              </div>
-              <label for="attachments">Attachment(s)</label>
-              <div class="form-group">
-                <input type="file" class="form-control-file" id="exampleFormControlFile1" />
               </div>
             </b-modal>
             <hr>
@@ -77,7 +50,7 @@
                         <font-awesome-icon :icon="['fas', 'trash']" />
                       </b-button>
                       <b-button v-b-modal.modal-1 variant="info" size="sm" style="float: right; margin-top: -5px;">
-                        Edit
+                        Update Progress
                         <font-awesome-icon :icon="['fas', 'edit']" />
                       </b-button>
                     </b-list-group-item>
@@ -88,10 +61,10 @@
                 <b-card>
                   <template v-slot:header>
                     <h5 class="mb-0" style="float: left; margin-left: 15px; margin-top: 5px">Names</h5>
-                    <b-button v-b-modal.modal-1 size="sm" style="float: right; margin-left: 15px;">
+                    <!-- <b-button v-b-modal.modal-1 size="sm" style="float: right; margin-left: 15px;">
                       Add Assignment
                       <font-awesome-icon :icon="['fas', 'plus']" />
-                    </b-button>
+                    </b-button> -->
                   </template>
                   <b-list-group flush>
                     <b-list-group-item v-for="assignment in assignmentList" :key="assignment">
@@ -153,7 +126,6 @@
 
 <script>
 import navbar from "../navbar/navbar";
-import Datepicker from "vuejs-datepicker";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 import PureVueChart from "pure-vue-chart";
@@ -162,7 +134,6 @@ import TrendChart from "vue-trend-chart";
 export default {
   name: "Progress", //this is the name of the component
   components: {
-    Datepicker,
     VueSlider,
     PureVueChart,
     TrendChart,
