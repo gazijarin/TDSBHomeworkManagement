@@ -8,28 +8,9 @@ import datetime
 import requests
 import json
 
-
-# helper function to create a datetime object
-def create_date(date, time):
-    date = date.split()
-    time = time.split()
-    month_dict = {"Jan": 1, "Feb": 2, "Mar": 3, 
-                    "Apr":4, "May": 5, "June": 6,
-                    "July": 7, "Aug": 8, "Sept": 9, 
-                    "Oct": 10, "Nov": 11, "Dec": 12}
-    day = int(date[0])
-    month = month_dict[date[1]]
-    year = int(date[2])
-    hour = int(time[0][0:2])
-    minute = int(time[0][3:])
-    date_obj = datetime.datetime(year, month, day, hour, minute)
-    return date_obj
-
 @bp.route('/')
 def index():
     return 'Hello World!'
-
-
 
 @bp.route('/api/students', methods=['POST'])
 def post_student():
@@ -48,7 +29,6 @@ def post_student():
 def get_student(id):
     return StudentController.get(id)
 
-
 # endpoint to upadte student information by id
 @bp.route('/api/student/<id>', methods=['PATCH'])
 def update_student(id):
@@ -60,8 +40,6 @@ def update_student(id):
         return jsonify("Successfully upadted the studetn information")
 
     return jsonify("No student matching given id")
-
-
 
 # calls external dictionary API for given word
 @bp.route('/api/dictionary', methods=['GET'])
@@ -93,8 +71,6 @@ def retrieve_file():
     except NoFile:
         abort(404)
 
-
-
 # endpoint to create a task
 @bp.route('/api/task', methods=['POST'])
 def post_task():
@@ -107,7 +83,7 @@ def post_task():
     student = data['student'] # student id
     attachments = data['attachments'] # a list of uploaded file returned by the upload api 
 
-    deadline = create_date(date, time)
+    deadline =TaskController.create_date(date, time)
     
     result = TaskController.post(title, deadline, course, description, attachments, student)
 
@@ -118,12 +94,10 @@ def post_task():
 def get_task(id):
     return TaskController.get(id)
 
-
 # endpoint to delete a task by id
 @bp.route('/api/task/<id>', methods=['DELETE'])
 def delete_task(id):
     return TaskController.delete(id)
-
 
 #endpoint to update task by id
 @bp.route('/api/task/<id>', methods=['PATCH'])
@@ -140,20 +114,16 @@ def update_task(id):
     result = TaskController.update(title, date, time, course_id, description, attachments, id)
     return result
 
-
 # endpoint to get all tasks for a student
 @bp.route('/api/task/student', methods=['GET'])
 def get_task_by_student():
-    student_id = request.args.get('id')
-    result = []
-    tasks = DB.find("Tasks", {"student": student_id})
-    for task in tasks:
-        result.append(task)
-        
-    return jsonify(result)
-
+    student_id = request.args.get('id')        
+    return TaskController.get_by_student(student_id)
 
 # endpoint to get all tasks for a student for a specific course
-# @bp.route('/api/task/student/:', methods=['GET'])
-# def get_task_for_student():
-#     pass
+@bp.route('/api/task/student/course', methods=['GET'])
+def get_task_for_student_and_course():
+    student = request.args.get('student')
+    course = request.args.get('course')
+    return TaskController.get_by_student_and_course(student,course)
+    

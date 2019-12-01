@@ -33,3 +33,18 @@ class Task(object):
             return jsonify("Task updated")
 
         return jsonify("No task matching given id")
+
+    def find_by_student(self, student_id):
+        result = []
+        tasks = DB.find("Tasks", {"student": student_id})
+        for task in tasks:
+            result.append(task)
+        return jsonify(result)
+    
+    def find_by_student_and_course(self, student, course):
+        result = []
+        tasks = DB.find("Tasks", {"student": student, "course_id": course})
+        for task in tasks:
+            result.append(task)
+        return jsonify(result)
+
