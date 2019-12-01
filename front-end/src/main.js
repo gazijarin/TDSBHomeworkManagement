@@ -15,6 +15,16 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
 import store from '@/store/store'
+
+if (
+  process.env.NODE_ENV &&
+  process.env.NODE_ENV == "production"
+) {
+  store.dispatch("setPrefix", "");
+} else {
+  store.dispatch("setPrefix", "http://localhost:5000");
+}
+
 import { sync } from 'vuex-router-sync'
 sync(store, router);
 
@@ -35,6 +45,7 @@ library.add(faSync);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;
+
 
 new Vue({
   router,

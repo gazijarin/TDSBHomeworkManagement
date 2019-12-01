@@ -102,16 +102,6 @@ export default {
                 courses: JSON.parse(response.body).courses
               };
 
-              var prefix;
-              if (
-                process.env.NODE_ENV &&
-                process.env.NODE_ENV == "production"
-              ) {
-                var prefix = "";
-                this.$store.dispatch("setPrefix", "");
-              } else {
-                this.$store.dispatch("setPrefix", "http://localhost:5000");
-              }
               var self = this;
               this.$store.dispatch("setUser", payLoad);
               axios

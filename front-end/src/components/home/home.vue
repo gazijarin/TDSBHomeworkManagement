@@ -54,6 +54,12 @@
         <template v-slot:header>
           <h6 class="mb-0">Recently Added</h6>
         </template>
+
+       
+            <div class="div-list" :key="item" v-for="item in recentlyadded">
+              {{ item.message }}
+            </div>
+       
       </b-card>
     </div>
   </div>
@@ -78,6 +84,10 @@ export default {
   data() {
     return {
       events: [
+      ],
+      recentlyadded: [
+      { message: 'TDSB added Task "Do Math Homework"' },
+      { message: 'TDSB added Task "Do science project"' }
       ],
       calendarHeader: {
         left: "prev",
@@ -139,5 +149,12 @@ export default {
 }
 .slanted:hover {
   left: -38%;
+}
+.div-list {
+  border-top: 1px solid #e6e3e4;
+  border-bottom: 1px solid #e6e3e4;
+  height: 40px;
+  padding: 10px;
+  margin-top: 5px;
 }
 </style>
