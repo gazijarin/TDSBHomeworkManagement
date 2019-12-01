@@ -64,10 +64,10 @@
                 <b-card>
                   <template v-slot:header>
                     <h5 class="mb-0" style="float: left; margin-left: 15px; margin-top: 5px">Names</h5>
-                    <b-button v-b-modal.modal-1 size="sm" style="float: right; margin-left: 15px;">
+                    <!-- <b-button v-b-modal.modal-1 size="sm" style="float: right; margin-left: 15px;">
                       Add Assignment
                       <font-awesome-icon :icon="['fas', 'plus']" />
-                    </b-button>
+                    </b-button> -->
                   </template>
                   <b-list-group flush>
                     <b-list-group-item v-for="assignment in assignmentList" :key="assignment">
