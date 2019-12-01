@@ -1,5 +1,6 @@
 import pymongo
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 from gridfs import GridFS
 
 
@@ -23,6 +24,10 @@ class DB(object):
     def find_one(collection, query):
         return DB.DATABASE[collection].find_one(query)
 
+    @staticmethod
+    def find(collection, query):
+        return DB.DATABASE[collection].find(query)
+
     #need delete and update methods
     @staticmethod
     def remove(collection, query):
@@ -36,5 +41,10 @@ class DB(object):
     def save_file(file, filename):
         file_id = DB.FS.put(file, filename=filename)
         return file_id
+
+    @staticmethod
+    def get_file(file_id):
+        return DB.FS.get(ObjectId(file_id))
+
 
     

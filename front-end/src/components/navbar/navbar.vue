@@ -29,10 +29,25 @@
                 <em><font-awesome-icon :icon="['fa', 'user-circle']" /></em>
             </template>
             <b-dropdown-item to="#">Profile</b-dropdown-item>
-            <b-dropdown-item to="/" >Sign Out</b-dropdown-item>
+            <b-dropdown-item @click="signout()">Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
         </b-collapse>
     </b-navbar>
     </div>
 </template>
+
+<script>
+export default {
+  name: "navbar", //this is the name of the component,
+  methods: {
+    signout: function() {
+      this.$gapi.signOut()
+    .then(() => {
+        this.$router.push('/');
+        console.log('User disconnected.') // eslint-disable-line no-console
+    })
+  },
+}
+}
+</script>
