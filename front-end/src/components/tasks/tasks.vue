@@ -54,11 +54,8 @@
               </div>
             </div>
             <div class="form-group">
-              <select class="form-control" v-model="modal.course">
-                <option value="Course 1">Course 1</option>
-                <option value="Course 2">Course 2</option>
-                <option value="Course 3">Course 3</option>
-                <option value="Course 4">Course 4</option>
+                <select class="form-control" v-model="modal.course">
+                <option :key="idx" v-for="(item, idx) in courses" :value=item.id > {{item.name}}</option>
               </select>
             </div>
             <div class="form-group">
@@ -80,14 +77,14 @@
                   style="float:left"
                   variant="danger"
                 >Delete Task</b-button>
-                <b-button style="float:right" variant="primary" @click="ok">Submit</b-button>
+                <b-button style="float:right" variant="primary" @click="ok">Submit Changes</b-button>
               </div>
             </template>
           </b-modal>
         </div>
         <div>
           <b-button
-            size="sm"
+            size="sm" variant="outline-primary"
             style="width: 20%; margin-left: 20px; margin-top: 10px; float:left;"
             v-on:click="syncNow()"
           >
@@ -412,6 +409,7 @@ export default {
         defaultView: "month",
         selectable: true
       },
+      courses: this.$store.state.user.courses,
       visibleRangeSoon: {},
       last_sync_date: null,
       modifyModal: false,
