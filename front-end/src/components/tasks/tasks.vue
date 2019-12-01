@@ -61,10 +61,25 @@
                 <input type="file" class="form-control-file" id="exampleFormControlFile1" />
               </div>
             </form>
+              <template #modal-footer="{ ok, cancel }" style="display: block">
+    <b-button v-if="modifyModal"
+      v-on:click="deleteTask()"
+      style="float:left"
+      variant="danger"
+    >
+      Delete Task
+    </b-button>
+    <b-button style="float:right"
+    variant="primary"
+      @click="ok"
+    >
+      Submit
+    </b-button>
+  </template>
           </b-modal>
         </div>
         <b-button size="sm" style="width: 20%; margin-left: 20px; margin-top: 10px">
-          <font-awesome-icon :icon="['fas', 'sync']" />Sync with Google
+          <font-awesome-icon :icon="['fas', 'sync']" /> Sync with Google
         </b-button>
         <FullCalendar
           defaultView="dayGridMonth"
@@ -167,6 +182,20 @@ export default {
             return response;
           });
       }
+    },
+    deleteTask() {
+      if (this.modifyModal) {
+        console.log(this.modal); // eslint-disable-line no-console
+        this.$axios
+          .delete("http://localhost:5000/api/task?id=" + this.modal.taskid)
+          .then(response => {
+            console.log(response); // eslint-disable-line no-console
+            this.$bvModal.hide("modal-1");
+            this.events = []
+            this.loadTasks()
+            return response;
+          });
+      } 
     },
     eventClick: function(event) {
       this.modifyModal = true;
