@@ -55,10 +55,13 @@
           <h6 class="mb-0">Recently Added</h6>
         </template>
 
-       
-            <div class="div-list" :key="item" v-for="item in recentlyadded">
-              {{ item.message }}
+            <div class="div-list" :key="idx" v-for="(item, idx) in events.slice(0, 5)">
+              {{ user.first_name }} added {{ item.title }} on
+
+              <span>{{ item.created | formatDate }}</span>
             </div>
+
+        
        
       </b-card>
     </div>
@@ -71,6 +74,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import navbar from "../navbar/navbar";
+import moment from "moment";
 
 export default {
   name: "Home", //this is the name of the component
@@ -86,8 +90,8 @@ export default {
       events: [
       ],
       recentlyadded: [
-      { message: 'TDSB added Task "Do Math Homework"' },
-      { message: 'TDSB added Task "Do science project"' }
+      { message: 'Do Math Homework' },
+      { message: 'Do science project' }
       ],
       calendarHeader: {
         left: "prev",
@@ -107,6 +111,15 @@ export default {
       return this.$store.state.user;
     }
   }, 
+  filters: {
+    formatDate: function(value) {
+      if (value) {
+        var adjust_time_zone = new Date(value);
+        adjust_time_zone.setHours(adjust_time_zone.getHours() - 5);
+        return moment(String(adjust_time_zone)).format('MM/DD/YYYY hh:mm')
+      }
+  }
+  },
   methods: {
        loadTasks: function() {
       var self = this;
@@ -124,7 +137,8 @@ export default {
               start: item.deadline,
               course: item.course,
               description: item.description,
-              attachments: item.attachments
+              attachments: item.attachments,
+              created: item.created
             });
           });
         });

@@ -36,7 +36,7 @@ class Task(object):
 
     def find_by_student(self, student_id):
         result = []
-        tasks = DB.find("Tasks", {"student": student_id})
+        tasks = DB.find("Tasks", {"student": student_id}).sort("created", -1)  
         for task in tasks:
             result.append(task)
         return jsonify(result)

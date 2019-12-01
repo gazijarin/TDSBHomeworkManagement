@@ -26,7 +26,7 @@ def create_date(date, time):
 
 def post(title, deadline, course_id, description, attachments, student):
     result = task.insert({"title":title,"deadline":deadline, "course_id": course_id,
-         "description": description, "attachments":attachments,"student": student, "_id":str(uuid.uuid4())})
+         "description": description, "attachments":attachments,"student": student, "_id":str(uuid.uuid4()), "created": datetime.datetime.utcnow()})
 
     return result
 
