@@ -35,6 +35,19 @@ def get_student(id):
     return StudentController.get(id)
 
 
+# endpoint to upadte student information by id
+@bp.route('/api/student/<id>', methods=['PATCH'])
+def update_student(id):
+    student = DB.find_one("Students", {"_id": id})
+    sync = request.args.get('sync')
+    if student and sync and sync == 'true':
+        last_sync_date = datetime.datetime.utcnow()
+        DB.update("Students", {"_id": id}, { "$set": {"last_sync_date": last_sync_date}})
+        return jsonify("Successfully upadted the studetn information")
+
+    return jsonify("No student matching given id")
+
+
 
 # calls external dictionary API for given word
 @bp.route('/api/dictionary', methods=['GET'])
