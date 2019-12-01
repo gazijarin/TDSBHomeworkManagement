@@ -14,6 +14,7 @@ class Student(object):
         self.email = email
         self.last_name = last_name
         self.created_date = datetime.datetime.utcnow()
+        self.last_sync_date = self.created_date
         self.courses = []
 
     def insert(self):
@@ -28,5 +29,6 @@ class Student(object):
             "email": self.email,
             "image": self.image,
             "created_date": self.created_date,
+            "last_sync_date": self.last_sync_date,
             "courses": self.courses
         }

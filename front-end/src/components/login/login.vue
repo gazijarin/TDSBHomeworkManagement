@@ -80,9 +80,9 @@ export default {
           }
 
           axios.post(post_url, payLoad)
-          .then(
-            console.log(payLoad)
-          );
+          .then(response => {
+              console.log(response) // eslint-disable-line no-console
+          });
 
           //bearer token
           //const token = GoogleUser.getAuthResponse().access_token;

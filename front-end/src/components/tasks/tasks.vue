@@ -61,34 +61,32 @@
                 <input type="file" class="form-control-file" id="exampleFormControlFile1" />
               </div>
             </form>
-              <template #modal-footer="{ ok, cancel }" style="display: block">
-    <b-button v-if="modifyModal"
-      v-on:click="deleteTask()"
-      style="float:left"
-      variant="danger"
-    >
-      Delete Task
-    </b-button>
-    <b-button style="float:right"
-    variant="primary"
-      @click="ok"
-    >
-      Submit
-    </b-button>
-  </template>
+            <template #modal-footer="{ ok, cancel }" style="display: block">
+              <b-button
+                v-if="modifyModal"
+                v-on:click="deleteTask()"
+                style="float:left"
+                variant="danger"
+              >Delete Task</b-button>
+              <b-button style="float:right" variant="primary" @click="ok">Submit</b-button>
+            </template>
           </b-modal>
         </div>
-        <b-button size="sm" style="width: 20%; margin-left: 20px; margin-top: 10px">
-          <font-awesome-icon :icon="['fas', 'sync']" /> Sync with Google
+        <div>
+        <b-button size="sm" style="width: 20%; margin-left: 20px; margin-top: 10px; float:left">
+          <font-awesome-icon :icon="['fas', 'sync']" />S ync with Google 
         </b-button>
+        <span style="float:left"> Last Sync Date: {{ last_sync_date }} </span>
+        </div>
         <FullCalendar
           defaultView="dayGridMonth"
           allDayText
           :header="{
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+            right: 'dayGridMonth,listWeek'
           }"
+          allDayDefault="true"
           selectable="true"
           :events="events"
           :plugins="calendarPlugins"
@@ -153,8 +151,8 @@ export default {
           })
           .then(response => {
             console.log(response); // eslint-disable-line no-console
-            this.events = []
-            this.loadTasks()
+            this.events = [];
+            this.loadTasks();
             return response;
           });
       } else {
@@ -183,20 +181,34 @@ export default {
           });
       }
     },
-    deleteTask() {
-      if (this.modifyModal) {
-        console.log(this.modal); // eslint-disable-line no-console
-        this.$axios
-          .delete("http://localhost:5000/api/task?id=" + this.modal.taskid)
-          .then(response => {
-            console.log(response); // eslint-disable-line no-console
-            this.$bvModal.hide("modal-1");
-            this.events = []
-            this.loadTasks()
-            return response;
-          });
-      } 
+    getLastSyncDate() {
+      this.$axios
+        .get("http://localhost:5000/api/student/" + this.$store.state.user._id)
+        .then(response => {
+          if (response.data.last_sync_date == response.data.created_date) {
+            this.$gapi
+              .request({
+                path:
+                  `https://classroom.googleapis.com/v1/courses?studentId=${this.$store.state.user._id}`,
+                method: "GET"
+              })
+              .then(response => {
+                console.log(response); // eslint-disable-line no-console
+                response.result.body.forEach(function(item) {
+                  console.log(item); // eslint-disable-line no-console
+                  // self.$data.events.push({
+                  //   id: item.id,
+                  //   title: item.summary,
+                  //   start: item.start.dateTime || item.start.date
+                  // });
+                });
+              });
+          } else {
+            this.last_sync_date = response.data.last_sync_date
+          }
+        });
     },
+    deleteTask() {},
     eventClick: function(event) {
       this.modifyModal = true;
       this.$bvModal.show("modal-1");
@@ -221,27 +233,27 @@ export default {
       this.$bvModal.show("modal-1");
     },
     loadTasks: function() {
-        var self = this;
+      var self = this;
 
-    this.$axios
-      .get(
-        "http://localhost:5000/api/task/student?id=" +
-          this.$store.state.user._id
-      )
-      .then(response => {
-        response.data.forEach(function(item) {
-          console.log(item); // eslint-disable-line no-console
-          self.$data.events.push({
-            id: item._id,
-            title: item.title,
-            start: item.deadline,
-            course: item.course,
-            description: item.description,
-            attachments: item.attachments
+      this.$axios
+        .get(
+          "http://localhost:5000/api/task/student?id=" +
+            this.$store.state.user._id
+        )
+        .then(response => {
+          response.data.forEach(function(item) {
+            console.log(item); // eslint-disable-line no-console
+            self.$data.events.push({
+              id: item._id,
+              title: item.title,
+              start: item.deadline,
+              course: item.course,
+              description: item.description,
+              attachments: item.attachments
+            });
           });
         });
-      });
-  }
+    }
   },
   data() {
     return {
@@ -262,6 +274,7 @@ export default {
         defaultView: "month",
         selectable: true
       },
+      last_sync_date: null,
       modifyModal: false,
       modal: {
         taskid: "",
@@ -275,7 +288,8 @@ export default {
     };
   },
   beforeMount() {
-    this.loadTasks()
+    this.loadTasks();
+    this.getLastSyncDate();
 
     // this.$gapi.request({
     //   path: 'https://www.googleapis.com/calendar/v3/calendars/' + this.$store.state.user.email + '/events',
@@ -362,5 +376,9 @@ h5 {
 .fc-title {
   white-space: normal;
   color: white;
+}
+
+.fc-event {
+  cursor: pointer;
 }
 </style>
