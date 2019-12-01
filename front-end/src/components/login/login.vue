@@ -41,7 +41,14 @@ export default {
   },
   data() {
     return {
-      profile: null
+      profile: null,
+      _id: null,
+      first_name: null,
+      last_name: null,
+      image: null,
+      email: null,
+      courses: []
+
     };
   },
   methods: {
@@ -63,51 +70,55 @@ export default {
         .signIn()
         .then(user => {
           //on success
+          
+          this._id = user.id,
+          this.first_name = user.firstname
+          this.last_name = user.lastname
+          this.image = user.image
+          this.email = user.email
 
-          const payLoad = {
-            _id: user.id,
-            first_name: user.firstname,
-            last_name: user.lastname,
-            image: user.image,
-            email: user.email,
-          };
+          this.$gapi.request({
+          path: 'https://classroom.googleapis.com/v1/courses?studentId=' + this._id,
+          method: 'GET'
+          }).then(response => {
+            // console.log(response) // eslint-disable-line no-console
+            const payLoad = {
+              _id: this._id,
+              first_name: this.first_name,
+              last_name: this.last_name,
+              image: this.image,
+              email: this.email,
+              courses: JSON.parse(response.body).courses
+            };
 
-           var post_url;
-          if (process.env.NODE_ENV && process.env.NODE_ENV == 'production') {
-            post_url = '/api/students'
-          } else {
-            post_url = 'http://localhost:5000/api/students'
-          }
+            var post_url;
+            if (process.env.NODE_ENV && process.env.NODE_ENV == 'production') {
+              post_url = '/api/students'
+            } else {
+              post_url = 'http://localhost:5000/api/students'
+            }
 
-          axios.post(post_url, payLoad)
-          .then(response => {
-              console.log(response) // eslint-disable-line no-console
-          });
 
-          //bearer token
-          //const token = GoogleUser.getAuthResponse().access_token;
+            this.$store.dispatch('setUser', payLoad);
+            axios.post(post_url, payLoad)
+            .then(
+            console.log(payLoad)
+            );
+          })
 
-          this.$store.dispatch('setUser', payLoad);
 
           //direct to user home
           this.$router.push({
           name: 'Home'
           })
-          // console.log("GoogleUser", GoogleUser);
-          // console.log("getId", GoogleUser.getId());
-          // console.log("getBasicProfile", GoogleUser.getBasicProfile());
-          // console.log("getAuthResponse", GoogleUser.getAuthResponse());
-          // console.log(
-          //   "getAuthResponse",
-          //   this.$gAuth.GoogleAuth.currentUser.get().getAuthResponse()
-          // );
-          //this.isSignIn = this.$gAuth.isAuthorized;
         })
         .catch(error => {
           console.log(error);
           console.log('Something went wrong')
         });
     },
+
+
 
     //NOTE: METHOD FOR SIGNING OUT
 

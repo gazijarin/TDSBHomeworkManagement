@@ -61,7 +61,7 @@
                 <input type="file" class="form-control-file" id="exampleFormControlFile1" />
               </div>
             </form>
-            <template #modal-footer="{ ok, cancel }" style="display: block">
+            <template #modal-footer="{ ok, cancel }" style="display: block !important">
               <b-button
                 v-if="modifyModal"
                 v-on:click="deleteTask()"
@@ -73,10 +73,16 @@
           </b-modal>
         </div>
         <div>
-        <b-button size="sm" style="width: 20%; margin-left: 20px; margin-top: 10px; float:left">
-          <font-awesome-icon :icon="['fas', 'sync']" />S ync with Google 
-        </b-button>
-        <span style="float:left"> Last Sync Date: {{ last_sync_date }} </span>
+          <b-button
+            size="sm"
+            style="width: 20%; margin-left: 20px; margin-top: 10px; float:left;"
+            v-on:click="syncNow()"
+          >
+            <font-awesome-icon :icon="['fas', 'sync']" />Sync with Google
+          </b-button>
+          <span
+            style="float:left; margin-top: 15px; margin-left: 5px"
+          >Last Sync Date: {{ last_sync_date }}</span>
         </div>
         <FullCalendar
           defaultView="dayGridMonth"
@@ -181,30 +187,129 @@ export default {
           });
       }
     },
+    syncNow() {
+      var self = this;
+      this.$store.state.user.courses.forEach(function(course) {
+        self.$gapi
+          .request({
+            path:
+              "https://www.googleapis.com/calendar/v3/calendars/" +
+              course.calendarId +
+              "/events",
+            method: "GET"
+          })
+          .then(response => {
+            response.result.items.forEach(function(item) {
+              var dateofevent = item.created;
+              console.log(item) // eslint-disable-line no-console
+              if ((new Date(dateofevent)).getTime() > (new Date(self.last_sync_date)).getTime()) {
+                console.log('hereee') // eslint-disable-line no-console
+                self.$axios
+                  .post("http://localhost:5000/api/task", {
+                    title: item.summary,
+                    date: moment(item.start.dateTime || item.start.date).format(
+                      "DD MMM YYYY"
+                    ),
+                    time: moment(item.start.dateTime || item.start.date).format(
+                      "HH:mm"
+                    ),
+                    course: course.name,
+                    description: item.description,
+                    student: self.$store.state.user._id,
+                    attachments: "[]"
+                  })
+                  .then(response => {
+                    console.log(response); // eslint-disable-line no-console
+                    self.$data.events.push({
+                      id: response.data._id,
+                      title: response.data.title,
+                      course: response.data.course,
+                      description: response.data.description,
+                      start: response.data.deadline
+                    });
+                    return response;
+                  });
+              }
+            });
+          });
+      });
+
+      this.$axios
+        .patch(
+          "http://localhost:5000/api/student/" +
+            this.$store.state.user._id +
+            "?sync=true",
+          {}
+        )
+        .then(response => {
+          this.last_sync_date = moment(
+            String(new Date())
+          ).format("MM/DD/YYYY hh:mm");
+          return response
+        });
+    },
+
     getLastSyncDate() {
+      var self = this;
       this.$axios
         .get("http://localhost:5000/api/student/" + this.$store.state.user._id)
         .then(response => {
-          if (response.data.last_sync_date == response.data.created_date) {
-            this.$gapi
-              .request({
-                path:
-                  `https://classroom.googleapis.com/v1/courses?studentId=${this.$store.state.user._id}`,
-                method: "GET"
-              })
-              .then(response => {
-                console.log(response); // eslint-disable-line no-console
-                response.result.body.forEach(function(item) {
-                  console.log(item); // eslint-disable-line no-console
-                  // self.$data.events.push({
-                  //   id: item.id,
-                  //   title: item.summary,
-                  //   start: item.start.dateTime || item.start.date
-                  // });
+          console.log(response); // eslint-disable-line no-console
+          if (response.data.last_sync_date === response.data.created_date) {
+            this.$store.state.user.courses.forEach(function(course) {
+              self.$gapi
+                .request({
+                  path:
+                    "https://www.googleapis.com/calendar/v3/calendars/" +
+                    course.calendarId +
+                    "/events",
+                  method: "GET"
+                })
+                .then(response => {
+                  response.result.items.forEach(function(item) {
+                    self.$axios
+                      .post("http://localhost:5000/api/task", {
+                        title: item.summary,
+                        date: moment(
+                          item.start.dateTime || item.start.date
+                        ).format("DD MMM YYYY"),
+                        time: moment(
+                          item.start.dateTime || item.start.date
+                        ).format("HH:mm"),
+                        course: course.name,
+                        description: item.description,
+                        student: self.$store.state.user._id,
+                        attachments: "[]"
+                      })
+                      .then(response => {
+                        console.log(response); // eslint-disable-line no-console
+                        self.$data.events.push({
+                          id: response.data._id,
+                          title: response.data.title,
+                          course: response.data.course,
+                          description: response.data.description,
+                          start: response.data.deadline
+                        });
+                        return response;
+                      });
+                  });
                 });
+            });
+
+            this.$axios
+              .patch(
+                "http://localhost:5000/api/student/" +
+                  this.$store.state.user._id +
+                  "?sync=true",
+                {}
+              )
+              .then(response => {
+                return response;
               });
           } else {
-            this.last_sync_date = response.data.last_sync_date
+            this.last_sync_date = moment(
+              String(response.data.last_sync_date)
+            ).format("MM/DD/YYYY hh:mm");
           }
         });
     },

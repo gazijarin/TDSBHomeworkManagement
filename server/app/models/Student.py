@@ -3,32 +3,19 @@
 import datetime
 
 from app.database import DB
+from flask import jsonify, abort, request
+
 
 
 class Student(object):
 
-    def __init__(self, first_name, last_name, image, email, _id):
-        self._id = _id
-        self.first_name = first_name
-        self.image = image
-        self.email = email
-        self.last_name = last_name
-        self.created_date = datetime.datetime.utcnow()
-        self.last_sync_date = self.created_date
-        self.courses = []
+    def insert(self, payload):
+        if not DB.find_one("Students", {"_id": payload['_id']}):
+            DB.insert(collection='Students', data=payload)
 
-    def insert(self):
-        if not DB.find_one("Students", {"_id": self._id}):
-            DB.insert(collection='Students', data=self.json())
+    def get(self, id):
+        student = DB.find_one("Students", {"_id": id})
+        if student:
+            return jsonify(student)
+        abort(404)
 
-    def json(self):
-        return {
-            "_id": self._id,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "email": self.email,
-            "image": self.image,
-            "created_date": self.created_date,
-            "last_sync_date": self.last_sync_date,
-            "courses": self.courses
-        }
