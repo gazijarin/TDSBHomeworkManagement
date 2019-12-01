@@ -1,10 +1,10 @@
 <template>
   <div class="col-12" id="container" style="margin-top: 5%;">
     <navbar></navbar>
-    <div class="slanted" style="background-color: #79BC6D; margin-left: -20%; z-index: -5;"></div>
+    <!-- <div class="slanted" style="background-color: #79BC6D; margin-left: -20%; z-index: -5;"></div>
     <div class="slanted" style="background-color: #FCB711; margin-left: -10%; z-index: -6;"></div>
     <div class="slanted" style="background-color: #4277A5; margin-left: -5%; z-index: -7;"></div>
-    <div class="slanted" style="background-color: #EC7B1C; margin-left: 0%; z-index: -8;"></div>
+    <div class="slanted" style="background-color: #EC7B1C; margin-left: 0%; z-index: -8;"></div> -->
     <h2 class="headline mb-0">
       <b>
         Welcome,
@@ -121,7 +121,7 @@ export default {
   top: 0;
   left: -40%;
   overflow: hidden;
-  transform: skewX(-15deg);
+  transform: skewX(0deg);
   transition: left 1s;
 }
 .slanted:hover {
