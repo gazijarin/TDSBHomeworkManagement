@@ -1,6 +1,6 @@
 from app.main import bp  # noqa
 from bson.objectid import ObjectId
-from app.controllers import StudentController, CourseController, TaskController
+from app.controllers import StudentController, CourseController, TaskController, FileController
 from flask import jsonify, abort, request, make_response
 from app.database import DB
 from gridfs.errors import NoFile
@@ -52,21 +52,16 @@ def get_dict():
 # upload files
 @bp.route('/api/file/upload', methods=['POST'])
 def post_file():
-    uploaded_files = request.files.getlist('file')
-    files_result = []
-    for file in uploaded_files:
-        file_id = DB.save_file(file, file.filename)
-        file_obj = {"_id": str(file_id), "filename": file.filename}
-        files_result.append(file_obj)
-    return json.dumps(files_result)
+    files = request.files.getlist('file')
+    return FileController.upload_files(files)
 
 # get files by id
 @bp.route('/api/file/retrieve', methods=['GET'])
 def retrieve_file():
     file_id = request.args.get('id')
     try:
-        fl = DB.get_file(file_id)
-        response = make_response(fl.read())
+        file_result = FileController.get_file(file_id)
+        response = make_response(file_result.read())
         return response
     except NoFile:
         abort(404)
