@@ -9,7 +9,21 @@ import requests
 import json
 
 
-
+# helper function to create a datetime object
+def create_date(date, time):
+    date = date.split()
+    time = time.split()
+    month_dict = {"Jan": 1, "Feb": 2, "Mar": 3, 
+                    "Apr":4, "May": 5, "June": 6,
+                    "July": 7, "Aug": 8, "Sept": 9, 
+                    "Oct": 10, "Nov": 11, "Dec": 12}
+    day = int(date[0])
+    month = month_dict[date[1]]
+    year = int(date[2])
+    hour = int(time[0][0:2])
+    minute = int(time[0][3:])
+    date_obj = datetime.datetime(year, month, day, hour, minute)
+    return date_obj
 
 @bp.route('/')
 def index():
@@ -88,7 +102,7 @@ def post_task():
     title = data['title']
     date = data['date']  # should be in the form of "08 Nov 2019"
     time = data['time'] # should be in the form of "12:00 PM"
-    course = data['course_id']
+    course = data['course']
     description = data['description']
     student = data['student'] # student id
     attachments = data['attachments'] # a list of uploaded file returned by the upload api 
@@ -113,18 +127,17 @@ def delete_task(id):
 
 #endpoint to update task by id
 @bp.route('/api/task/<id>', methods=['PATCH'])
-def upadate_task(id):
-    data = request.get_json(silent=True)
+def update_task(id):
+    data = request.get_json()
+    print(data)
     title = data['title']
     date = data['date']
     time = data['time']
     course_id = data['course_id']
     description = data['description']
     attachments = data['attachments']
-    student = data['student']
 
-
-    result = TaskController.update(title, time, course_id, description, attachments, student, id)
+    result = TaskController.update(title, date, time, course_id, description, attachments, id)
     return result
 
 
@@ -141,6 +154,6 @@ def get_task_by_student():
 
 
 # endpoint to get all tasks for a student for a specific course
-@bp.route('/api/task/student/:', methods=['GET'])
-def get_task_for_student():
-    pass
+# @bp.route('/api/task/student/:', methods=['GET'])
+# def get_task_for_student():
+#     pass

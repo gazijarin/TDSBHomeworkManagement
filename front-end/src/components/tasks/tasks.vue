@@ -3,7 +3,7 @@
     <navbar></navbar>
     <div class="col-4" style="float: right; padding-top: 15px;">
       <b-card border-variant="dark" header="Due Soon" align="left">
-          <FullCalendar
+        <FullCalendar
           defaultView="list"
           :events="events"
           :header="{
@@ -12,8 +12,8 @@
           }"
           :plugins="calendarPlugins"
           :visibleRange="visibleRangeSoon"
-          />
-        </b-card>
+        />
+      </b-card>
     </div>
     <div class="col-8" style="padding-top: 15px">
       <div class="card" style="border:1px solid black;">
@@ -72,14 +72,16 @@
                 <input type="file" class="form-control-file" id="exampleFormControlFile1" />
               </div>
             </form>
-            <template #modal-footer="{ ok, cancel }" style="display: block !important">
-              <b-button
-                v-if="modifyModal"
-                v-on:click="deleteTask()"
-                style="float:left"
-                variant="danger"
-              >Delete Task</b-button>
-              <b-button style="float:right" variant="primary" @click="ok">Submit</b-button>
+            <template #modal-footer="{ ok, cancel }">
+              <div style="display:block; width: 100%">
+                <b-button
+                  v-if="modifyModal"
+                  v-on:click="deleteTask()"
+                  style="float:left"
+                  variant="danger"
+                >Delete Task</b-button>
+                <b-button style="float:right" variant="primary" @click="ok">Submit</b-button>
+              </div>
             </template>
           </b-modal>
         </div>
@@ -89,7 +91,7 @@
             style="width: 20%; margin-left: 20px; margin-top: 10px; float:left;"
             v-on:click="syncNow()"
           >
-            <font-awesome-icon :icon="['fas', 'sync']" /> Sync with Google
+            <font-awesome-icon :icon="['fas', 'sync']" />Sync with Google
           </b-button>
           <span
             style="float:left; margin-top: 15px; margin-left: 5px"
@@ -103,7 +105,6 @@
             center: 'title',
             right: 'dayGridMonth,listWeek'
           }"
-          allDayDefault="true"
           selectable="true"
           :events="events"
           :plugins="calendarPlugins"
@@ -158,11 +159,11 @@ export default {
       if (this.modifyModal) {
         console.log(this.modal); // eslint-disable-line no-console
         this.$axios
-          .patch("http://localhost:5000/api/task?id=" + this.modal.taskid, {
+          .patch("http://localhost:5000/api/task/" + this.modal.taskid, {
             title: this.modal.title,
             date: moment(this.modal.date).format("DD MMM YYYY"),
             time: this.modal.time,
-            course: this.modal.course,
+            course_id: this.modal.course,
             description: this.modal.description,
             attachments: "[]"
           })
@@ -190,7 +191,7 @@ export default {
             self.$data.events.push({
               id: response.data._id,
               title: response.data.title,
-              course: response.data.course,
+              course: response.data.course_id,
               description: response.data.description,
               start: response.data.deadline
             });
@@ -325,15 +326,25 @@ export default {
           }
         });
     },
-    deleteTask() {},
+    deleteTask() {
+      this.$axios
+        .delete("http://localhost:5000/api/task/" + this.modal.taskid)
+        .then(response => {
+          console.log(response); // eslint-disable-line no-console
+          this.events = [];
+          this.loadTasks();
+          this.$bvModal.hide("modal-1");
+          return response;
+        });
+    },
     eventClick: function(event) {
       this.modifyModal = true;
       this.$bvModal.show("modal-1");
       this.modal.taskid = event.event.id;
       this.modal.title = event.event.title;
       this.modal.date = event.event.start;
-      this.modal.time = moment(event.event.start, moment.ISO_8601).format(
-        "H:mm"
+      this.modal.time = moment(event.event.start).format(
+        "HH:mm"
       );
       this.modal.course = event.event._def.extendedProps.course;
       this.modal.description = event.event._def.extendedProps.description;
@@ -363,7 +374,7 @@ export default {
               id: item._id,
               title: item.title,
               start: item.deadline,
-              course: item.course,
+              course: item.course_id,
               description: item.description,
               attachments: item.attachments
             });
@@ -371,16 +382,16 @@ export default {
         });
     },
     visibleRangeFunction: function() {
-    // Generate a new date for manipulating in the next step
-    var startDate = new Date();
-    var endDate = new Date();
+      // Generate a new date for manipulating in the next step
+      var startDate = new Date();
+      var endDate = new Date();
 
-    // Adjust the start & end dates, respectively
-    endDate.setDate(startDate.getDate() + 5); // Two days into the future
+      // Adjust the start & end dates, respectively
+      endDate.setDate(startDate.getDate() + 5); // Two days into the future
 
-    this.visibleRangeSoon.start = startDate
-    this.visibleRangeSoon.end= endDate
-  }
+      this.visibleRangeSoon.start = startDate;
+      this.visibleRangeSoon.end = endDate;
+    }
   },
   data() {
     return {
