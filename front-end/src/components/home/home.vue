@@ -13,7 +13,7 @@
       </b>
     </h2>
     <div class="col-5" style="float: right; margin-top: 20px; padding-top: 15px;">
-      <b-card border-variant="light">
+      <b-card border-variant="dark">
         <FullCalendar
           :header="calendarHeader"
           :plugins="calendarPlugins"
@@ -30,7 +30,7 @@
       </b-card>-->
     </div>
     <div class="col-7" style="padding-top: 15px; margin-top: 20px">
-      <b-card class="today-container" border-variant="light" header-tag="header" align="left">
+      <b-card class="today-container" border-variant="dark" header-tag="header" align="left">
         <template v-slot:header>
           <h6 class="mb-0">Today</h6>
         </template>
@@ -50,7 +50,7 @@
             <template v-slot:header>
         <h6 class="mb-0">Header Slot</h6>
       </template>-->
-      <b-card header-tag="header" align="left">
+      <b-card header-tag="header" border-variant="dark" align="left">
         <template v-slot:header>
           <h6 class="mb-0">Recently Added</h6>
         </template>

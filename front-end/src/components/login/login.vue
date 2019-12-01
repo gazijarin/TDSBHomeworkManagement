@@ -93,13 +93,18 @@ export default {
             })
             .then(response => {
               //console.log(response.body)
+              var courses = JSON.parse(response.body).courses
+              if (!courses) {
+                courses = []
+              }
+
               const payLoad = {
                 _id: this._id,
                 first_name: this.first_name,
                 last_name: this.last_name,
                 image: this.image,
                 email: this.email,
-                courses: JSON.parse(response.body).courses
+                courses: courses
               };
 
               var self = this;
