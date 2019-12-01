@@ -519,4 +519,13 @@ h5 {
 .fc-event {
   cursor: pointer;
 }
+
+.fc td, .fc th {
+  border-style: none !important;
+}
+
+.fc-head .fc-widget-header {
+  border-bottom: 1px solid #ddd !important;
+}
+
 </style>
