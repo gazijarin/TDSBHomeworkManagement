@@ -3,7 +3,7 @@
 import datetime
 
 from app.database import DB
-from flask import jsonify, abort, request
+from flask import jsonify, abort
 
 
 
@@ -13,8 +13,8 @@ class Student(object):
         if not DB.find_one("Students", {"_id": payload['_id']}):
             DB.insert(collection='Students', data=payload)
 
-    def get(self, id):
-        student = DB.find_one("Students", {"_id": id})
+    def get(self, _id):
+        student = DB.find_one("Students", {"_id": _id})
         if student:
             return jsonify(student)
         abort(404)
