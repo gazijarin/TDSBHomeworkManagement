@@ -35,13 +35,6 @@
             <b-tabs content-class="mt-3" fill pills>
               <b-tab title="Assignments" active>
                 <b-card>
-                  <template v-slot:header>
-                    <h5 class="mb-0" style="float: left; margin-left: 15px; margin-top: 5px">Names</h5>
-                    <!-- <b-button v-b-modal.modal-1 size="sm" style="float: right; margin-left: 15px;">
-                      Add Assignment
-                      <font-awesome-icon :icon="['fas', 'plus']" />
-                    </b-button> -->
-                  </template>
                   <b-list-group flush>
                     <b-list-group-item v-for="assignment in assignmentList" :key="assignment">
                       <p style="float: left">{{assignment.name}}</p>
@@ -59,17 +52,13 @@
               </b-tab>
               <b-tab title="Grades">
                 <b-card>
-                  <template v-slot:header>
-                    <h5 class="mb-0" style="float: left; margin-left: 15px; margin-top: 5px">Names</h5>
-                    <!-- <b-button v-b-modal.modal-1 size="sm" style="float: right; margin-left: 15px;">
-                      Add Assignment
-                      <font-awesome-icon :icon="['fas', 'plus']" />
-                    </b-button> -->
-                  </template>
                   <b-list-group flush>
                     <b-list-group-item v-for="assignment in assignmentList" :key="assignment">
                       <p style="float: left">{{assignment.name}}</p>
                       <b-form-input :state="nameState(assignment.grade)" id="input-grade" size="sm" v-model="assignment.grade" style="float: right; width: 30%" placeholder="Grade"></b-form-input>
+                    </b-list-group-item>
+                    <b-list-group-item>
+                      <h5>Current Average:  {{getAverage(assignmentList)}}</h5>
                     </b-list-group-item>
                   </b-list-group>
                 </b-card>
@@ -163,6 +152,16 @@ export default {
     };
   },
   methods: {
+    getAverage: function(assignmentList) {
+      // Compute average
+      var length = assignmentList.length
+      var sum = 0
+      for (var i = 0; i < length; i++) {
+        sum += assignmentList[i].grade
+      }
+      var avg = sum / length
+      return avg.toFixed(2)
+    },
     getCourseInformation: function(course) {
       // Get the course's assignments from the backend.
       // Set all the course information.
