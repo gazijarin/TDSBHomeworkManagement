@@ -2,15 +2,13 @@
   <div class="col-12" id="container" style="margin-top: 5%;">
     <navbar></navbar>
     <div class="col-4" style="float: right; padding-top: 15px;">
-      <b-card border-variant="dark" header="Classes" align="left">Classes here.</b-card>
-      <br />
       <b-card border-variant="dark" header="Due Soon" align="left">Tasks due soon.</b-card>
     </div>
     <div class="col-8" style="padding-top: 15px">
       <div class="card" style="border:1px solid black;">
         <div class="card-header">
           <h6 style="float: left; padding-top: 10px">Tasks</h6>
-          <b-button v-b-modal.modal-1 size="sm" style="float: right; margin-left: 15px;">
+          <b-button v-on:click="openAddTask()" size="sm" style="float: right; margin-left: 15px;">
             Add Task
             <font-awesome-icon :icon="['fas', 'plus']" />
           </b-button>
@@ -19,23 +17,37 @@
             size="lg"
             centered
             ref="modal"
-            title="Add Task"
+            :title="modifyModal ? 'View and Modify Task' : 'Add Task'"
             @ok="handleOk"
+            @show="resetModal"
+            @hidden="resetModal"
           >
             <div class="form-group">
               <b-form-input v-model="modal.title" placeholder="Title"></b-form-input>
             </div>
             <div class="row">
-              <div class="col-md-12">
-                <div class="form-group" style="height: 50px">
-                  <VueCtkDateTimePicker label="Due Date" v-model="modal.date"></VueCtkDateTimePicker>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <datepicker placeholder="Due Date" v-model="modal.date"></datepicker>
                 </div>
               </div>
-
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    type="time"
+                    v-model="modal.time"
+                    style="margin-top: 2%"
+                  />
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <select class="form-control" v-model="modal.course">
-                <option>Course</option>
+                <option value="Course 1">Course 1</option>
+                <option value="Course 2">Course 2</option>
+                <option value="Course 3">Course 3</option>
+                <option value="Course 4">Course 4</option>
               </select>
             </div>
             <div class="form-group">
@@ -52,8 +64,7 @@
           </b-modal>
         </div>
         <b-button size="sm" style="width: 20%; margin-left: 20px; margin-top: 10px">
-          <font-awesome-icon :icon="['fas', 'sync']" />
-          Sync with Google
+          <font-awesome-icon :icon="['fas', 'sync']" />Sync with Google
         </b-button>
         <FullCalendar
           defaultView="dayGridMonth"
@@ -63,8 +74,10 @@
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
           }"
+          selectable="true"
           :events="events"
           :plugins="calendarPlugins"
+          @eventClick="eventClick"
           style="margin: 20px"
         />
         <ul style="margin-top: 1%; padding-right: 2%">
@@ -86,22 +99,23 @@
 </template>
 
 <script>
-import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
-import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import Datepicker from "vuejs-datepicker";
 import { VueEditor } from "vue2-editor";
 import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
-import navbar from '../navbar/navbar';
+import navbar from "../navbar/navbar";
+import moment from "moment";
+import interactionPlugin from "@fullcalendar/interaction";
 
 export default {
   name: "Tasks",
   components: {
-    VueCtkDateTimePicker,
+    Datepicker,
     VueEditor,
     FullCalendar,
-    'navbar': navbar
+    navbar: navbar
   },
   computed: {
     user() {
@@ -109,25 +123,96 @@ export default {
     }
   },
   methods: {
-      handleOk() {
+    handleOk() {
       var self = this;
-      console.log(this.modal) // eslint-disable-line no-console
-      this.$axios.post('http://localhost:5000/api/task', {
-          title: this.modal.title,
-          time: this.modal.date,
-          course: this.modal.course,
-          description: this.modal.description,
-          student: this.$store.state.user._id,
-          attachments: "[]"
-    })
-    .then(response => {
-      self.$data.events.push({
-										title: this.modal.title,
-										start: this.modal.date
+      if (this.modifyModal) {
+        console.log(this.modal); // eslint-disable-line no-console
+        this.$axios
+          .patch("http://localhost:5000/api/task?id=" + this.modal.taskid, {
+            title: this.modal.title,
+            date: moment(this.modal.date).format("DD MMM YYYY"),
+            time: this.modal.time,
+            course: this.modal.course,
+            description: this.modal.description,
+            attachments: "[]"
+          })
+          .then(response => {
+            console.log(response); // eslint-disable-line no-console
+            this.events = []
+            this.loadTasks()
+            return response;
+          });
+      } else {
+        console.log(moment(this.modal.date).format("dd MMM yyyy")); // eslint-disable-line no-console
+        console.log(this.modal); // eslint-disable-line no-console
+        this.$axios
+          .post("http://localhost:5000/api/task", {
+            title: this.modal.title,
+            date: moment(this.modal.date).format("DD MMM YYYY"),
+            time: this.modal.time,
+            course: this.modal.course,
+            description: this.modal.description,
+            student: this.$store.state.user._id,
+            attachments: "[]"
+          })
+          .then(response => {
+            console.log(response); // eslint-disable-line no-console
+            self.$data.events.push({
+              id: response.data._id,
+              title: response.data.title,
+              course: response.data.course,
+              description: response.data.description,
+              start: response.data.deadline
+            });
+            return response;
+          });
+      }
+    },
+    eventClick: function(event) {
+      this.modifyModal = true;
+      this.$bvModal.show("modal-1");
+      this.modal.taskid = event.event.id;
+      this.modal.title = event.event.title;
+      this.modal.date = event.event.start;
+      this.modal.time = moment(event.event.start, moment.ISO_8601).format(
+        "H:mm"
+      );
+      this.modal.course = event.event._def.extendedProps.course;
+      this.modal.description = event.event._def.extendedProps.description;
+    },
+    resetModal() {
+      this.modal.title = "";
+      this.modal.date = "";
+      this.modal.time = "";
+      this.modal.course = "";
+      this.modal.description = "";
+    },
+    openAddTask: function() {
+      this.modifyModal = false;
+      this.$bvModal.show("modal-1");
+    },
+    loadTasks: function() {
+        var self = this;
+
+    this.$axios
+      .get(
+        "http://localhost:5000/api/task/student?id=" +
+          this.$store.state.user._id
+      )
+      .then(response => {
+        response.data.forEach(function(item) {
+          console.log(item); // eslint-disable-line no-console
+          self.$data.events.push({
+            id: item._id,
+            title: item.title,
+            start: item.deadline,
+            course: item.course,
+            description: item.description,
+            attachments: item.attachments
+          });
         });
-        return response
-    })
-    }
+      });
+  }
   },
   data() {
     return {
@@ -138,49 +223,44 @@ export default {
         ["image", "code-block"]
       ],
       events: [],
-      calendarPlugins: [dayGridPlugin, timeGridPlugin, listPlugin],
+      calendarPlugins: [
+        dayGridPlugin,
+        timeGridPlugin,
+        listPlugin,
+        interactionPlugin
+      ],
       config: {
-        defaultView: "month"
+        defaultView: "month",
+        selectable: true
       },
+      modifyModal: false,
       modal: {
-          title: '',
-          date: '',
-          time: '',
-          course: '',
-          description: ''
-
+        taskid: "",
+        title: "",
+        date: "",
+        time: "",
+        course: "",
+        description: "",
+        attachments: "[]"
       }
     };
   },
-    beforeMount() {
-    var self = this;
+  beforeMount() {
+    this.loadTasks()
 
-    
-    this.$axios.get('http://localhost:5000/api/task/student?id=' + this.$store.state.user._id)
-    .then(response => {
-      response.data.forEach(function (item) {
-      console.log(item) // eslint-disable-line no-console
-      self.$data.events.push({
-										id: item._id,
-										title: item.title,
-										start: item.deadline
-				});
-      });
-    })
-
-    this.$gapi.request({
-      path: 'https://www.googleapis.com/calendar/v3/calendars/' + this.$store.state.user.email + '/events',
-      method: 'GET'
-    }).then(response => {
-      console.log(response) // eslint-disable-line no-console
-      response.result.items.forEach(function (item) {
-      self.$data.events.push({
-										id: item.id,
-										title: item.summary,
-										start: item.start.dateTime || item.start.date,
-				});
-      });
-    })
+    // this.$gapi.request({
+    //   path: 'https://www.googleapis.com/calendar/v3/calendars/' + this.$store.state.user.email + '/events',
+    //   method: 'GET'
+    // }).then(response => {
+    //   console.log(response) // eslint-disable-line no-console
+    //   response.result.items.forEach(function (item) {
+    //   self.$data.events.push({
+    // 								id: item.id,
+    // 								title: item.summary,
+    // 								start: item.start.dateTime || item.start.date,
+    // 		});
+    //   });
+    // })
   }
 };
 </script>

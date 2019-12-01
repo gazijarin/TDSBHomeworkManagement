@@ -22,8 +22,6 @@ def create_date(date, time):
     year = int(date[2])
     hour = int(time[0][0:2])
     minute = int(time[0][3:])
-    if time[1] == "PM":
-        hour += 12
     date_obj = datetime.datetime(year, month, day, hour, minute)
     return date_obj
 
@@ -239,14 +237,14 @@ def post_task():
     print(request)
     data = request.get_json(silent=True)
     title = data['title']
-    deadline = data['time']  # should be in the form of "08 Nov 2019"
-    # time = data['time'] # should be in the form of "12:00 PM"
+    date = data['date']  # should be in the form of "08 Nov 2019"
+    time = data['time'] # should be in the form of "12:00 PM"
     course = data['course']
     description = data['description']
     student = data['student'] # student id
     attachments = data['attachments'] # a list of uploaded file returned by the upload api 
 
-    # deadline = create_date(date, time)
+    deadline = create_date(date, time)
     
     result = TaskController.post(title, deadline, course, description, attachments, student)
 
@@ -279,7 +277,7 @@ def upadte_task():
     task_id = request.args.get('id')
     task = DB.find_one("Tasks", {"_id": task_id})
     if task:
-        data = request.form
+        data = request.get_json(silent=True)
         title = data['title']
         date = data['date']
         time = data['time']
