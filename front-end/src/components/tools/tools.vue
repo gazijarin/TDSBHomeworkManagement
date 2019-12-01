@@ -7,7 +7,7 @@
           <h5 class="mb-0">Dictionary</h5>
         </template>
         <Dictionary v-on:formSubmit="searchWord"></Dictionary>
-        <dictionaryOutput v-text="meaning"></dictionaryOutput>
+        <dictionaryOutput v-if="dictionaryQuery" v-text="meaning"></dictionaryOutput>
       </b-card>
       </div>
       <div class="col-6" style="margin: 0 auto; float: right; margin-top: 20px; padding-top: 15px">
@@ -37,15 +37,21 @@ export default {
   },
   data: function() {
     return {
-      meaning: ""
+      meaning: "",
+      dictionaryQuery: false
     };
+  },
+  computed: {
+
   },
   methods: {
     searchWord: function(text) {
       this.$axios
-        .get(this.$store.state.prefix + "/api/dictionary/" + text)
+        .get(this.$store.state.prefix + "/api/dictionary" + "?word="  + text)
         .then(response => {
+          console.log(response) // eslint-disable-line no-console
           this.meaning = response;
+          this.dictionaryQuery = true;
         });
     }
   }
