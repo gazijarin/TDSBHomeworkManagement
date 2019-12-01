@@ -6,7 +6,8 @@
         <template v-slot:header>
           <h5 class="mb-0">Dictionary</h5>
         </template>
-        <b-form-input v-model="text" placeholder="Enter a word."></b-form-input>
+        <Dictionary v-on:formSubmit="searchWord"></Dictionary>
+        <dictionaryOutput v-text="meaning"></dictionaryOutput>
       </b-card>
     </div>
   </div>
@@ -14,11 +15,29 @@
 
 <script>
 import navbar from "../navbar/navbar";
+import Dictionary from "../tools/dictionary";
+import dictionaryOutput from "../tools/dictionaryOutput";
 
 export default {
-  name: "Tools", //this is the name of the component
+  name: "Tools",
   components: {
-    navbar: navbar
+    navbar,
+    Dictionary,
+    dictionaryOutput
+  },
+  data: function() {
+    return {
+      meaning: ""
+    };
+  },
+  methods: {
+    searchWord: function(text) {
+      this.$axios
+        .get(this.$store.state.prefix + "/api/dictionary/" + text)
+        .then(response => {
+          this.meaning = response;
+        });
+    }
   }
 };
 </script>
