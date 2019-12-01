@@ -1,11 +1,11 @@
 <template>
   <div class="row" id="Thesaurus">
-    <form class="form-inline">
-      <div class="form-group mx-sm-3 mb-2">
-        <b-form-input v-model="wordText" placeholder="Enter a word."></b-form-input>
-      </div>
-      <button type="submit" class="btn btn-primary mb-2">Submit</button>
-    </form>
+    <div class="input-group">
+      <b-form-input style="margin-left: 10px" v-model="wordText" placeholder="Enter a word."></b-form-input>
+      <span class="input-group-btn">
+        <button type="submit" style="margin-left: 10px; margin-right: 10px" class="btn btn-primary">Submit</button>
+      </span>
+    </div>
   </div>
 </template>
 
