@@ -1,5 +1,3 @@
-from app.database import DB
-from flask import jsonify, make_response
 from app.models.File import File
 
 file_hanlder = File()
