@@ -72,22 +72,12 @@ export default {
     navbar: navbar,
     FullCalendar // make the <FullCalendar> tag available
   },
+  beforeMount() {
+    this.loadTasks();
+  },
   data() {
     return {
       events: [
-        {
-          title: "Literacy Worksheet",
-          start: "2019-11-01"
-        },
-        {
-          title: "Photosynthesis Worksheet",
-          start: "2019-11-05"
-        },
-        {
-          title: "Algebra Test",
-          start: "2019-11-09T12:30:00",
-          allDay: false
-        }
       ],
       calendarHeader: {
         left: "prev",
@@ -105,6 +95,29 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
+    }
+  }, 
+  methods: {
+       loadTasks: function() {
+      var self = this;
+
+      this.$axios
+        .get(
+          "http://localhost:5000/api/task/student?id=" +
+            this.$store.state.user._id
+        )
+        .then(response => {
+          response.data.forEach(function(item) {
+            self.$data.events.push({
+              id: item._id,
+              title: item.title,
+              start: item.deadline,
+              course: item.course,
+              description: item.description,
+              attachments: item.attachments
+            });
+          });
+        });
     }
   }
 };

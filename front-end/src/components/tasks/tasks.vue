@@ -78,7 +78,7 @@
             style="width: 20%; margin-left: 20px; margin-top: 10px; float:left;"
             v-on:click="syncNow()"
           >
-            <font-awesome-icon :icon="['fas', 'sync']" />Sync with Google
+            <font-awesome-icon :icon="['fas', 'sync']" /> Sync with Google
           </b-button>
           <span
             style="float:left; margin-top: 15px; margin-left: 5px"
