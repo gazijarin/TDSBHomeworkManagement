@@ -201,9 +201,12 @@ export default {
           .then(response => {
             response.result.items.forEach(function(item) {
               var dateofevent = item.created;
-              console.log(item) // eslint-disable-line no-console
-              if ((new Date(dateofevent)).getTime() > (new Date(self.last_sync_date)).getTime()) {
-                console.log('hereee') // eslint-disable-line no-console
+              console.log(new Date(dateofevent).getTime()); // eslint-disable-line no-console
+              console.log(new Date(self.last_sync_date).getTime()); // eslint-disable-line no-console
+              if (
+                new Date(dateofevent).getTime() >=
+                new Date(self.last_sync_date).getTime()
+              ) {
                 self.$axios
                   .post("http://localhost:5000/api/task", {
                     title: item.summary,
@@ -219,7 +222,6 @@ export default {
                     attachments: "[]"
                   })
                   .then(response => {
-                    console.log(response); // eslint-disable-line no-console
                     self.$data.events.push({
                       id: response.data._id,
                       title: response.data.title,
@@ -231,22 +233,21 @@ export default {
                   });
               }
             });
+            self.$axios
+              .patch(
+                "http://localhost:5000/api/student/" +
+                  self.$store.state.user._id +
+                  "?sync=true",
+                {}
+              )
+              .then(response => {
+                self.last_sync_date = moment(String(new Date())).format(
+                  "MM/DD/YYYY hh:mm:ss"
+                );
+                return response;
+              });
           });
       });
-
-      this.$axios
-        .patch(
-          "http://localhost:5000/api/student/" +
-            this.$store.state.user._id +
-            "?sync=true",
-          {}
-        )
-        .then(response => {
-          this.last_sync_date = moment(
-            String(new Date())
-          ).format("MM/DD/YYYY hh:mm");
-          return response
-        });
     },
 
     getLastSyncDate() {
@@ -254,7 +255,6 @@ export default {
       this.$axios
         .get("http://localhost:5000/api/student/" + this.$store.state.user._id)
         .then(response => {
-          console.log(response); // eslint-disable-line no-console
           if (response.data.last_sync_date === response.data.created_date) {
             this.$store.state.user.courses.forEach(function(course) {
               self.$gapi
@@ -282,7 +282,6 @@ export default {
                         attachments: "[]"
                       })
                       .then(response => {
-                        console.log(response); // eslint-disable-line no-console
                         self.$data.events.push({
                           id: response.data._id,
                           title: response.data.title,
@@ -307,9 +306,11 @@ export default {
                 return response;
               });
           } else {
-            this.last_sync_date = moment(
-              String(response.data.last_sync_date)
-            ).format("MM/DD/YYYY hh:mm");
+            var adjust_time_zone = new Date(response.data.last_sync_date);
+            adjust_time_zone.setHours(adjust_time_zone.getHours() - 5);
+            this.last_sync_date = moment(String(adjust_time_zone)).format(
+              "MM/DD/YYYY hh:mm:ss"
+            );
           }
         });
     },
@@ -347,7 +348,6 @@ export default {
         )
         .then(response => {
           response.data.forEach(function(item) {
-            console.log(item); // eslint-disable-line no-console
             self.$data.events.push({
               id: item._id,
               title: item.title,
