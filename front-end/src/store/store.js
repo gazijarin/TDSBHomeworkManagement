@@ -17,6 +17,9 @@ export default new Vuex.Store({
       },
       setUser (state, user) {
         state.user = user
+      },
+      setPrefix (state, prefix) {
+        state.prefix = prefix
       }
     },
     actions: {
@@ -26,6 +29,10 @@ export default new Vuex.Store({
       
       setUser ({commit}, user) {
         commit('setUser', user)
+      },
+
+      setPrefix ({commit}, prefix) {
+        commit('setPrefix', prefix)
       }
     }
   })

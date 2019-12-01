@@ -102,23 +102,26 @@ export default {
                 courses: JSON.parse(response.body).courses
               };
 
-              var post_url;
+              var prefix;
               if (
                 process.env.NODE_ENV &&
                 process.env.NODE_ENV == "production"
               ) {
-                post_url = "/api/students";
+                var prefix = "";
+                this.$store.dispatch("setPrefix", "");
               } else {
-                post_url = "http://localhost:5000/api/students";
+                this.$store.dispatch("setPrefix", "http://localhost:5000");
               }
+              var self = this;
               this.$store.dispatch("setUser", payLoad);
-              axios.post(post_url, payLoad).then(console.log(payLoad));
+              axios
+                .post(this.$store.state.prefix + "/api/students", payLoad)
+                .then(
+                  self.$router.push({
+                    name: "Home"
+                  })
+                );
             });
-
-          //direct to user home
-          this.$router.push({
-            name: "Home"
-          });
         })
         .catch(error => {
           console.log(error);

@@ -103,7 +103,7 @@ export default {
 
       this.$axios
         .get(
-          "http://localhost:5000/api/task/student?id=" +
+          this.$store.state.prefix + "/api/task/student?id=" +
             this.$store.state.user._id
         )
         .then(response => {

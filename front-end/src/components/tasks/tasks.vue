@@ -91,7 +91,7 @@
             style="width: 20%; margin-left: 20px; margin-top: 10px; float:left;"
             v-on:click="syncNow()"
           >
-            <font-awesome-icon :icon="['fas', 'sync']" />Sync with Google
+            <font-awesome-icon :icon="['fas', 'sync']" /> Sync with Google
           </b-button>
           <span
             style="float:left; margin-top: 15px; margin-left: 5px"
@@ -159,7 +159,7 @@ export default {
       if (this.modifyModal) {
         console.log(this.modal); // eslint-disable-line no-console
         this.$axios
-          .patch("http://localhost:5000/api/task/" + this.modal.taskid, {
+          .patch(this.$store.state.prefix + "/api/task/" + this.modal.taskid, {
             title: this.modal.title,
             date: moment(this.modal.date).format("DD MMM YYYY"),
             time: this.modal.time,
@@ -177,7 +177,7 @@ export default {
         console.log(moment(this.modal.date).format("dd MMM yyyy")); // eslint-disable-line no-console
         console.log(this.modal); // eslint-disable-line no-console
         this.$axios
-          .post("http://localhost:5000/api/task", {
+          .post(this.$store.state.prefix + "/api/task", {
             title: this.modal.title,
             date: moment(this.modal.date).format("DD MMM YYYY"),
             time: this.modal.time,
@@ -220,7 +220,7 @@ export default {
                 new Date(self.last_sync_date).getTime()
               ) {
                 self.$axios
-                  .post("http://localhost:5000/api/task", {
+                  .post(this.$store.state.prefix + "/api/task", {
                     title: item.summary,
                     date: moment(item.start.dateTime || item.start.date).format(
                       "DD MMM YYYY"
@@ -247,7 +247,7 @@ export default {
             });
             self.$axios
               .patch(
-                "http://localhost:5000/api/student/" +
+                this.$store.state.prefix + "/api/student/" +
                   self.$store.state.user._id +
                   "?sync=true",
                 {}
@@ -265,7 +265,7 @@ export default {
     getLastSyncDate() {
       var self = this;
       this.$axios
-        .get("http://localhost:5000/api/student/" + this.$store.state.user._id)
+        .get(this.$store.state.prefix + "/api/student/" + this.$store.state.user._id)
         .then(response => {
           if (response.data.last_sync_date === response.data.created_date) {
             this.$store.state.user.courses.forEach(function(course) {
@@ -280,7 +280,7 @@ export default {
                 .then(response => {
                   response.result.items.forEach(function(item) {
                     self.$axios
-                      .post("http://localhost:5000/api/task", {
+                      .post(this.$store.state.prefix + "/api/task", {
                         title: item.summary,
                         date: moment(
                           item.start.dateTime || item.start.date
@@ -309,7 +309,7 @@ export default {
 
             this.$axios
               .patch(
-                "http://localhost:5000/api/student/" +
+                this.$store.state.prefix + "/api/student/" +
                   this.$store.state.user._id +
                   "?sync=true",
                 {}
@@ -328,7 +328,7 @@ export default {
     },
     deleteTask() {
       this.$axios
-        .delete("http://localhost:5000/api/task/" + this.modal.taskid)
+        .delete(this.$store.state.prefix + "/api/task/" + this.modal.taskid)
         .then(response => {
           console.log(response); // eslint-disable-line no-console
           this.events = [];
@@ -365,7 +365,7 @@ export default {
 
       this.$axios
         .get(
-          "http://localhost:5000/api/task/student?id=" +
+          this.$store.state.prefix + "/api/task/student?id=" +
             this.$store.state.user._id
         )
         .then(response => {
