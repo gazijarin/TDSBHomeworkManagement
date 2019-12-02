@@ -61,10 +61,10 @@
               <span>{{ item.created | formatDate }}</span>
             </div>
           </div>
-            
 
-        
-       
+
+
+
       </b-card>
     </div>
   </div>
@@ -112,7 +112,7 @@ export default {
     user() {
       return this.$store.state.user;
     }
-  }, 
+  },
   filters: {
     formatDate: function(value) {
       if (value) {
@@ -133,9 +133,13 @@ export default {
         )
         .then(response => {
           response.data.forEach(function(item) {
+            let newTitle = item.title;
+            if(item.title.substr(0, item.title.indexOf(" ") + 1) == "Assignment: ") {
+              newTitle = item.title.substr(item.title.indexOf(' ') + 1);
+            }
             self.$data.events.push({
               id: item._id,
-              title: item.title,
+              title: newTitle,
               start: item.deadline,
               course: item.course,
               description: item.description,
