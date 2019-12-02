@@ -36,11 +36,11 @@
                   <b-list-group flush>
                     <b-list-group-item v-for="assignment in assignmentList" :key="assignment.title">
                       <p style="float: left">{{assignment.title}}</p>
-                      <b-button v-b-modal.modal-1 size="sm" variant="danger" style="float: right; margin-top: -5px; margin-left: 10px;">
+                      <b-button v-b-modal.modal-1 size="sm" variant="danger" style="float: right; margin-top: -5px; margin-left: 10px; border-radius: 15px;">
 
                         <font-awesome-icon :icon="['fas', 'trash']" />
                       </b-button>
-                      <b-button v-b-modal.modal-1 variant="info" v-on:click="editingAssignment = assignment; progressValue = assignment.progress" size="sm" style="float: right; margin-top: -5px;">
+                      <b-button v-b-modal.modal-1 variant="info" v-on:click="editingAssignment = assignment; progressValue = assignment.progress" size="sm" style="float: right; margin-top: -5px; border-radius: 15px;">
                         
                         <font-awesome-icon :icon="['fas', 'edit']" />
                       </b-button>
