@@ -328,7 +328,7 @@ export default {
                       "DD MMM YYYY"
                     ),
                     time: moment(item.start.dateTime || item.start.date).format(
-                      "HH:mm"
+                      "hh:mm A"
                     ),
                     course: course.id,
                     description: item.description,
@@ -336,6 +336,7 @@ export default {
                     attachments: ""
                   })
                   .then(response => {
+                    console.log(response) // eslint-disable-line no-console
                     self.$data.events.push({
                       id: response.data._id,
                       title: response.data.title,
@@ -398,7 +399,7 @@ export default {
                         ).format("DD MMM YYYY"),
                         time: moment(
                           item.start.dateTime || item.start.date
-                        ).format("HH:mm"),
+                        ).format("hh:mm A"),
                         course: course.id,
                         description: item.description,
                         student: self.$store.state.user._id,
@@ -450,6 +451,7 @@ export default {
         });
     },
     eventClick: function(event) {
+      console.log(event) // eslint-disable-line no-console
       this.modifyModal = true;
       this.modal.attachments = event.event._def.extendedProps.attachments;
       if (!this.modal.attachments == "") {
