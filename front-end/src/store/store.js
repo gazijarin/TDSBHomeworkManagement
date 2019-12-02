@@ -19,6 +19,7 @@ export default new Vuex.Store({
     state: {
       token: null,
       user: null,
+      id: null,
       isUserLoggedIn: false
     },
     plugins: [vuexCookie.plugin],
@@ -32,6 +33,9 @@ export default new Vuex.Store({
       },
       setPrefix (state, prefix) {
         state.prefix = prefix
+      },
+      setID (state, id){
+        state.id = id
       }
     },
     actions: {
@@ -45,6 +49,9 @@ export default new Vuex.Store({
 
       setPrefix ({commit}, prefix) {
         commit('setPrefix', prefix)
+      },
+      setID ({commit}, id){
+        commit('setID', id)
       }
     }
   })

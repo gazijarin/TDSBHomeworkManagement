@@ -23,6 +23,7 @@
             Add Task
             <font-awesome-icon :icon="['fas', 'plus']" />
           </b-button>
+          <ValidationObserver v-slot="{ invalid }">
           <b-modal
             id="modal-1"
             size="lg"
@@ -33,22 +34,31 @@
             @show="resetModal"
           >
             <div class="form-group">
+              <validation-provider rules="required" v-slot="{ errors }">
               <b-form-input v-model="modal.title" placeholder="Title"></b-form-input>
+              <span>{{ errors[0] }}</span>
+              </validation-provider>
             </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
+                <validation-provider rules="required" v-slot="{ errors }">
                   <datepicker placeholder="Due Date" v-model="modal.date"></datepicker>
+                  <span>{{ errors[0] }}</span>
+                </validation-provider>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
+                  <validation-provider rules="required" v-slot="{ errors }">
                   <input
                     class="form-control"
                     type="time"
                     v-model="modal.time"
                     style="margin-top: 2%"
                   />
+                  <span>{{ errors[0] }}</span>
+                </validation-provider>
                 </div>
               </div>
             </div>
@@ -80,10 +90,21 @@
                   style="float:left"
                   variant="danger"
                 >Delete Task</b-button>
-                <b-button style="float:right" variant="primary" @click="ok">Submit Changes</b-button>
+                <span style="display: inline-block; float:right" id="submitbuttonwrapper">
+                <b-button id="submitbutton" style="float:right" variant="primary" @click="ok" :disabled="invalid"><template v-if="modifyModal">
+                  Submit Changes
+                </template>
+                <template v-else>
+                  Submit
+                </template></b-button>
+                </span>
+                <b-popover v-if="invalid" target="submitbuttonwrapper" triggers="hover" placement="top">
+                  Make sure you fill out Title, Date and Time!
+              </b-popover>
               </div>
             </template>
           </b-modal>
+          </ValidationObserver>
         </div>
         <div>
           <b-button
@@ -182,7 +203,7 @@ export default {
   },
   methods: {
     handleFileUpload() {
-      this.modal.attachments = this.$refs.file.files[0];
+      this.uploadfile = this.$refs.file.files[0];
     },
     retrieveFile(id) {
       this.$axios
@@ -206,6 +227,7 @@ export default {
     },
 
     handleEventRender: function() {
+      this.showAllEvents()
       var filterquery = $("#searchevents").val();
       $.each(this.events, function() {
         if (!this.title.includes(filterquery)) {
@@ -216,6 +238,9 @@ export default {
     },
     handleUpdate(fileid="") {
         var self = this;
+        if (!this.uploadfile) {
+          fileid = this.modal.attachments
+        }
         if (this.modifyModal) {
         this.$axios
           .patch(this.$store.state.prefix + "/api/task/" + this.modal.taskid, {
@@ -259,9 +284,9 @@ export default {
       }
     },
     handleOk() {
-        if (this.modal.attachments) {
+        if (this.uploadfile) {
           let formData = new FormData();
-          formData.append("file", this.modal.attachments);
+          formData.append("file", this.uploadfile);
 
           this.$axios
           .post(this.$store.state.prefix + "/api/file/upload", formData, {
@@ -443,6 +468,7 @@ export default {
       this.modal.course = "";
       this.modal.description = "";
       this.modal.attachments = "";
+      this.uploadfile = null;
     },
     openAddTask: function() {
       this.modifyModal = false;
@@ -516,6 +542,7 @@ export default {
         attachments: ""
       },
       dataUrl: null,
+      uploadfile: null
     };
   },
   beforeMount() {
