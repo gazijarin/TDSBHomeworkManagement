@@ -36,12 +36,10 @@
                   <b-list-group flush>
                     <b-list-group-item v-for="assignment in assignmentList" :key="assignment.title">
                       <p style="float: left">{{assignment.title}}</p>
-                      <b-button v-b-modal.modal-1 size="sm" variant="danger" style="float: right; margin-top: -5px; margin-left: 10px; border-radius: 15px;">
-
+                      <b-button v-on:click="deleteAssignment(assignment)" size="sm" variant="danger" style="float: right; margin-top: -5px; margin-left: 10px; border-radius: 15px;">
                         <font-awesome-icon :icon="['fas', 'trash']" />
                       </b-button>
                       <b-button v-b-modal.modal-1 variant="info" v-on:click="editingAssignment = assignment; progressValue = assignment.progress" size="sm" style="float: right; margin-top: -5px; border-radius: 15px;">
-                        
                         <font-awesome-icon :icon="['fas', 'edit']" />
                       </b-button>
                     </b-list-group-item>
@@ -159,6 +157,14 @@ export default {
       }
       var avg = sum / length
       return avg.toFixed(2)
+    },
+    deleteAssignment: function(assignment) {
+      for (var i = 0; i < this.assignmentList.length; i++) {
+        if (assignment.title === this.assignmentList[i].title) {
+          this.assignmentList.splice(i, 1)
+          break
+        }
+      }
     },
     getCourseInformation: function(courseName) {
       // Get the course dictionary.
