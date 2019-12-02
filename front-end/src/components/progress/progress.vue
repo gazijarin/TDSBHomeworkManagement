@@ -166,6 +166,7 @@ export default {
         }
       }
       this.getChartData()
+      this.getGraphData()
     },
     getCourseInformation: function(courseName) {
       // Get the course dictionary.
@@ -191,15 +192,8 @@ export default {
             }
           }
           // Set the bar graph and chart data.
-          this.barGraphData = []
-          for (var i = 0; i < this.assignmentList.length; i++) {
-            var label = this.assignmentList[i].title
-            var value = parseFloat(this.assignmentList[i].progress)
-            var data = {label: label, value: value}
-            this.barGraphData.push(data)
-          }
+          this.getGraphData()
           this.getChartData()
-          console.log(this.barGraphData)  // eslint-disable-line no-console
         });
     },
     getCompletionPercentage: function(assignmentList) {
@@ -226,6 +220,13 @@ export default {
       }
       this.chartData[0].data = data
     },
+    getGraphData: function() {
+      this.barGraphData = []
+      for (var j = 0; j < this.assignmentList.length; j++) {
+        var data = {label: this.assignmentList[j].title, value: this.assignmentList[j].progress}
+        this.barGraphData.push(data)
+      }
+    },
     updateProgress: function() {
       this.editingAssignment.progress = this.progressValue
       console.log("setting " + this.editingAssignment.title + "'s progress to " + this.progressValue)  // eslint-disable-line no-console
@@ -251,11 +252,7 @@ export default {
           this.assignmentList[i].progress = this.progressValue
         }
       }
-      this.barGraphData = []
-      for (var j = 0; j < this.assignmentList.length; j++) {
-        var data = {label: this.assignmentList[j].title, value: this.assignmentList[j].progress}
-        this.barGraphData.push(data)
-      }
+      this.getGraphData()
     },
     updateGrade: function(assignment) {
       var datetime = this.separateDateTime(assignment.deadline)
