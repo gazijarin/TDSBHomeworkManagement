@@ -78,9 +78,12 @@ def post_task():
     student = data['student'] # student id
     attachments = data['attachments'] # a list of uploaded file returned by the upload api
 
-    deadline =TaskController.create_date(date, time)
+    grade = data['grade']
+    progress = data['progress']
 
-    result = TaskController.post(title, deadline, course, description, attachments, student)
+    deadline = TaskController.create_date(date, time)
+
+    result = TaskController.post(title, deadline, course, description, attachments, student, grade, progress)
 
     return result
 
@@ -106,7 +109,10 @@ def update_task(id):
     description = data['description']
     attachments = data['attachments']
 
-    result = TaskController.update(title, date, time, course_id, description, attachments, id)
+    grade = data['grade']
+    progress = data['progress']
+
+    result = TaskController.update(title, date, time, course_id, description, attachments, id, grade, progress)
     return result
 
 # endpoint to get all tasks for a student

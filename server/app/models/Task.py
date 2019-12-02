@@ -29,7 +29,8 @@ class Task(object):
         task = DB.find_one("Tasks", {"_id": id})
         if task:
             DB.update("Tasks", {"_id": id}, { "$set": {"title": payload['title'], "deadline": payload['deadline'], "course_d": payload['course_id'],
-                        "description": payload['description'], "attachments": payload['attachments'] }})
+                        "description": payload['description'], "attachments": payload['attachments'],
+                        "grade": payload['grade'], "progress": payload['progress']}})
             return jsonify("Task updated")
 
         return jsonify("No task matching given id")
