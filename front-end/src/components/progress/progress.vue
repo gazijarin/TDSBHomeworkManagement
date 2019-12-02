@@ -31,17 +31,17 @@
             </b-modal>
             <hr>
             <b-tabs content-class="mt-3" fill pills>
-              <b-tab title="Assignments" active>
+              <b-tab title="Progress" active>
                 <b-card>
                   <b-list-group flush>
                     <b-list-group-item v-for="assignment in assignmentList" :key="assignment.title">
                       <p style="float: left">{{assignment.title}}</p>
                       <b-button v-b-modal.modal-1 size="sm" variant="danger" style="float: right; margin-top: -5px; margin-left: 10px;">
-                        Delete
+
                         <font-awesome-icon :icon="['fas', 'trash']" />
                       </b-button>
                       <b-button v-b-modal.modal-1 variant="info" v-on:click="editingAssignment = assignment; progressValue = assignment.progress" size="sm" style="float: right; margin-top: -5px;">
-                        Update Progress
+                        
                         <font-awesome-icon :icon="['fas', 'edit']" />
                       </b-button>
                     </b-list-group-item>
