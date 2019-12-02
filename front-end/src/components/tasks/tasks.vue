@@ -139,6 +139,12 @@ import interactionPlugin from "@fullcalendar/interaction";
 
 export default {
   name: "Tasks",
+  beforeCreate() {
+    if (!this.$store.state.user) {
+      console.log('return home') // eslint-disable-line no-console
+      this.$router.push("/");
+    }
+  },
   components: {
     Datepicker,
     VueEditor,
