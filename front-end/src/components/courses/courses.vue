@@ -3,36 +3,31 @@
     <navbar></navbar>
     <h1>Courses</h1>
     <div id="tiles-container">
-      <div class="class-tile" v-for="course in courseList" :key="course" v-on:click="loadTasks(course._id, course.name)">
+      <div class="class-tile" v-for="course in courseList" :key="course" v-b-modal="'tasks_popup'" v-on:click="loadTasks(course._id, course.name)">
         <b-card
           :title=course.name
-          :sub-title=course.instructor
           img-src="https://picsum.photos/600/300/?image=25"
           img-alt="Image"
           img-top>
+          <b-card-sub-title style="float: left;">{{course.section}}</b-card-sub-title>
+          <b-card-sub-Title style="float: right;">{{course.room}}</b-card-sub-title>
         </b-card>
       </div>
     </div>
 
-
-    <div id="tasks_popup" v-if="show_popup">
-      <a class="boxclose" id="boxclose" v-on:click="close_popup()"></a>
-      <b-card
-        :title=curr_course
-        sub-title="Here are your tasks for this course:"
-        >
-          <div class="class-tile" v-for="task in tasks" :key="task">
-            <b-card
-              :title=task.title
-              :sub-title=task.deadline>
-              <b-card-text>
-                {{task.description}}
-              </b-card-text>
-            </b-card>
-          </div>
-      </b-card>
-
-    </div>
+    <b-modal id="tasks_popup" size="xl" :title=curr_course hide-footer="true">
+      <div class="tasks_popup_text" v-if="tasks.length">Here are your tasks for this course:</div>
+      <div class="tasks_popup_text" v-if="!tasks.length">There are currently no tasks for this course!</div>
+      <div class="task-tile" v-for="task in tasks" :key="task">
+        <b-card
+          :title=task.title
+          :sub-title=task.deadline>
+          <b-card-text>
+            {{task.description}}
+          </b-card-text>
+        </b-card>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -48,7 +43,6 @@ export default {
     return {
       courseList: this.$store.state.user.courses,
       tasks: [],
-      show_popup: false,
       curr_course: ""
     };
   },
@@ -77,7 +71,6 @@ export default {
           });
           self.$data.tasks.sort(self.compareDates);
           self.$data.curr_course = name_of_course;
-          self.$data.show_popup = true;
         });
     },
     formatDate: function(date) {
@@ -101,9 +94,6 @@ export default {
         return 1;
       }
       return 0;
-    },
-    close_popup: function() {
-      this.$data.show_popup = false;
     }
   },
   beforeMount() {
@@ -111,38 +101,9 @@ export default {
 }
 </script>
 <style>
-#tasks_popup {
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  margin: 0;
-  padding-left: 10%;
-  padding-right: 10%;
-  padding-bottom: 10%;
-  padding-top: 100px;
-  background-color: rgba(0, 0, 0, 0.5);
-  overflow: auto;
-}
-a.boxclose{
-    float: right;
-    margin-top:-30px;
-    margin-right: -30px;
-    cursor: pointer;
-    color: #fff;
-    border: 1px solid #AEAEAE;
-    border-radius: 30px;
-    background: #605F61;
-    font-size: 31px;
-    font-weight: bold;
-    display: inline-block;
-    line-height: 0px;
-    padding: 11px 3px;
-}
-
-.boxclose:before {
-    content: "×";
+.tasks_popup_text {
+  margin-bottom: 10px;
+  font-size: 110%;
 }
 
 #tiles-container {
@@ -150,10 +111,18 @@ a.boxclose{
   margin: 40px;
 }
 .class-tile {
+  overflow: hidden;
   margin: 10px;
   max-width: 20rem;
   display: inline-block;
   text-align: left;
   cursor: pointer;
+}
+.task-tile {
+  width: 22%;
+  min-width: 200px;
+  margin: 10px;
+  display: inline-block;
+  text-align: left;
 }
 </style>
