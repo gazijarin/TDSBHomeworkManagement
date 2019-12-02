@@ -54,12 +54,14 @@
         <template v-slot:header>
           <h6 class="mb-0">Recently Added</h6>
         </template>
-
-            <div class="div-list" :key="idx" v-for="(item, idx) in events.slice(0, 5)">
+          <div style="max-height: 350px; overflow-y: scroll;">
+            <div class="div-list" :key="idx" v-for="(item, idx) in events">
               {{ user.first_name }} added {{ item.title }} on
 
               <span>{{ item.created | formatDate }}</span>
             </div>
+          </div>
+            
 
         
        
