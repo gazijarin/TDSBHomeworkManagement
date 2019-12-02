@@ -211,7 +211,9 @@ export default {
             time: this.modal.time,
             course_id: this.modal.course,
             description: this.modal.description,
-            attachments: "[]"
+            attachments: "[]",
+            grade: 0,
+            progress: 0
           })
           .then(response => {
             console.log(response); // eslint-disable-line no-console
@@ -230,7 +232,9 @@ export default {
             course: this.modal.course,
             description: this.modal.description,
             student: this.$store.state.user._id,
-            attachments: "[]"
+            attachments: "[]",
+            grade: 0,
+            progress: 0
           })
           .then(response => {
             console.log(response); // eslint-disable-line no-console
@@ -277,7 +281,9 @@ export default {
                     course: course.id,
                     description: item.description,
                     student: self.$store.state.user._id,
-                    attachments: "[]"
+                    attachments: "[]",
+                    grade: 0,
+                    progress: 0
                   })
                   .then(response => {
                     self.$data.events.push({
@@ -342,7 +348,9 @@ export default {
                         course: course.id,
                         description: item.description,
                         student: self.$store.state.user._id,
-                        attachments: "[]"
+                        attachments: "[]",
+                        grade: 0,
+                        progress: 0
                       })
                       .then(response => {
                         self.$data.events.push({
@@ -427,7 +435,9 @@ export default {
               start: item.deadline,
               course: item.course_id,
               description: item.description,
-              attachments: item.attachments
+              attachments: item.attachments,
+              progress: item.progress,
+              grade: item.grade
             });
           });
           this.handleEventRender();
@@ -475,7 +485,9 @@ export default {
         time: "",
         course: "",
         description: "",
-        attachments: "[]"
+        attachments: "[]",
+        grade: 0,
+        progress: 0
       }
     };
   },

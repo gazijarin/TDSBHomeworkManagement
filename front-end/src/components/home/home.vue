@@ -138,7 +138,9 @@ export default {
               course: item.course,
               description: item.description,
               attachments: item.attachments,
-              created: item.created
+              created: item.created,
+              grade: item.grade,
+              progress: item.progress
             });
           });
         });

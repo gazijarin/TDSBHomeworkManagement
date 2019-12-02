@@ -24,9 +24,10 @@ def create_date(date, time):
     date_obj = datetime.datetime(year, month, day, hour, minute)
     return date_obj
 
-def post(title, deadline, course_id, description, attachments, student):
+def post(title, deadline, course_id, description, attachments, student, grade, progress):
     result = task.insert({"title":title,"deadline":deadline, "course_id": course_id,
-         "description": description, "attachments":attachments,"student": student, "_id":str(uuid.uuid4()), "created": datetime.datetime.utcnow()})
+         "description": description, "attachments":attachments,"student": student, "_id":str(uuid.uuid4()),
+                          "created": datetime.datetime.utcnow(), "grade": grade, "progress": progress})
 
     return result
 
@@ -36,10 +37,11 @@ def get(id):
 def delete(id):
     return task.delete(id)
 
-def update(title, date, time, course_id, description, attachments, _id):
+def update(title, date, time, course_id, description, attachments, _id, grade, progress):
     deadline = create_date(date, time)
     return task.update(_id, {"title": title, "deadline": deadline, "course_id": course_id,
-                 "description": description, "attachments": attachments, "_id": _id})
+                 "description": description, "attachments": attachments, "_id": _id,
+                  "grade": grade, "progress": progress})
 
 def get_by_student(id):
     return task.find_by_student(id)
