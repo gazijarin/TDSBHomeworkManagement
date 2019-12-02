@@ -78,7 +78,7 @@
               horizontalLines: true
             }"
             :labels="{
-              xLabels: xAxisList,
+              // xLabels: xAxisList,
               yLabels: 2
             }"
             :min="0"
@@ -148,6 +148,9 @@ export default {
     };
   },
   methods: {
+    showMe: function(obj) {
+      console.log(obj) // eslint-disable-line no-console
+    },
     getAverage: function(assignmentList) {
       // Compute average
       var length = assignmentList.length
@@ -173,7 +176,6 @@ export default {
       for (var coursei = 0; coursei < this.courses.length; coursei++) {
         if (this.courses[coursei].name === courseName) {
           this.selectedCourseData = this.courses[coursei]
-          console.log(this.selectedCourseData) // eslint-disable-line no-console
         }
       }
       // Get the course's assignments from the backend.
@@ -231,10 +233,9 @@ export default {
         // var data = {label: this.assignmentList[i].title, value: this.assignmentList[i].progress}
         // this.barGraphData.push(data)
         var num = parseInt(this.assignmentList[i].progress)
-        var name = this.assignmentList[i].title
-        console.log(num)  // eslint-disable-line no-console
-        console.log(name)  // eslint-disable-line no-console
-        data.push({label: name, value: num})
+        // var name = this.assignmentList[i].title
+        // data.push({label: name, value: num})
+        data.push(num)
       }
       this.barGraphData = data
     },
@@ -252,11 +253,10 @@ export default {
         date: datetime.date,
         time: datetime.time
       }
-      console.log(updateData)    // eslint-disable-line no-console
       this.$axios
         .patch(this.$store.state.prefix + "/api/task/" + this.editingAssignment._id, updateData)
         .then(response => {
-          console.log(response)   // eslint-disable-line no-console
+          console.log(response.data) // eslint-disable-line no-console
         });
       for (var i = 0; i < this.assignmentList.length; i++) {
         if (this.assignmentList[i].title === updateData.title) {
@@ -277,7 +277,6 @@ export default {
         date: datetime.date,
         time: datetime.time
       }
-      console.log(updateData)    // eslint-disable-line no-console
       this.$axios
         .patch(this.$store.state.prefix + "/api/task/" + assignment._id, updateData)
         .then(response => {
