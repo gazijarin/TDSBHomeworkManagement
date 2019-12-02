@@ -34,7 +34,7 @@
                 <font-awesome-icon :icon="['fa', 'user-circle']" />
               </em>
             </template>
-            <b-dropdown-item to="#">Profile</b-dropdown-item>
+            <b-dropdown-item to="/profile">Profile</b-dropdown-item>
             <b-dropdown-item @click="signout()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>

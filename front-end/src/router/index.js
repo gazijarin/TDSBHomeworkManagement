@@ -6,11 +6,12 @@ import progress from '@/components/progress/progress'
 import tasks from '@/components/tasks/tasks' // this is the import line to add
 import login from '@/components/login/login' // this is the import line to add
 import tools from '@/components/tools/tools'
+import profile from '@/components/profile/profile'
 
 Vue.use(VueRouter);
 
 const routes = [
-  {   
+  {
     path: '/',
     name: 'Login',
     component: login
@@ -39,6 +40,11 @@ const routes = [
     path: '/tools',
     name: 'Tools',
     component: tools
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: profile
   },
   {
     path: '/about',
