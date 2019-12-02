@@ -36,7 +36,7 @@ API Testing URLs examples:
 
     Create a new student: /api/studen?first_name=Jane&last_name=Doe&email=1223213124566@gmail.com [POST]
 
-    Get stduent information: /api/student/b9663d09-1576-4562-a852-76d7342faf26 [GET]
+    Get student information: /api/student/b9663d09-1576-4562-a852-76d7342faf26 [GET]
 
     Delete a student:  /api/student/b9663d09-1576-4562-a852-76d7342faf26 [DELETE]
 
