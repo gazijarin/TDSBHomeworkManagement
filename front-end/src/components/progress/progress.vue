@@ -34,7 +34,7 @@
               <b-tab title="Assignments" active>
                 <b-card>
                   <b-list-group flush>
-                    <b-list-group-item v-for="assignment in assignmentList" :key="assignment">
+                    <b-list-group-item v-for="assignment in assignmentList" :key="assignment.title">
                       <p style="float: left">{{assignment.title}}</p>
                       <b-button v-b-modal.modal-1 size="sm" variant="danger" style="float: right; margin-top: -5px; margin-left: 10px;">
                         Delete
@@ -51,9 +51,9 @@
               <b-tab title="Grades">
                 <b-card>
                   <b-list-group flush>
-                    <b-list-group-item v-for="assignment in assignmentList" :key="assignment">
+                    <b-list-group-item v-for="assignment in assignmentList" :key="assignment.title">
                       <p style="float: left">{{assignment.title}}</p>
-                      <b-form-input :state="nameState(assignment.grade)" id="input-grade" size="sm" v-model="assignment.grade" style="float: right; width: 30%" placeholder="Grade"></b-form-input>
+                      <b-form-input :state="nameState(assignment.grade)" v-on:blur="updateGrade(assignment)" :type="'number'" id="input-grade" size="sm" v-model="assignment.grade" style="float: right; width: 30%" placeholder="Grade"></b-form-input>
                     </b-list-group-item>
                     <b-list-group-item>
                       <h5>Current Average:  {{getAverage(assignmentList)}}</h5>
@@ -102,8 +102,9 @@
             :show-y-axis="true"
             :show-x-axis="true"
             :show-values="true"
+            :show-trend-line="false"
             :width="800"
-            :height="400"
+            :height="375"
           />
         </div>
       </div>
@@ -154,10 +155,10 @@ export default {
       var length = assignmentList.length
       var sum = 0
       for (var i = 0; i < length; i++) {
-        sum += assignmentList[i].grade
+        sum += parseInt(assignmentList[i].grade)
       }
       var avg = sum / length
-      return isNaN(avg) ? 0 : avg.toFixed(2)
+      return avg.toFixed(2)
     },
     getCourseInformation: function(courseName) {
       // Get the course dictionary.
@@ -185,10 +186,10 @@ export default {
           // Set the bar graph and chart data.
           this.barGraphData = []
           for (var i = 0; i < this.assignmentList.length; i++) {
-            var data = {name: this.assignmentList[i].title, value: this.assignmentList[i].progress}
+            var data = {label: this.assignmentList[i].title, value: parseInt(this.assignmentList[i].progress)}
             this.barGraphData.push(data)
           }
-          this.getChartData(this.assignmentList)
+          this.getChartData()
           console.log(this.barGraphData)  // eslint-disable-line no-console
         });
     },
@@ -207,19 +208,76 @@ export default {
         this.courseNames.push(this.courses[i].name)
       }
     },
-    getChartData: function(assignmentsList) {
-      this.xAxisList = ["A1", "A2"]
-      this.chartData.data = [100, 20]
-      return assignmentsList
+    getChartData: function() {
+      var data = []
+      for (var i = 0; i < this.assignmentList.length; i++) {
+        data.push(this.assignmentList[i].grade)
+        this.xAxisList.push(this.assignmentList[i].title)
+      }
+      this.chartData.data = data
     },
     updateProgress: function() {
-      this.editingAssignment.progress = this.progress
+      this.editingAssignment.progress = this.progressValue
       console.log("setting " + this.editingAssignment.title + "'s progress to " + this.progressValue)  // eslint-disable-line no-console
+      var datetime = this.separateDateTime(this.editingAssignment.deadline)
+      var updateData = {
+        title: this.editingAssignment.title,
+        course_id: this.editingAssignment.course_id,
+        description: this.editingAssignment.description,
+        attachments: this.editingAssignment.attachments,
+        grade: this.editingAssignment.grade,
+        progress: this.progressValue,
+        date: datetime.date,
+        time: datetime.time
+      }
+      console.log(updateData)    // eslint-disable-line no-console
       this.$axios
-        .patch(this.$store.state.prefix + "/api/task/" + this.editingAssignment._id, {data: this.editingAssignment})
+        .patch(this.$store.state.prefix + "/api/task/" + this.editingAssignment._id, updateData)
         .then(response => {
           console.log(response)   // eslint-disable-line no-console
         });
+      for (var i = 0; i < this.assignmentList.length; i++) {
+        if (this.assignmentList[i].title === updateData.title) {
+          this.assignmentList[i].progress = this.progressValue
+        }
+      }
+      this.barGraphData = []
+      for (var j = 0; j < this.assignmentList.length; j++) {
+        var data = {label: this.assignmentList[j].title, value: this.assignmentList[j].progress}
+        this.barGraphData.push(data)
+      }
+    },
+    updateGrade: function(assignment) {
+      var datetime = this.separateDateTime(assignment.deadline)
+      var updateData = {
+        title: assignment.title,
+        course_id: assignment.course_id,
+        description: assignment.description,
+        attachments: assignment.attachments,
+        grade: assignment.grade,
+        progress: assignment.progress,
+        date: datetime.date,
+        time: datetime.time
+      }
+      console.log(updateData)    // eslint-disable-line no-console
+      this.$axios
+        .patch(this.$store.state.prefix + "/api/task/" + assignment._id, updateData)
+        .then(response => {
+          console.log(response)   // eslint-disable-line no-console
+        });
+    },
+    separateDateTime: function(datetime) {
+      var monthDict = {1: "Jan", 2: "Feb", 3: "Mar",
+                    4: "Apr", 5: "May", 6: "June",
+                    7: "July", 8: "Aug", 9: "Sept",
+                    10: "Oct", 11: "Nov", 12: "Dec"}
+      datetime = datetime.split("T")
+      var date = datetime[0].split("-").reverse()
+      date[1] = monthDict[parseInt(date[1])]
+      date = date.join(" ")
+      var time = datetime[1].substring(0, datetime[1].length - 3)
+      var ret_val = {date: date, time: time}
+      return ret_val
     }
   },
   watch: {
