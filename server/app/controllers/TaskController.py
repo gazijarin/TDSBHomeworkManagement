@@ -42,6 +42,11 @@ def update(title, date, time, course_id, description, attachments, _id, grade, p
     return task.update(_id, {"title": title, "deadline": deadline, "course_id": course_id,
                  "description": description, "attachments": attachments, "_id": _id,
                   "grade": grade, "progress": progress})
+                  
+def update_without_progress(title, date, time, course_id, description, attachments, _id):
+    deadline = create_date(date, time)
+    return task.update(_id, {"title": title, "deadline": deadline, "course_id": course_id,
+                 "description": description, "attachments": attachments, "_id": _id})
 
 def get_by_student(id):
     return task.find_by_student(id)

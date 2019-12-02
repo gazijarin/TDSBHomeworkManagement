@@ -7,6 +7,7 @@ from gridfs.errors import NoFile
 import datetime
 import requests
 import json
+import base64
 
 @bp.route('/')
 def index():
@@ -61,7 +62,7 @@ def retrieve_file():
     file_id = request.args.get('id')
     try:
         file_result = FileController.get_file(file_id)
-        response = make_response(file_result.read())
+        response = make_response({"filedata": base64.b64encode(file_result.read()).decode("utf-8"), "filename": file_result.filename})
         return response
     except NoFile:
         abort(404)
@@ -78,8 +79,8 @@ def post_task():
     student = data['student'] # student id
     attachments = data['attachments'] # a list of uploaded file returned by the upload api
 
-    grade = data['grade']
-    progress = data['progress']
+    grade = 0
+    progress = 0
 
     deadline = TaskController.create_date(date, time)
 
@@ -109,10 +110,13 @@ def update_task(id):
     description = data['description']
     attachments = data['attachments']
 
-    grade = data['grade']
-    progress = data['progress']
+    if ('grade' and 'progress' in data):
+        grade = data['grade']
+        progress = data['progress']
+        result = TaskController.update(title, date, time, course_id, description, attachments, id, grade, progress)
+    else:   
+        result = TaskController.update_without_progress(title, date, time, course_id, description, attachments, id)
 
-    result = TaskController.update(title, date, time, course_id, description, attachments, id, grade, progress)
     return result
 
 # endpoint to get all tasks for a student

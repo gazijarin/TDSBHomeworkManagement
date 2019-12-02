@@ -31,7 +31,6 @@
             :title="modifyModal ? 'View and Modify Task' : 'Add Task'"
             @ok="handleOk"
             @show="resetModal"
-            @hidden="resetModal"
           >
             <div class="form-group">
               <b-form-input v-model="modal.title" placeholder="Title"></b-form-input>
@@ -54,8 +53,8 @@
               </div>
             </div>
             <div class="form-group">
-                <select class="form-control" v-model="modal.course">
-                <option :key="idx" v-for="(item, idx) in courses" :value=item.id > {{item.name}}</option>
+              <select class="form-control" v-model="modal.course">
+                <option :key="idx" v-for="(item, idx) in courses" :value="item.id">{{item.name}}</option>
               </select>
             </div>
             <div class="form-group">
@@ -65,8 +64,12 @@
             </div>
             <form>
               <div class="form-group">
-                <label for="exampleFormControlFile1">Attachment(s)</label>
-                <input type="file" class="form-control-file" id="exampleFormControlFile1" />
+                <label for="exampleFormControlFile1">Attachment</label>
+                <input type="file" ref="file" v-on:change="handleFileUpload()" class="form-control-file" id="exampleFormControlFile1"/>
+
+                <div id="attachmentsection">
+                <a v-if="checkAttachment" :download="dataUrl.filename" :href="dataUrl.filedata" id="attachmentlink">{{dataUrl.filename}}</a>
+                </div>
               </div>
             </form>
             <template #modal-footer="{ ok, cancel }">
@@ -84,15 +87,17 @@
         </div>
         <div>
           <b-button
-            size="sm" variant="outline-primary"
+            size="sm"
+            variant="outline-primary"
             style="width: 20%; margin-left: 20px; margin-top: 10px; float:left;"
             v-on:click="syncNow()"
           >
-            <font-awesome-icon :icon="['fas', 'sync']" /> Sync with Google
+            <font-awesome-icon :icon="['fas', 'sync']" />Sync with Google
           </b-button>
-          <span
-            style="float:left; margin-top: 15px; margin-left: 5px"
-          ><b>Last Sync Date:</b> {{ last_sync_date }}</span>
+          <span style="float:left; margin-top: 16px; margin-left: 5px; font-size: 14px">
+            <b>Last Sync Date:</b>
+            {{ last_sync_date }}
+          </span>
         </div>
         <FullCalendar
           defaultView="dayGridMonth"
@@ -151,13 +156,13 @@ import listPlugin from "@fullcalendar/list";
 import navbar from "../navbar/navbar";
 import moment from "moment";
 import interactionPlugin from "@fullcalendar/interaction";
-import $ from 'jquery'
+import $ from "jquery";
 
 export default {
   name: "Tasks",
   beforeCreate() {
     if (!this.$store.state.user) {
-      console.log('return home') // eslint-disable-line no-console
+      console.log("return home"); // eslint-disable-line no-console
       this.$router.push("/");
     }
   },
@@ -170,32 +175,48 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
+    },
+    checkAttachment() {
+      return this.modifyModal && this.modal.attachments
     }
   },
   methods: {
+    handleFileUpload() {
+      this.modal.attachments = this.$refs.file.files[0];
+    },
+    retrieveFile(id) {
+      this.$axios
+        .get(
+          this.$store.state.prefix +
+            "/api/file/retrieve?id=" + id
+        )
+        .then(response => {
+          console.log(response); // eslint-disable-line no-console
+          this.modal.attachments = id
+          response.data.filedata = "data:image/jpeg;base64," + response.data.filedata
+          this.dataUrl = response.data
+        });
+    },
     showAllEvents: function() {
-        $.each(this.events, function() {
-              if (this.startsave) {
-                this.start = this.startsave
-              }
-          
+      $.each(this.events, function() {
+        if (this.startsave) {
+          this.start = this.startsave;
+        }
       });
     },
 
-    handleEventRender: function() { 
-        var filterquery= $('#searchevents').val();
-        $.each(this.events, function() {
-          if (!this.title.includes(filterquery)) {
-              this.startsave = this.start
-              this.start = null
-          }
+    handleEventRender: function() {
+      var filterquery = $("#searchevents").val();
+      $.each(this.events, function() {
+        if (!this.title.includes(filterquery)) {
+          this.startsave = this.start;
+          this.start = null;
+        }
       });
-
-      },
-    handleOk() {
-      var self = this;
-      if (this.modifyModal) {
-        console.log(this.modal); // eslint-disable-line no-console
+    },
+    handleUpdate(fileid="") {
+        var self = this;
+        if (this.modifyModal) {
         this.$axios
           .patch(this.$store.state.prefix + "/api/task/" + this.modal.taskid, {
             title: this.modal.title,
@@ -203,7 +224,7 @@ export default {
             time: this.modal.time,
             course_id: this.modal.course,
             description: this.modal.description,
-            attachments: "[]"
+            attachments: fileid
           })
           .then(response => {
             console.log(response); // eslint-disable-line no-console
@@ -212,7 +233,6 @@ export default {
             return response;
           });
       } else {
-        console.log(moment(this.modal.date).format("dd MMM yyyy")); // eslint-disable-line no-console
         console.log(this.modal); // eslint-disable-line no-console
         this.$axios
           .post(this.$store.state.prefix + "/api/task", {
@@ -222,7 +242,7 @@ export default {
             course: this.modal.course,
             description: this.modal.description,
             student: this.$store.state.user._id,
-            attachments: "[]"
+            attachments: fileid
           })
           .then(response => {
             console.log(response); // eslint-disable-line no-console
@@ -231,11 +251,31 @@ export default {
               title: response.data.title,
               course: response.data.course_id,
               description: response.data.description,
-              start: response.data.deadline
+              start: response.data.deadline,
+              attachments: response.data.attachments
             });
             return response;
           });
       }
+    },
+    handleOk() {
+        if (this.modal.attachments) {
+          let formData = new FormData();
+          formData.append("file", this.modal.attachments);
+
+          this.$axios
+          .post(this.$store.state.prefix + "/api/file/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          })
+          .then(response => {
+            console.log(response); // eslint-disable-line no-console
+            this.handleUpdate(response.data[0]._id)
+          });
+        } else {
+          this.handleUpdate()
+        }
     },
     syncNow() {
       var self = this;
@@ -269,7 +309,7 @@ export default {
                     course: course.id,
                     description: item.description,
                     student: self.$store.state.user._id,
-                    attachments: "[]"
+                    attachments: ""
                   })
                   .then(response => {
                     self.$data.events.push({
@@ -277,7 +317,8 @@ export default {
                       title: response.data.title,
                       course: response.data.course_id,
                       description: response.data.description,
-                      start: response.data.deadline
+                      start: response.data.deadline,
+                      attachments: ""
                     });
                     return response;
                   });
@@ -285,7 +326,8 @@ export default {
             });
             self.$axios
               .patch(
-                self.$store.state.prefix + "/api/student/" +
+                self.$store.state.prefix +
+                  "/api/student/" +
                   self.$store.state.user._id +
                   "?sync=true",
                 {}
@@ -303,7 +345,11 @@ export default {
     getLastSyncDate() {
       var self = this;
       this.$axios
-        .get(this.$store.state.prefix + "/api/student/" + this.$store.state.user._id)
+        .get(
+          this.$store.state.prefix +
+            "/api/student/" +
+            this.$store.state.user._id
+        )
         .then(response => {
           if (response.data.last_sync_date === response.data.created_date) {
             this.$store.state.user.courses.forEach(function(course) {
@@ -329,7 +375,7 @@ export default {
                         course: course.id,
                         description: item.description,
                         student: self.$store.state.user._id,
-                        attachments: "[]"
+                        attachments: ""
                       })
                       .then(response => {
                         self.$data.events.push({
@@ -337,7 +383,8 @@ export default {
                           title: response.data.title,
                           course: response.data.course,
                           description: response.data.description,
-                          start: response.data.deadline
+                          start: response.data.deadline,
+                          attachments: ""
                         });
                         return response;
                       });
@@ -347,7 +394,8 @@ export default {
 
             this.$axios
               .patch(
-                this.$store.state.prefix + "/api/student/" +
+                this.$store.state.prefix +
+                  "/api/student/" +
                   this.$store.state.user._id +
                   "?sync=true",
                 {}
@@ -368,7 +416,6 @@ export default {
       this.$axios
         .delete(this.$store.state.prefix + "/api/task/" + this.modal.taskid)
         .then(response => {
-          console.log(response); // eslint-disable-line no-console
           this.events = [];
           this.loadTasks();
           this.$bvModal.hide("modal-1");
@@ -377,13 +424,15 @@ export default {
     },
     eventClick: function(event) {
       this.modifyModal = true;
+      this.modal.attachments = event.event._def.extendedProps.attachments;
+      if (!this.modal.attachments == "") {
+        this.retrieveFile(this.modal.attachments)
+      }
       this.$bvModal.show("modal-1");
       this.modal.taskid = event.event.id;
       this.modal.title = event.event.title;
       this.modal.date = event.event.start;
-      this.modal.time = moment(event.event.start).format(
-        "HH:mm"
-      );
+      this.modal.time = moment(event.event.start).format("HH:mm");
       this.modal.course = event.event._def.extendedProps.course;
       this.modal.description = event.event._def.extendedProps.description;
     },
@@ -393,6 +442,7 @@ export default {
       this.modal.time = "";
       this.modal.course = "";
       this.modal.description = "";
+      this.modal.attachments = "";
     },
     openAddTask: function() {
       this.modifyModal = false;
@@ -403,7 +453,8 @@ export default {
 
       this.$axios
         .get(
-          this.$store.state.prefix + "/api/task/student?id=" +
+          this.$store.state.prefix +
+            "/api/task/student?id=" +
             this.$store.state.user._id
         )
         .then(response => {
@@ -414,11 +465,10 @@ export default {
               start: item.deadline,
               course: item.course_id,
               description: item.description,
-              attachments: item.attachments,
-              
+              attachments: item.attachments
             });
           });
-          this.handleEventRender()
+          this.handleEventRender();
         });
     },
     visibleRangeFunction: function() {
@@ -463,8 +513,9 @@ export default {
         time: "",
         course: "",
         description: "",
-        attachments: "[]"
-      }
+        attachments: ""
+      },
+      dataUrl: null,
     };
   },
   beforeMount() {
@@ -563,7 +614,8 @@ h5 {
   cursor: pointer;
 }
 
-.fc td, .fc th {
+.fc td,
+.fc th {
   border-style: none !important;
 }
 
@@ -572,7 +624,6 @@ h5 {
 }
 
 .display-none {
-  display: none !important
+  display: none !important;
 }
-
 </style>
