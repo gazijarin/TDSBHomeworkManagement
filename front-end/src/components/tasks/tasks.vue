@@ -175,7 +175,9 @@ export default {
   methods: {
     showAllEvents: function() {
         $.each(this.events, function() {
-              this.start = this.startsave
+              if (this.startsave) {
+                this.start = this.startsave
+              }
           
       });
     },
