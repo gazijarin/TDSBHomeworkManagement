@@ -186,7 +186,9 @@ export default {
           // Set the bar graph and chart data.
           this.barGraphData = []
           for (var i = 0; i < this.assignmentList.length; i++) {
-            var data = {label: this.assignmentList[i].title, value: parseInt(this.assignmentList[i].progress)}
+            var label = this.assignmentList[i].title
+            var value = parseFloat(this.assignmentList[i].progress)
+            var data = {label: label, value: value}
             this.barGraphData.push(data)
           }
           this.getChartData()
@@ -210,11 +212,12 @@ export default {
     },
     getChartData: function() {
       var data = []
+      this.xAxisList = []
       for (var i = 0; i < this.assignmentList.length; i++) {
-        data.push(this.assignmentList[i].grade)
+        data.push(parseInt(this.assignmentList[i].grade))
         this.xAxisList.push(this.assignmentList[i].title)
       }
-      this.chartData.data = data
+      this.chartData[0].data = data
     },
     updateProgress: function() {
       this.editingAssignment.progress = this.progressValue
@@ -265,6 +268,7 @@ export default {
         .then(response => {
           console.log(response)   // eslint-disable-line no-console
         });
+      this.getChartData()
     },
     separateDateTime: function(datetime) {
       var monthDict = {1: "Jan", 2: "Feb", 3: "Mar",
