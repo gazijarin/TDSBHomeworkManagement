@@ -154,5 +154,6 @@ a.boxclose{
   max-width: 20rem;
   display: inline-block;
   text-align: left;
+  cursor: pointer;
 }
 </style>

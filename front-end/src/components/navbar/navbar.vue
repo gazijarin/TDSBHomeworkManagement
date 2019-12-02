@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie'
+
 export default {
   name: "navbar", //this is the name of the component,
   methods: {
@@ -53,10 +53,8 @@ export default {
         this.$store.dispatch("setID", null);
         this.$store.dispatch("setToken", null);
         this.$store.dispatch("setUser", null).then(() => {
-                
-        console.log(Cookies.remove('vuex')) // eslint-disable-line no-console
-        this.$router.push("/");
-        console.log("User disconnected."); // eslint-disable-line no-console
+                this.$router.push("/");
+                console.log("User disconnected."); // eslint-disable-line no-console
             });
 
       });

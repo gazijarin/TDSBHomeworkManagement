@@ -212,10 +212,15 @@ export default {
             "/api/file/retrieve?id=" + id
         )
         .then(response => {
-          console.log(response); // eslint-disable-line no-console
+          var newresponse = response;
+          console.log(newresponse.data); // eslint-disable-line no-console
           this.modal.attachments = id
-          response.data.filedata = "data:image/jpeg;base64," + response.data.filedata
-          this.dataUrl = response.data
+          if (newresponse.data.filename.match(/.(jpg|jpeg|png|gif)$/i)) {
+            newresponse.data.filedata = "data:image/jpeg;base64," + response.data.filedata
+          } else if (newresponse.data.filename.includes(".pdf")) {
+            newresponse.data.filedata = "data:application/pdf;base64," + response.data.filedata
+          }
+          this.dataUrl = newresponse.data
         });
     },
     showAllEvents: function() {
