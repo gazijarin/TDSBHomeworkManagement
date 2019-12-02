@@ -5,8 +5,7 @@
  * Start date: Monday, Nov 18th
  * End date: Monday, Dec 2nd
 
-### Changes from you `product.md` (Gazi)
-<!-- 
+### Changes from you `product.md`
 List the most significant changes you made to your product (if any). It's normal to change features mid-project or reduce the scope to meet timelines. 
 
  * Start with the most significant change
@@ -18,7 +17,7 @@ List the most significant changes you made to your product (if any). It's normal
 1. The most significant reduction that we did was not include a chat system for this application. We initially thought that we would develop the chat system by this iteration, but then we were unable to foresee the amount of time and effort that is needed to develop a well-rounded chat system that was secure, well-designed and distributed across all users. Since our project partner was not there to provide feedback and explain what the exact requirements of the chat system were, we were left with very vague details. We were unsure of how to proceed and that hindered our progress. Therefore, we decided to focus more on the other features and improve their quality, since we had a better idea of them.
 2. The other significant change that we did was re-design how students organize their tasks. At first, we were told to create an image gallery for each user to store pictures of their assignments/tasks. However, as we proceeded to make the application, we realized that the choice was redundant and that each user should be able to attach specific image files to a task instead of going to a separate gallery to upload images. Since we did not receive a response from our project partner regarding the change, we decided to pursue it as it not only made the application much more cohesive but it was also more user-friendly. It allowed the user to individualize their tasks in order to organize better. 
 
-### Handoff Plan (Raiyan)
+### Handoff Plan
 
 <!-- Describe your plan for handing off your product and all technical assets to your partner
 

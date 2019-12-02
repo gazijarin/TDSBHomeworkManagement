@@ -2,7 +2,7 @@
 
 <!-- > _Note:_ This document is intended to be relatively short. Be concise and precise. Assume the reader has no prior knowledge of your application and is non-technical.  -->
 
-## Description  (Raiyan)
+## Description
 <!--  * Provide a high-level description of your application and it's value from an end-user's perspective
  * What is the problem you're trying to solve?
  * Is there any context required to understand **why** the application solves this problem? -->
@@ -14,7 +14,7 @@ Students can also keep track of their performance in multiple ways. For one, the
 
 There are many problems this app is trying to solve. For one, there is a lack of planning features available in TDSB's current system as the current system doesn't allow students to view and plan their work in a comprehensive and exhaustive manner, which leaves gaps in the planning process and can hinder students' success. Additionally, students currently have no way to easily see their performance and evaluate themselves, which TDSB considers vital for its students. Lastly, TDSB's current system relies entirely on a third party, so TDSB would like to have their own platform for more flexibility and control over the system, effectively allowing them to tailor the system for their students.
 
-## Key Features (Gazi)
+## Key Features
 <!--  * Described the key features in the application that the user can access
  * Feel free to provide a breakdown or detail for each feature that is most appropriate for your application -->
  
@@ -47,7 +47,7 @@ There are many problems this app is trying to solve. For one, there is a lack of
 * Account Settings
     - The account settings displays the current configuration of the user's profile. They can edit their settings if applicable.
 
-## Instructions （Alex）
+## Instructions
  
  * Users can log in the website by clicking the button on the login page where the app starts. It requires a pre-created Google account (We are using Google account because TDSB is using Google account). After login user will be directed to the homescreen. If users want to logout they can click the icon on the top right corner and click sign out. For user profile click the "Profile" above the "Sign out". Users can also use the Google account "tdsb301@gmail.com" with password "csc301csc301" to log in and experience the app, the account has a few courses enrolled in the google classroom for demonstration purposes.
  * On the homescreen users can view their tasks and assignments that due today and also recent activities. A calendar is shown in the right and users can switch the month using the two buttons on it. Activity information is shown on the calendar
@@ -55,7 +55,7 @@ There are many problems this app is trying to solve. For one, there is a lack of
  * Users can go to the task page by clicking "Task" on the top navigation bar. The "Due soon" window on the right shows all upcoming tasks with a close deadline. Users can interact with the calendar on the left. By clicking "Sync with Google" button users can retrieve all tasks from their google calendar. In order to add more tasks, users can click the "Add Task" button on the top right corner of the calendar. Then they can input task information in the pop-up window then submit it to create a new task. All tasks can be displayed in both calendar and list views, users can choose the way they prefer by clicking the "month/list" switch button. To change the month use the pair of "<"">" button on the left. Also the "today" button is used to highlight all tasks due today. 
  * Users can go to the progress page by clicking "Progress" on the top navigation bar. The page shows their progress in assignments and tasks by using graphs. For showing the progress for a specific course, use the selector on the right. After a course is chosen, click the "Assignment" button for adding and editing assignments. For adding assignments, click "Add assignment" and input assignment information in the pop-up window then submit. Use the edit and delete button for each assignment to make changes. For showing the grade of each assignment, click "Grades" and input the grades.
  * Clicking "Tools" on the top navigation bar for additional tools like dictionaries.
- ## Development requirements (Anirudh)
+ ## Development requirements
 <!--  * If a developer were to set this up on their machine or a remote server, what are the technical requirements (e.g. OS, libraries, etc.)?
  * Briefly describe instructions for setting up and running the application (think a true README). -->
  The application is deployed on https://tdsb-app.herokuapp.com/. If the developer wants to run and revise the source code, then the following steps are necessary:  
@@ -80,7 +80,7 @@ There are many problems this app is trying to solve. For one, there is a lack of
         
 
 
- ## Licenses (Michael)
+ ## Licenses
 
 <!--  Keep this section as brief as possible. You may read this [GitHub article](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/licensing-a-repository) for a start.
 
