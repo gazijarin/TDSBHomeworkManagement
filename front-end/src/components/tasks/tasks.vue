@@ -54,8 +54,8 @@
               </div>
             </div>
             <div class="form-group">
-                <select class="form-control" v-model="modal.course">
-                <option :key="idx" v-for="(item, idx) in courses" :value=item.id > {{item.name}}</option>
+              <select class="form-control" v-model="modal.course">
+                <option :key="idx" v-for="(item, idx) in courses" :value="item.id">{{item.name}}</option>
               </select>
             </div>
             <div class="form-group">
@@ -84,15 +84,17 @@
         </div>
         <div>
           <b-button
-            size="sm" variant="outline-primary"
+            size="sm"
+            variant="outline-primary"
             style="width: 20%; margin-left: 20px; margin-top: 10px; float:left;"
             v-on:click="syncNow()"
           >
-            <font-awesome-icon :icon="['fas', 'sync']" /> Sync with Google
+            <font-awesome-icon :icon="['fas', 'sync']" style="margin-right:5px"/><span>Sync with Google</span>
           </b-button>
-          <span
-            style="float:left; margin-top: 15px; margin-left: 5px"
-          >Last Sync Date: {{ last_sync_date }}</span>
+          <span style="float:left; margin-top: 15px; margin-left: 5px">
+            <b>Last Sync Date:</b>
+            {{ last_sync_date }}
+          </span>
         </div>
         <FullCalendar
           defaultView="dayGridMonth"
@@ -106,16 +108,31 @@
           :events="events"
           :plugins="calendarPlugins"
           @eventClick="eventClick"
+          ref="calendar"
           style="margin: 20px"
         />
         <ul style="margin-top: 1%; padding-right: 2%">
-          <b-button size="sm" style="float: right; margin-left: 2px;">
+          <b-button
+            v-on:click="showAllEvents()"
+            size="sm"
+            variant="danger"
+            style="float: right; margin-left: 2px;"
+          >
+            <font-awesome-icon :icon="['fas', 'times']" />
+          </b-button>
+          <b-button
+            v-on:click="handleEventRender()"
+            size="sm"
+            style="float: right; margin-left: 2px;"
+            variant="outline-primary"
+          >
             Search
             <font-awesome-icon :icon="['fas', 'search']" />
           </b-button>
           <input
             class="form-control sm-1"
             type="text"
+            id="searchevents"
             placeholder="Search"
             aria-label="Search"
             style="width: 50%; float: right; height: 10%; margin-top: -2px"
@@ -136,12 +153,13 @@ import listPlugin from "@fullcalendar/list";
 import navbar from "../navbar/navbar";
 import moment from "moment";
 import interactionPlugin from "@fullcalendar/interaction";
+import $ from "jquery";
 
 export default {
   name: "Tasks",
   beforeCreate() {
     if (!this.$store.state.user) {
-      console.log('return home') // eslint-disable-line no-console
+      console.log("return home"); // eslint-disable-line no-console
       this.$router.push("/");
     }
   },
@@ -157,6 +175,31 @@ export default {
     }
   },
   methods: {
+    handleEventRender: function() {
+      var filterquery = $("#searchevents").val();
+
+      $(".fc-title").each(function() {
+        if (
+          !$(this)
+            .text()
+            .includes(filterquery)
+        ) {
+          $(this)
+            .parent()
+            .parent()
+            .addClass("display-none");
+        }
+      });
+    },
+    showAllEvents: function() {
+      $(".fc-title").each(function() {
+        $(this)
+          .parent()
+          .parent()
+          .removeClass("display-none");
+      });
+    },
+
     handleOk() {
       var self = this;
       if (this.modifyModal) {
@@ -250,7 +293,8 @@ export default {
             });
             self.$axios
               .patch(
-                self.$store.state.prefix + "/api/student/" +
+                self.$store.state.prefix +
+                  "/api/student/" +
                   self.$store.state.user._id +
                   "?sync=true",
                 {}
@@ -268,7 +312,11 @@ export default {
     getLastSyncDate() {
       var self = this;
       this.$axios
-        .get(this.$store.state.prefix + "/api/student/" + this.$store.state.user._id)
+        .get(
+          this.$store.state.prefix +
+            "/api/student/" +
+            this.$store.state.user._id
+        )
         .then(response => {
           if (response.data.last_sync_date === response.data.created_date) {
             this.$store.state.user.courses.forEach(function(course) {
@@ -312,7 +360,8 @@ export default {
 
             this.$axios
               .patch(
-                this.$store.state.prefix + "/api/student/" +
+                this.$store.state.prefix +
+                  "/api/student/" +
                   this.$store.state.user._id +
                   "?sync=true",
                 {}
@@ -346,9 +395,7 @@ export default {
       this.modal.taskid = event.event.id;
       this.modal.title = event.event.title;
       this.modal.date = event.event.start;
-      this.modal.time = moment(event.event.start).format(
-        "HH:mm"
-      );
+      this.modal.time = moment(event.event.start).format("HH:mm");
       this.modal.course = event.event._def.extendedProps.course;
       this.modal.description = event.event._def.extendedProps.description;
     },
@@ -368,7 +415,8 @@ export default {
 
       this.$axios
         .get(
-          this.$store.state.prefix + "/api/task/student?id=" +
+          this.$store.state.prefix +
+            "/api/task/student?id=" +
             this.$store.state.user._id
         )
         .then(response => {
@@ -382,6 +430,7 @@ export default {
               attachments: item.attachments
             });
           });
+          this.handleEventRender();
         });
     },
     visibleRangeFunction: function() {
@@ -526,7 +575,8 @@ h5 {
   cursor: pointer;
 }
 
-.fc td, .fc th {
+.fc td,
+.fc th {
   border-style: none !important;
 }
 
@@ -534,4 +584,7 @@ h5 {
   border-bottom: 1px solid #ddd !important;
 }
 
+.display-none {
+  display: none !important;
+}
 </style>
