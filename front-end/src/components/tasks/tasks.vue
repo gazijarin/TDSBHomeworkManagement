@@ -92,7 +92,7 @@
           </b-button>
           <span
             style="float:left; margin-top: 15px; margin-left: 5px"
-          >Last Sync Date: {{ last_sync_date }}</span>
+          ><b>Last Sync Date:</b> {{ last_sync_date }}</span>
         </div>
         <FullCalendar
           defaultView="dayGridMonth"
@@ -106,16 +106,31 @@
           :events="events"
           :plugins="calendarPlugins"
           @eventClick="eventClick"
+          ref="calendar"
           style="margin: 20px"
         />
         <ul style="margin-top: 1%; padding-right: 2%">
-          <b-button size="sm" style="float: right; margin-left: 2px;">
+          <b-button
+            v-on:click="showAllEvents()"
+            size="sm"
+            variant="danger"
+            style="float: right; margin-left: 2px;"
+          >
+            <font-awesome-icon :icon="['fas', 'times']" />
+          </b-button>
+          <b-button
+            v-on:click="handleEventRender()"
+            size="sm"
+            style="float: right; margin-left: 2px;"
+            variant="outline-primary"
+          >
             Search
             <font-awesome-icon :icon="['fas', 'search']" />
           </b-button>
           <input
             class="form-control sm-1"
             type="text"
+            id="searchevents"
             placeholder="Search"
             aria-label="Search"
             style="width: 50%; float: right; height: 10%; margin-top: -2px"
@@ -136,6 +151,7 @@ import listPlugin from "@fullcalendar/list";
 import navbar from "../navbar/navbar";
 import moment from "moment";
 import interactionPlugin from "@fullcalendar/interaction";
+import $ from 'jquery'
 
 export default {
   name: "Tasks",
@@ -157,6 +173,25 @@ export default {
     }
   },
   methods: {
+    showAllEvents: function() {
+        $.each(this.events, function() {
+              if (this.startsave) {
+                this.start = this.startsave
+              }
+          
+      });
+    },
+
+    handleEventRender: function() { 
+        var filterquery= $('#searchevents').val();
+        $.each(this.events, function() {
+          if (!this.title.includes(filterquery)) {
+              this.startsave = this.start
+              this.start = null
+          }
+      });
+
+      },
     handleOk() {
       var self = this;
       if (this.modifyModal) {
@@ -168,9 +203,7 @@ export default {
             time: this.modal.time,
             course_id: this.modal.course,
             description: this.modal.description,
-            attachments: "[]",
-            grade: 0,
-            progress: 0
+            attachments: "[]"
           })
           .then(response => {
             console.log(response); // eslint-disable-line no-console
@@ -189,9 +222,7 @@ export default {
             course: this.modal.course,
             description: this.modal.description,
             student: this.$store.state.user._id,
-            attachments: "[]",
-            grade: 0,
-            progress: 0
+            attachments: "[]"
           })
           .then(response => {
             console.log(response); // eslint-disable-line no-console
@@ -238,9 +269,7 @@ export default {
                     course: course.id,
                     description: item.description,
                     student: self.$store.state.user._id,
-                    attachments: "[]",
-                    grade: 0,
-                    progress: 0
+                    attachments: "[]"
                   })
                   .then(response => {
                     self.$data.events.push({
@@ -300,9 +329,7 @@ export default {
                         course: course.id,
                         description: item.description,
                         student: self.$store.state.user._id,
-                        attachments: "[]",
-                        grade: 0,
-                        progress: 0
+                        attachments: "[]"
                       })
                       .then(response => {
                         self.$data.events.push({
@@ -388,10 +415,10 @@ export default {
               course: item.course_id,
               description: item.description,
               attachments: item.attachments,
-              progress: item.progress,
-              grade: item.grade
+              
             });
           });
+          this.handleEventRender()
         });
     },
     visibleRangeFunction: function() {
@@ -436,9 +463,7 @@ export default {
         time: "",
         course: "",
         description: "",
-        attachments: "[]",
-        grade: 0,
-        progress: 0
+        attachments: "[]"
       }
     };
   },
@@ -544,6 +569,10 @@ h5 {
 
 .fc-head .fc-widget-header {
   border-bottom: 1px solid #ddd !important;
+}
+
+.display-none {
+  display: none !important
 }
 
 </style>

@@ -10,7 +10,7 @@ import axios from 'axios'
 Vue.use(BootstrapVue);
 // Import fontawesome icons here.
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faUserCircle, faSearch, faEdit, faTrash, faSync } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faUserCircle, faSearch, faEdit, faTrash, faSync, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
@@ -42,6 +42,7 @@ library.add(faSearch);
 library.add(faEdit);
 library.add(faTrash);
 library.add(faSync);
+library.add(faTimes);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;
