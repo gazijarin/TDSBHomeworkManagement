@@ -165,6 +165,7 @@ export default {
           break
         }
       }
+      this.getChartData()
     },
     getCourseInformation: function(courseName) {
       // Get the course dictionary.
