@@ -79,7 +79,7 @@
             }"
             :labels="{
               xLabels: xAxisList,
-              yLabels: 5
+              yLabels: 2
             }"
             :min="0"
             :max="100"
@@ -212,20 +212,31 @@ export default {
       }
     },
     getChartData: function() {
-      var data = []
+      var myData = []
       this.xAxisList = []
       for (var i = 0; i < this.assignmentList.length; i++) {
-        data.push(parseInt(this.assignmentList[i].grade))
+        myData.push(parseInt(this.assignmentList[i].grade))
         this.xAxisList.push(this.assignmentList[i].title)
       }
-      this.chartData[0].data = data
+      this.chartData = [{
+        data: myData,
+        smooth: true,
+        fill: true
+      }]
     },
     getGraphData: function() {
       this.barGraphData = []
-      for (var j = 0; j < this.assignmentList.length; j++) {
-        var data = {label: this.assignmentList[j].title, value: this.assignmentList[j].progress}
-        this.barGraphData.push(data)
+      var data = []
+      for (var i = 0; i < this.assignmentList.length; i++) {
+        // var data = {label: this.assignmentList[i].title, value: this.assignmentList[i].progress}
+        // this.barGraphData.push(data)
+        var num = parseInt(this.assignmentList[i].progress)
+        var name = this.assignmentList[i].title
+        console.log(num)  // eslint-disable-line no-console
+        console.log(name)  // eslint-disable-line no-console
+        data.push({label: name, value: num})
       }
+      this.barGraphData = data
     },
     updateProgress: function() {
       this.editingAssignment.progress = this.progressValue
