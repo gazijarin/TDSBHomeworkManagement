@@ -54,8 +54,8 @@
               </div>
             </div>
             <div class="form-group">
-              <select class="form-control" v-model="modal.course">
-                <option :key="idx" v-for="(item, idx) in courses" :value="item.id">{{item.name}}</option>
+                <select class="form-control" v-model="modal.course">
+                <option :key="idx" v-for="(item, idx) in courses" :value=item.id > {{item.name}}</option>
               </select>
             </div>
             <div class="form-group">
@@ -84,17 +84,15 @@
         </div>
         <div>
           <b-button
-            size="sm"
-            variant="outline-primary"
+            size="sm" variant="outline-primary"
             style="width: 20%; margin-left: 20px; margin-top: 10px; float:left;"
             v-on:click="syncNow()"
           >
-            <font-awesome-icon :icon="['fas', 'sync']" style="margin-right:5px"/><span>Sync with Google</span>
+            <font-awesome-icon :icon="['fas', 'sync']" /> Sync with Google
           </b-button>
-          <span style="float:left; margin-top: 15px; margin-left: 5px">
-            <b>Last Sync Date:</b>
-            {{ last_sync_date }}
-          </span>
+          <span
+            style="float:left; margin-top: 15px; margin-left: 5px"
+          ><b>Last Sync Date:</b> {{ last_sync_date }}</span>
         </div>
         <FullCalendar
           defaultView="dayGridMonth"
@@ -153,13 +151,13 @@ import listPlugin from "@fullcalendar/list";
 import navbar from "../navbar/navbar";
 import moment from "moment";
 import interactionPlugin from "@fullcalendar/interaction";
-import $ from "jquery";
+import $ from 'jquery'
 
 export default {
   name: "Tasks",
   beforeCreate() {
     if (!this.$store.state.user) {
-      console.log("return home"); // eslint-disable-line no-console
+      console.log('return home') // eslint-disable-line no-console
       this.$router.push("/");
     }
   },
@@ -175,31 +173,23 @@ export default {
     }
   },
   methods: {
-    handleEventRender: function() {
-      var filterquery = $("#searchevents").val();
-
-      $(".fc-title").each(function() {
-        if (
-          !$(this)
-            .text()
-            .includes(filterquery)
-        ) {
-          $(this)
-            .parent()
-            .parent()
-            .addClass("display-none");
-        }
-      });
-    },
     showAllEvents: function() {
-      $(".fc-title").each(function() {
-        $(this)
-          .parent()
-          .parent()
-          .removeClass("display-none");
+        $.each(this.events, function() {
+              this.start = this.startsave
+          
       });
     },
 
+    handleEventRender: function() { 
+        var filterquery= $('#searchevents').val();
+        $.each(this.events, function() {
+          if (!this.title.includes(filterquery)) {
+              this.startsave = this.start
+              this.start = null
+          }
+      });
+
+      },
     handleOk() {
       var self = this;
       if (this.modifyModal) {
@@ -211,9 +201,7 @@ export default {
             time: this.modal.time,
             course_id: this.modal.course,
             description: this.modal.description,
-            attachments: "[]",
-            grade: 0,
-            progress: 0
+            attachments: "[]"
           })
           .then(response => {
             console.log(response); // eslint-disable-line no-console
@@ -232,9 +220,7 @@ export default {
             course: this.modal.course,
             description: this.modal.description,
             student: this.$store.state.user._id,
-            attachments: "[]",
-            grade: 0,
-            progress: 0
+            attachments: "[]"
           })
           .then(response => {
             console.log(response); // eslint-disable-line no-console
@@ -281,9 +267,7 @@ export default {
                     course: course.id,
                     description: item.description,
                     student: self.$store.state.user._id,
-                    attachments: "[]",
-                    grade: 0,
-                    progress: 0
+                    attachments: "[]"
                   })
                   .then(response => {
                     self.$data.events.push({
@@ -299,8 +283,7 @@ export default {
             });
             self.$axios
               .patch(
-                self.$store.state.prefix +
-                  "/api/student/" +
+                self.$store.state.prefix + "/api/student/" +
                   self.$store.state.user._id +
                   "?sync=true",
                 {}
@@ -318,11 +301,7 @@ export default {
     getLastSyncDate() {
       var self = this;
       this.$axios
-        .get(
-          this.$store.state.prefix +
-            "/api/student/" +
-            this.$store.state.user._id
-        )
+        .get(this.$store.state.prefix + "/api/student/" + this.$store.state.user._id)
         .then(response => {
           if (response.data.last_sync_date === response.data.created_date) {
             this.$store.state.user.courses.forEach(function(course) {
@@ -348,9 +327,7 @@ export default {
                         course: course.id,
                         description: item.description,
                         student: self.$store.state.user._id,
-                        attachments: "[]",
-                        grade: 0,
-                        progress: 0
+                        attachments: "[]"
                       })
                       .then(response => {
                         self.$data.events.push({
@@ -368,8 +345,7 @@ export default {
 
             this.$axios
               .patch(
-                this.$store.state.prefix +
-                  "/api/student/" +
+                this.$store.state.prefix + "/api/student/" +
                   this.$store.state.user._id +
                   "?sync=true",
                 {}
@@ -403,7 +379,9 @@ export default {
       this.modal.taskid = event.event.id;
       this.modal.title = event.event.title;
       this.modal.date = event.event.start;
-      this.modal.time = moment(event.event.start).format("HH:mm");
+      this.modal.time = moment(event.event.start).format(
+        "HH:mm"
+      );
       this.modal.course = event.event._def.extendedProps.course;
       this.modal.description = event.event._def.extendedProps.description;
     },
@@ -423,8 +401,7 @@ export default {
 
       this.$axios
         .get(
-          this.$store.state.prefix +
-            "/api/task/student?id=" +
+          this.$store.state.prefix + "/api/task/student?id=" +
             this.$store.state.user._id
         )
         .then(response => {
@@ -436,11 +413,10 @@ export default {
               course: item.course_id,
               description: item.description,
               attachments: item.attachments,
-              progress: item.progress,
-              grade: item.grade
+              
             });
           });
-          this.handleEventRender();
+          this.handleEventRender()
         });
     },
     visibleRangeFunction: function() {
@@ -485,9 +461,7 @@ export default {
         time: "",
         course: "",
         description: "",
-        attachments: "[]",
-        grade: 0,
-        progress: 0
+        attachments: "[]"
       }
     };
   },
@@ -587,8 +561,7 @@ h5 {
   cursor: pointer;
 }
 
-.fc td,
-.fc th {
+.fc td, .fc th {
   border-style: none !important;
 }
 
@@ -597,6 +570,7 @@ h5 {
 }
 
 .display-none {
-  display: none !important;
+  display: none !important
 }
+
 </style>
