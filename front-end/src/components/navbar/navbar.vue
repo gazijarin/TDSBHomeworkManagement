@@ -44,11 +44,24 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   name: "navbar", //this is the name of the component,
   methods: {
     signout: function() {
       this.$gapi.signOut().then(() => {
+        
+        // https://stackoverflow.com/questions/42295340/how-to-clear-state-in-vuex-store
+        let state = this.$store.state;
+        let newState = {};
+
+        Object.keys(state).forEach(key => {
+        newState[key] = null; // or = initialState[key]
+        });
+
+        this.$store.replaceState(newState);
+
+        console.log(Cookies.remove('vuex')) // eslint-disable-line no-console
         this.$router.push("/");
         console.log("User disconnected."); // eslint-disable-line no-console
       });

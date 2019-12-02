@@ -1,6 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersistence from 'vuex-persist'
+import Cookies from 'js-cookie'
+
 Vue.use(Vuex);
+
+const vuexCookie = new VuexPersistence({
+  restoreState: (key) => Cookies.getJSON(key),
+  saveState: (key, state) =>
+    Cookies.set(key, state, {
+      expires: 3
+    }),
+    
+})
+
 
 export default new Vuex.Store({
     state: {
@@ -8,8 +21,7 @@ export default new Vuex.Store({
       user: null,
       isUserLoggedIn: false
     },
-
-
+    plugins: [vuexCookie.plugin],
     mutations: {
       setToken (state, token) {
         state.token = token;

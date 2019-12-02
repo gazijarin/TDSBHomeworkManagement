@@ -50,6 +50,12 @@ export default {
   props: {
     msg: String
   },
+  beforeCreate() {
+    if (this.$store.state.user) {
+      console.log('return home') // eslint-disable-line no-console
+      this.$router.push("/home");
+    }
+  },
   data() {
     return {
       profile: null,
