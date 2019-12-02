@@ -8,7 +8,7 @@
           <div class="form-group">
             <select class="form-control" v-model="selectedCourse">
               <option value="" selected disabled hidden>Pick a Course</option>
-              <option v-for="course in courseList" :key="course">{{course}}</option>
+              <option v-for="course in courseNames" :key="course">{{course}}</option>
             </select>
           </div>
           <div v-if="selectedCourse">
@@ -18,13 +18,11 @@
               centered
               ref="modal"
               title="Update Progress"
-              @show="resetModal"
-              @hidden="resetModal"
-              @ok="handleOk"
+              @ok="updateProgress"
             >
               <label for="completedAssignment">Amount Completed</label>
               <div class="form-group">
-                <vue-slider v-model="value" :marks="marks">
+                <vue-slider v-model="progressValue" :marks="marks">
                   <template v-slot:step="{ label, active }">
                     <div :class="['custom-step', { active }]"></div>
                   </template>
@@ -37,12 +35,12 @@
                 <b-card>
                   <b-list-group flush>
                     <b-list-group-item v-for="assignment in assignmentList" :key="assignment">
-                      <p style="float: left">{{assignment.name}}</p>
+                      <p style="float: left">{{assignment.title}}</p>
                       <b-button v-b-modal.modal-1 size="sm" variant="danger" style="float: right; margin-top: -5px; margin-left: 10px;">
                         Delete
                         <font-awesome-icon :icon="['fas', 'trash']" />
                       </b-button>
-                      <b-button v-b-modal.modal-1 variant="info" size="sm" style="float: right; margin-top: -5px;">
+                      <b-button v-b-modal.modal-1 variant="info" v-on:click="editingAssignment = assignment; progressValue = assignment.progress" size="sm" style="float: right; margin-top: -5px;">
                         Update Progress
                         <font-awesome-icon :icon="['fas', 'edit']" />
                       </b-button>
@@ -54,7 +52,7 @@
                 <b-card>
                   <b-list-group flush>
                     <b-list-group-item v-for="assignment in assignmentList" :key="assignment">
-                      <p style="float: left">{{assignment.name}}</p>
+                      <p style="float: left">{{assignment.title}}</p>
                       <b-form-input :state="nameState(assignment.grade)" id="input-grade" size="sm" v-model="assignment.grade" style="float: right; width: 30%" placeholder="Grade"></b-form-input>
                     </b-list-group-item>
                     <b-list-group-item>
@@ -72,7 +70,7 @@
     <div class="col-8" style="padding-top: 15px">
       <div class="card" style="border:1px solid black;">
         <div class="card-header">
-          <h6 style="float: left; padding-top: 10px">Progress</h6>
+          <h6 style="float: left; padding-top: 10px">Grades over Time</h6>
         </div>
         <div>
           <TrendChart
@@ -130,24 +128,23 @@ export default {
   },
   data() {
     return {
-      value: 50,
+      user: null,
+      progressValue: 50,
+      editingAssignment: null,
+      courses: [],
       selectedCourse: "",
-      assignmentList: [{name: "A1", grade: 88}, {name: "A2", grade: 79}, {name: "A3", grade: 98}],
+      selectedCourseData: {},
+      courseNames: [],
+      assignmentList: [],
       chartData: [
               {
-                data: [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70],
-                smooth: true,
-                fill: false
-              },
-              {
-                data: [10, 30, 75, 90, 100, 15, 65, 0, 80, 60, 90, 55, 95, 35, 50],
+                data: [],
                 smooth: true,
                 fill: false
               }
             ],
-      xAxisList: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15"],
-      barGraphData: [{label: 'A1', value: 40}, {label: 'A2', value: 10}, {label: 'A3', value: 100}, {label: 'A4', value: 60}],
-      courseList: [],
+      xAxisList: [],
+      barGraphData: [],
       marks: val => val % 20 === 0
     };
   },
@@ -160,20 +157,40 @@ export default {
         sum += assignmentList[i].grade
       }
       var avg = sum / length
-      return avg.toFixed(2)
+      return isNaN(avg) ? 0 : avg.toFixed(2)
     },
-    getCourseInformation: function(course) {
+    getCourseInformation: function(courseName) {
+      // Get the course dictionary.
+      for (var coursei = 0; coursei < this.courses.length; coursei++) {
+        if (this.courses[coursei].name === courseName) {
+          this.selectedCourseData = this.courses[coursei]
+          console.log(this.selectedCourseData) // eslint-disable-line no-console
+        }
+      }
       // Get the course's assignments from the backend.
       // Set all the course information.
-      this.allAssignments = false
-      this.allGrades = false
-      this.xAxisList = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15"]
-      this.chartData = [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70]
-      return course
-    },
-    getXAxisLabels: function(xList) {
-      // For each data, add its timestamp as the x Axis label.
-      return xList
+      this.$axios
+        .get(this.$store.state.prefix + "/api/task/student/course?student=" + this.user._id + "&course=" + this.selectedCourseData.id)
+        .then(response => {
+          this.assignmentList = response.data
+          // If the grade and progress are not defined, define them.
+          for (var a = 0; a < this.assignmentList.length; a++) {
+            if (!('progress' in this.assignmentList[a])) {
+              this.assignmentList[a].progress = 0
+            }
+            if (!('grade' in this.assignmentList[a])) {
+              this.assignmentList[a].grade = 0
+            }
+          }
+          // Set the bar graph and chart data.
+          this.barGraphData = []
+          for (var i = 0; i < this.assignmentList.length; i++) {
+            var data = {name: this.assignmentList[i].title, value: this.assignmentList[i].progress}
+            this.barGraphData.push(data)
+          }
+          this.getChartData(this.assignmentList)
+          console.log(this.barGraphData)  // eslint-disable-line no-console
+        });
     },
     getCompletionPercentage: function(assignmentList) {
       // Convert the assignments to their completion percentage.
@@ -183,30 +200,31 @@ export default {
       return grade >= 0 && grade <= 100 ? true : false
     },
     getCourses: function() {
-      this.courseList = ["All", "Course 1", "Course 2", "Course 3", "Course 4"]
+      this.courseNames = []
+      this.user = this.$store.state.user
+      this.courses = this.user.courses
+      for (var i = 0; i < this.courses.length; i++) {
+        this.courseNames.push(this.courses[i].name)
+      }
     },
     getChartData: function(assignmentsList) {
-      this.chartData = [
-              {
-                data: [100, 20, 55, 90, 50, 10, 35, 55, 60, 80, 100, 85, 25, 95, 70],
-                smooth: true,
-                fill: false
-              },
-              {
-                data: [10, 30, 75, 90, 100, 15, 65, 0, 80, 60, 90, 55, 95, 35, 50],
-                smooth: true,
-                fill: false
-              }
-            ]
+      this.xAxisList = ["A1", "A2"]
+      this.chartData.data = [100, 20]
       return assignmentsList
+    },
+    updateProgress: function() {
+      this.editingAssignment.progress = this.progress
+      console.log("setting " + this.editingAssignment.title + "'s progress to " + this.progressValue)  // eslint-disable-line no-console
+      this.$axios
+        .patch(this.$store.state.prefix + "/api/task/" + this.editingAssignment._id, {data: this.editingAssignment})
+        .then(response => {
+          console.log(response)   // eslint-disable-line no-console
+        });
     }
   },
-  computed: {
-    allAssignments: function() {
-      return this.selectedCourse === "All"
-    },
-    allGrades: function() {
-      return this.selectedCourse === "All"
+  watch: {
+    selectedCourse: function() {
+      this.getCourseInformation(this.selectedCourse)
     }
   },
   created: function() {

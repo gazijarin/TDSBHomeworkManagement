@@ -115,6 +115,7 @@ export default {
 
               var self = this;
               this.$store.dispatch("setUser", payLoad);
+              this.$store.dispatch("setID", this._id);
               axios
                 .post(this.$store.state.prefix + "/api/students", payLoad)
                 .then(
