@@ -6,16 +6,18 @@
       <div class="class-tile" v-for="course in courseList" :key="course" v-b-modal="'tasks_popup'" v-on:click="loadTasks(course._id, course.name)">
         <b-card
           :title=course.name
-          :sub-title=course.instructor
           img-src="https://picsum.photos/600/300/?image=25"
           img-alt="Image"
           img-top>
+          <b-card-sub-title style="float: left;">{{course.section}}</b-card-sub-title>
+          <b-card-sub-Title style="float: right;">{{course.room}}</b-card-sub-title>
         </b-card>
       </div>
     </div>
 
     <b-modal id="tasks_popup" size="xl" :title=curr_course hide-footer="true">
-      <div id="tasks_popup_text">Here are your tasks for this course:</div>
+      <div class="tasks_popup_text" v-if="tasks.length">Here are your tasks for this course:</div>
+      <div class="tasks_popup_text" v-if="!tasks.length">There are currently no tasks for this course!</div>
       <div class="task-tile" v-for="task in tasks" :key="task">
         <b-card
           :title=task.title
@@ -99,7 +101,7 @@ export default {
 }
 </script>
 <style>
-#tasks_popup_text {
+.tasks_popup_text {
   margin-bottom: 10px;
   font-size: 110%;
 }
@@ -117,7 +119,8 @@ export default {
   cursor: pointer;
 }
 .task-tile {
-  max-width: 22%;
+  width: 22%;
+  min-width: 200px;
   margin: 10px;
   display: inline-block;
   text-align: left;
