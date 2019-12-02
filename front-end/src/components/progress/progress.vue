@@ -32,7 +32,7 @@
             <hr>
             <b-tabs content-class="mt-3" fill pills>
               <b-tab title="Progress" active>
-                <b-card>
+                <b-card style="max-height: 505px; overflow-y: scroll;">
                   <b-list-group flush>
                     <b-list-group-item v-for="assignment in assignmentList" :key="assignment.title">
                       <p style="float: left">{{assignment.title}}</p>
@@ -47,7 +47,7 @@
                 </b-card>
               </b-tab>
               <b-tab title="Grades">
-                <b-card>
+                <b-card style="max-height: 505px; overflow-y: scroll;">
                   <b-list-group flush>
                     <b-list-group-item v-for="assignment in assignmentList" :key="assignment.title">
                       <p style="float: left">{{assignment.title}}</p>
@@ -95,7 +95,7 @@
           <h6 style="float: left; padding-top: 10px">Completion Per Assignment</h6>
         </div>
         <div>
-          <pure-vue-chart
+          <pure-vue-chart v-if="selectedCourse"
             :points="barGraphData"
             :show-y-axis="true"
             :show-x-axis="true"
