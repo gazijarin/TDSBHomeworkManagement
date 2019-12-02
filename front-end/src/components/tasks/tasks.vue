@@ -362,7 +362,7 @@ export default {
                 );
                 return response;
               });
-          }).error(error => {
+          }).catch(error => {
               alert('Disconnected from google please log back in.')
               return error
           });
