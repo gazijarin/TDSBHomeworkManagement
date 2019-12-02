@@ -3,7 +3,7 @@
     <navbar></navbar>
     <h1>Courses</h1>
     <div id="tiles-container">
-      <div class="class-tile" v-for="course in courseList" :key="course" v-b-modal="'tasks_popup'" v-on:click="loadTasks(course._id, course.name)">
+      <div class="class-tile" v-for="course in courseList" :key="course" v-b-modal="'tasks_popup'" v-on:click="loadTasks(course.id, course.name)">
         <b-card
           :title=course.name
           img-src="https://picsum.photos/600/300/?image=25"
@@ -22,8 +22,7 @@
         <b-card
           :title=task.title
           :sub-title=task.deadline>
-          <b-card-text>
-            {{task.description}}
+          <b-card-text v-html=task.description>
           </b-card-text>
         </b-card>
       </div>
@@ -50,13 +49,16 @@ export default {
     loadTasks: function(id_of_course, name_of_course) {
       var self = this;
 
+
+
       this.$axios
         .get(
           this.$store.state.prefix + "/api/task/student/course?student=" +
-            this.$store.state.user._id + "&course=" + name_of_course
+            this.$store.state.user._id + "&course=" + id_of_course
         )
         .then(response => {
           self.$data.tasks = [];
+
           response.data.forEach(function(item) {
             let deadline = new Date(item.deadline);
 
@@ -119,8 +121,6 @@ export default {
   cursor: pointer;
 }
 .task-tile {
-  width: 22%;
-  min-width: 200px;
   margin: 10px;
   display: inline-block;
   text-align: left;
