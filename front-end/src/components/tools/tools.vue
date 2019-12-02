@@ -25,7 +25,7 @@
         <template v-slot:header>
           <h5 class="mb-0">Thesaurus</h5>
         </template>
-        <Dictionary v-on:formSubmit="findSynonym"></Dictionary>
+        <Thesaurus v-on:formSubmit="findSynonym"></Thesaurus>
         <!-- <dictionaryOutput v-if="dictionaryQuery" v-bind:meaning="meaning[0]"></dictionaryOutput> -->
         <div v-if="thesaurusQuery && typeof synonymOut === 'object'">
           <h3 style="margin-top: 10px">{{synonymOut.word}}</h3>
@@ -55,12 +55,13 @@
 <script>
 import navbar from "../navbar/navbar";
 import Dictionary from "../tools/dictionary";
-// import Thesaurus from "../tools/thesaurus";
+import Thesaurus from "../tools/thesaurus";
 
 export default {
   name: "Tools",
   components: {
     navbar,
+    Thesaurus,
     Dictionary
   },
   data: function() {
