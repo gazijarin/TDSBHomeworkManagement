@@ -1,7 +1,6 @@
 <template>
   <div>
     <navbar></navbar>
-    <h1>Courses</h1>
     <div id="tiles-container">
       <div class="class-tile" v-for="course in courseList" :key="course" v-b-modal="'tasks_popup'" v-on:click="loadTasks(course.id, course.name)">
         <b-card
@@ -62,9 +61,14 @@ export default {
           response.data.forEach(function(item) {
             let deadline = new Date(item.deadline);
 
+            let newTitle = item.title;
+            if(item.title.substr(0, item.title.indexOf(" ") + 1) == "Assignment: ") {
+              newTitle = item.title.substr(item.title.indexOf(' ') + 1);
+            }
+
             self.$data.tasks.push({
               id: item._id,
-              title: item.title,
+              title: newTitle,
               deadline_date_string: item.deadline,
               deadline: self.formatDate(deadline),
               course: item.course_id,
@@ -98,8 +102,6 @@ export default {
       return 0;
     }
   },
-  beforeMount() {
-  }
 }
 </script>
 <style>
@@ -111,6 +113,7 @@ export default {
 #tiles-container {
   text-align: left;
   margin: 40px;
+  padding-top: 20px;
 }
 .class-tile {
   overflow: hidden;
