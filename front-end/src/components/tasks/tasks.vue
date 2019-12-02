@@ -215,6 +215,7 @@ export default {
           var newresponse = response;
           console.log(newresponse.data); // eslint-disable-line no-console
           this.modal.attachments = id
+          // https://stackoverflow.com/questions/16002412/check-file-extension-and-alert-user-if-isnt-image-file
           if (newresponse.data.filename.match(/.(jpg|jpeg|png|gif)$/i)) {
             newresponse.data.filedata = "data:image/jpeg;base64," + response.data.filedata
           } else if (newresponse.data.filename.includes(".pdf")) {
