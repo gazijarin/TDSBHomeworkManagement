@@ -213,7 +213,6 @@ export default {
         )
         .then(response => {
           var newresponse = response;
-          console.log(newresponse.data); // eslint-disable-line no-console
           this.modal.attachments = id
           // https://stackoverflow.com/questions/16002412/check-file-extension-and-alert-user-if-isnt-image-file
           if (newresponse.data.filename.match(/.(jpg|jpeg|png|gif)$/i)) {
@@ -258,13 +257,11 @@ export default {
             attachments: fileid
           })
           .then(response => {
-            console.log(response); // eslint-disable-line no-console
             this.events = [];
             this.loadTasks();
             return response;
           });
       } else {
-        console.log(this.modal); // eslint-disable-line no-console
         this.$axios
           .post(this.$store.state.prefix + "/api/task", {
             title: this.modal.title,
@@ -276,7 +273,6 @@ export default {
             attachments: fileid
           })
           .then(response => {
-            console.log(response); // eslint-disable-line no-console
             self.$data.events.push({
               id: response.data._id,
               title: response.data.title,
@@ -301,7 +297,6 @@ export default {
             }
           })
           .then(response => {
-            console.log(response); // eslint-disable-line no-console
             this.handleUpdate(response.data[0]._id)
           });
         } else {
@@ -322,8 +317,6 @@ export default {
           .then(response => {
             response.result.items.forEach(function(item) {
               var dateofevent = item.created;
-              console.log(new Date(dateofevent).getTime()); // eslint-disable-line no-console
-              console.log(new Date(self.last_sync_date).getTime()); // eslint-disable-line no-console
               if (
                 new Date(dateofevent).getTime() >=
                 new Date(self.last_sync_date).getTime()
@@ -369,6 +362,9 @@ export default {
                 );
                 return response;
               });
+          }).error(error => {
+              alert('Disconnected from google please log back in.')
+              return error
           });
       });
     },
@@ -556,19 +552,6 @@ export default {
     this.loadTasks();
     this.getLastSyncDate();
 
-    // this.$gapi.request({
-    //   path: 'https://www.googleapis.com/calendar/v3/calendars/' + this.$store.state.user.email + '/events',
-    //   method: 'GET'
-    // }).then(response => {
-    //   console.log(response) // eslint-disable-line no-console
-    //   response.result.items.forEach(function (item) {
-    //   self.$data.events.push({
-    // 								id: item.id,
-    // 								title: item.summary,
-    // 								start: item.start.dateTime || item.start.date,
-    // 		});
-    //   });
-    // })
   }
 };
 </script>
