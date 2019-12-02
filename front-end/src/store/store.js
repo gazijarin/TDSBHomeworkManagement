@@ -20,6 +20,7 @@ export default new Vuex.Store({
       token: null,
       user: null,
       id: null,
+      prefix: null,
       isUserLoggedIn: false
     },
     plugins: [vuexCookie.plugin],

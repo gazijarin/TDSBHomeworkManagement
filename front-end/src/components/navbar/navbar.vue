@@ -50,20 +50,15 @@ export default {
   methods: {
     signout: function() {
       this.$gapi.signOut().then(() => {
-        
-        // https://stackoverflow.com/questions/42295340/how-to-clear-state-in-vuex-store
-        let state = this.$store.state;
-        let newState = {};
-
-        Object.keys(state).forEach(key => {
-        newState[key] = null; // or = initialState[key]
-        });
-
-        this.$store.replaceState(newState);
-
+        this.$store.dispatch("setID", null);
+        this.$store.dispatch("setToken", null);
+        this.$store.dispatch("setUser", null).then(() => {
+                
         console.log(Cookies.remove('vuex')) // eslint-disable-line no-console
         this.$router.push("/");
         console.log("User disconnected."); // eslint-disable-line no-console
+            });
+
       });
     }
   }
