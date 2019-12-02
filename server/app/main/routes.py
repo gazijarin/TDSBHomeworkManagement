@@ -37,7 +37,7 @@ def update_student(id):
     if student and sync and sync == 'true':
         last_sync_date = datetime.datetime.utcnow()
         DB.update("Students", {"_id": id}, { "$set": {"last_sync_date": last_sync_date}})
-        return jsonify("Successfully upadted the studetn information")
+        return jsonify("Successfully upadted the student information")
 
     return jsonify("No student matching given id")
 
@@ -76,10 +76,10 @@ def post_task():
     course = data['course']
     description = data['description']
     student = data['student'] # student id
-    attachments = data['attachments'] # a list of uploaded file returned by the upload api 
+    attachments = data['attachments'] # a list of uploaded file returned by the upload api
 
     deadline =TaskController.create_date(date, time)
-    
+
     result = TaskController.post(title, deadline, course, description, attachments, student)
 
     return result
@@ -112,7 +112,7 @@ def update_task(id):
 # endpoint to get all tasks for a student
 @bp.route('/api/task/student', methods=['GET'])
 def get_task_by_student():
-    student_id = request.args.get('id')        
+    student_id = request.args.get('id')
     return TaskController.get_by_student(student_id)
 
 # endpoint to get all tasks for a student for a specific course
@@ -121,4 +121,3 @@ def get_task_for_student_and_course():
     student = request.args.get('student')
     course = request.args.get('course')
     return TaskController.get_by_student_and_course(student,course)
-    
