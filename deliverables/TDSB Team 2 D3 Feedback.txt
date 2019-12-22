@@ -1,0 +1,35 @@
+TDSB Team 2 D3 Feedback
+
+final.md
+
+Changes: 85
+- Meets expectations
+
+Handoff Plan: 85
+- Meets expectations
+
+README.md
+
+Description: 85
+- Very detailed
+
+Key Features: 85
+- Very detailed!
+
+Instructions: 75
+- Missing link to your application - how do I access the website?
+
+Developer Requirements: 85
+- Link to how to deploy your application to Heroku might have been useful
+
+Licenses: 85
+- Meets expectations
+
+Your team has done great work despite having a non-responsive partner!
+
+Deployed app: 85
+- I would have liked the tasks in the calendar to be clickable in the home page
+- In the future, I would recommend removing irelevant placeholders and text from your app - it will make it look less cluttered and more functional
+- Not able to add an assignment from the Progress page - there is no assignment button
+- Some of the buttons in the Progress page are cluttered 
+- Dictionary and thesaurus looks great!

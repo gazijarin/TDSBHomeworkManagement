@@ -1,0 +1,79 @@
+TDSB Team 2 (Team 12)
+
+PLAN.MD
+
+Process: 3
+
+Roles & Responsibilities: 3
+- What about assignment of non-software related work? i.e. who is the project manager? 
+
+Communication: 3
+- Sorry to hear that your partner wasn't as responsive as you would have liked them to be! Hope this changed later on
+
+Meetings: 3
+- Meets expectations
+
+Conflict Resolution: 3
+- Meets expectations
+
+Events: 3
+- Meets expectations 
+
+Partner Meetings: 3
+- Meets expectations
+
+Artifacts: 3
+- Good Trello Board!
+- Meets expectations
+
+Deployment and Github: 4
+- Good strategy for Github 
+- Good description of deployment strategy 
+
+Product: 3
+- Meets expectations
+- Your mockups look great!
+
+------------------------------------------------------------------------------------------------------
+
+REVIEW.MD
+
+Process_Review: 3
+
+Positive Decisions: 4
+- Very insightful
+
+Negative Decisions: 3
+- Good that you were able to adapt to the issue regarding lack of communication
+
+Planned Changes: 3
+- Good description of the changes you implemented
+
+Product_Review
+
+Goals: 4
+- Very thorough
+
+Product Demo: 3
+- Meets expectations, including live interaction with your prototype is a great idea
+
+Meeting Highlights: 3
+- Could be a bit more detailed  
+
+---------------------------------------------------------------------------------------------------------
+
+README.md: 3
+
+Description: 3
+- Meets expectations
+
+Key Features: 3
+- Meets expectations
+
+Instructions: 3
+- Clear instructions 
+
+Demo: 3
+- All features described in the README works as expected
+
+
