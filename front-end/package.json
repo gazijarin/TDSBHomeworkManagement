@@ -23,7 +23,7 @@
     "connect-history-api-fallback": "^1.6.0",
     "core-js": "^3.3.2",
     "express": "^4.17.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "js-cookie": "^2.2.1",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
