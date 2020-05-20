@@ -88,4 +88,3 @@ There are many problems this app is trying to solve. For one, there is a lack of
  * What effect does it have on the development and use of your codebase?
  * Why did you or your partner make this choice? -->
 We decided to apply an MIT license to our codebase, which would most likely not affect the development of our code, but it does allow anyone to use or contribute to the code, so maybe we will see some pull-requests on our repository!
-Unfortunately, our partner has become unresponsive, so we couldn't demo our app to them, let alone determine what license would best tailor their needs. However, it would be a shame for our efforts to go to waste, so we decided to simply make the code open-source and available for all since there is nothing proprietary in our code, but many cool and useful features. Another reason why the MIT license is a suitable option is its "as-is" approach, which wouldn't hold us accountable for any possible bugs or mistakes in our code.
