@@ -26,7 +26,7 @@
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
     "moment": "^2.24.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "path": "^0.12.7",
     "pure-vue-chart": "^0.3.4",
     "sass-loader": "^8.0.0",
