@@ -30,7 +30,7 @@
     "path": "^0.12.7",
     "pure-vue-chart": "^0.3.4",
     "sass-loader": "^8.0.0",
-    "set-value": "^2.0.1",
+    "set-value": "^4.0.1",
     "vee-validate": "^3.1.3",
     "vue": "^2.6.10",
     "vue-ctk-date-time-picker": "^2.4.0",
