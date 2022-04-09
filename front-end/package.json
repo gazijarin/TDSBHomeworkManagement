@@ -25,7 +25,7 @@
     "express": "^4.17.1",
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "node-sass": "^4.13.0",
     "path": "^0.12.7",
     "pure-vue-chart": "^0.3.4",
