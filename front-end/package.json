@@ -22,7 +22,7 @@
     "bootstrap-vue": "^2.0.4",
     "connect-history-api-fallback": "^1.6.0",
     "core-js": "^3.3.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
     "moment": "^2.24.0",
